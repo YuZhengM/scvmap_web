@@ -1,0 +1,29 @@
+@import "../../Index";
+
+.base_button_template {
+  margin: 10px auto;
+  width: 100%;
+  flex-wrap: wrap;
+
+  button {
+    background-color: @common_background_color !important;
+    border: 1px solid @common_button_background !important;
+    color: @common_font_color;
+    margin-left: 0 !important;
+    margin-bottom: 10px;
+    transition: 0.2s;
+  }
+
+  .el-button:hover {
+    border-color: @common_background_active !important;
+    background-color: @common_active_font_color !important;
+    color: @common_background_color !important;
+    outline: 0;
+    //font-size: 15px;
+  }
+
+  .el-button:focus {
+    background-color: @common_active_font_color !important;
+    color: #FFF !important;
+  }
+}

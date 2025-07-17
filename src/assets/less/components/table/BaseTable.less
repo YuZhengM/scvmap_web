@@ -1,0 +1,57 @@
+@import "../../Index";
+
+.base_table_template {
+  .search {
+    .div_flex_between();
+    margin: 10px 0;
+    width: 300px;
+  }
+
+  .serviceSearch {
+    .div_flex_start();
+    width: 70%;
+    margin: 10px 0;
+    float: left;
+
+    > div {
+      display: inline-block;
+    }
+
+    .title {
+      display: inline-block;
+      text-align: end;
+    }
+
+    .serviceSelect {
+      width: 33%;
+    }
+
+    .serviceContent {
+      width: 40%;
+    }
+  }
+
+  .top_content {
+    .div_flex_between();
+  }
+
+  .table_info {
+    width: 100%;
+    overflow: auto;
+  }
+
+  .el-table__header-wrapper {
+    tr {
+      th {
+        background-color: @common_background_color;
+        color: @common_two_font_color;
+        //font-size: 16px;
+
+      }
+    }
+  }
+
+  .el-table__expanded-cell {
+    padding: 5px 25px !important;
+  }
+}

@@ -1,0 +1,52 @@
+@import "../../Index";
+@import "../home";
+
+@background_color: linear-gradient(-45deg, @common_two_background_color, @common_background_active, @common_two_background_color);
+@sample_search_height: 270px;
+
+#simple_search {
+  .div_flex_center_column();
+  //background: @background_color;
+  background-image: url("../../../img/home/backgroud.png");
+  background-size: cover;
+  background-position: center, center;
+  height: @sample_search_height - 20;
+  color: @common_font_color;
+
+  .title {
+    font-size: 40px;
+    font-weight: 500;
+  }
+
+  .introduction {
+    font-size: 17px;
+    margin: 10px auto;
+  }
+
+  .search {
+
+  }
+
+  .example {
+    margin: 10px auto;
+    //color: #F4F4F4;
+    cursor: pointer;
+
+    span {
+      display: inline-block;
+      padding: 2px 5px;
+      margin: 2px 5px;
+      border-radius: 5px;
+      background-color: @common_border_color;
+      transition: .5s;
+    }
+
+    span:hover {
+      color: #FFF;
+      background-color: @common_active_font_color;
+    }
+
+  }
+
+}
+

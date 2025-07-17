@@ -1,0 +1,63 @@
+@import "../Index";
+
+.p_span_font_size() {
+  .content {
+    text-align: start;
+
+    p {
+      line-height: 20px;
+    }
+
+    p, span {
+      font-size: 17px;
+    }
+  }
+}
+
+.sample_font_style() {
+  color: #FFF;
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  display: inline-block;
+  font-size: 13px;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.span_title_font_size() {
+  padding: 5px 20px 0 20px;
+  text-align: center;
+
+  span.title {
+    font-size: 20px;
+    display: inline-block;
+    margin: 5px 0 10px 0;
+    line-height: 25px;
+  }
+}
+
+#analysis {
+  .auto_width();
+
+  .analysis {
+    text-align: start;
+  }
+
+  .region {
+    background-color: @common_one_background_color;
+    display: block;
+    margin: 8px 0 0 0;
+    padding: 5px 18px;
+    border-radius: 10px;
+
+    .sub_region {
+      background-color: rgba(85, 112, 180, 0.15);
+      display: block;
+      margin: 8px 0 0 0;
+      padding: 2px 18px;
+      border-radius: 10px;
+    }
+
+  }
+
+}

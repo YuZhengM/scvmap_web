@@ -1,0 +1,118 @@
+@import "../../Index";
+@import "../../common/Header";
+
+@nav_margin_bottom: 0;
+@menu_height: @header_height;
+@menu_color_list: rgba(179, 185, 188, 0), rgba(193, 196, 198, 0), rgba(181, 183, 185, 0), rgba(206, 211, 215, 0),
+rgba(191, 197, 201, 0), rgba(191, 196, 198, 0),
+rgba(190, 195, 198, 0), rgba(177, 182, 187, 0), rgba(183, 188, 191, 0), rgba(202, 208, 212, 0);
+// 导航菜单的个数
+@menu_length: length(@menu_color_list);
+@menu_border_radius: 0;
+@menu_height: 100%;
+@menu_font_size: 16px;
+@menu_font_color: @common_font_color;
+@menu_active_font_color: @common_active_font_color;
+//@menu_active_font_color: #551a8b;
+@menu_background_hover: #FFFFFF;
+@menu_active_background_hover: linear-gradient(#DDDDDD, #DBDBDB 1%, #FFFFFF 75%, #FFFFFF 98%, @menu_active_font_color 99%, @menu_active_font_color);
+@transition_time: 0.1s;
+
+#base_nav {
+  height: @menu_height;
+  width: 90%;
+  .div_flex();
+  margin-bottom: @nav_margin_bottom;
+
+  .menu {
+    position: relative;
+    white-space: nowrap;
+    border-radius: @menu_border_radius;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: @menu_height;
+    font-weight: 400;
+    font-size: @menu_font_size;
+
+    > .main {
+      text-decoration: none;
+      background-color: transparent;
+      padding: 0 12px;
+      .div_flex();
+      color: @menu_font_color;
+      cursor: pointer;
+      height: @header_height;
+
+      > span:nth-of-type(1) {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        border-radius: 45%;
+        background-color: rgba(255, 255, 255, 0.8);
+      }
+    }
+
+    > .main:hover {
+      color: @menu_active_font_color;
+      background-color: @common_background_active;
+      transition: @transition_time;
+    }
+
+    .submenu {
+      position: absolute;
+      top: 50px;
+      left: 0;
+      z-index: 100;
+      border-radius: 5px;
+      color: @menu_font_color;
+      background-color: @common_background_color;
+      box-shadow: 5px 5px 5px gray;
+
+      a {
+        padding: 10px 15px;
+        text-decoration: none;
+        background-color: transparent;
+        color: @menu_font_color;
+        display: block;
+      }
+
+      a:hover {
+        background-color: #838bdf;
+        transition: @transition_time;
+      }
+
+    }
+
+  }
+
+  // 进行循环 div
+  .menu_for(@menu_length);
+  .menu_for(@n, @i:1) when (@i =< @n) {
+    .menu:nth-of-type(@{i}) {
+      // 取得背景颜色
+      background-color: extract(@menu_color_list, @i);
+    }
+    .menu:hover {
+      background-color: @menu_background_hover;
+      transition: @transition_time;
+    }
+
+    .menu:nth-of-type(@{i}).active {
+      // 取得背景颜色
+      background: @menu_active_background_hover;
+    }
+
+    .menu.active > .main {
+      color: @menu_active_font_color;
+      transition: @transition_time;
+    }
+
+    // +1
+    .menu_for(@n, (@i+1));
+  }
+
+
+}
+

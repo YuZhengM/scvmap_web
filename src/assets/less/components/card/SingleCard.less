@@ -1,0 +1,31 @@
+@import "../../Index";
+
+.single_card_template {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: @common_background_color;
+  background-clip: border-box;
+  border-left: 1px solid rgba(0, 0, 0, .125);
+  border-bottom: 1px solid rgba(0, 0, 0, .125);
+  border-right: 0.2px solid rgba(0, 0, 0, .125);
+  border-radius: 0;
+
+  > .title {
+    .background_linear_gradient(2%, 95%);
+    font-weight: bold;
+    font-size: 22px !important;
+    color: @common_font_color;
+    //background-color: @common_background_color;
+    padding: 8px 1.25rem;
+    margin-bottom: 0;
+  }
+
+  .content {
+    font-size: 16px;
+    flex: 1 1 auto;
+    padding: 1.25rem;
+  }
+}

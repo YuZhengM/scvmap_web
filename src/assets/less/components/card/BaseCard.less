@@ -1,0 +1,29 @@
+@import "../../Index";
+
+.base_card_template {
+  box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07) !important;
+
+  .title {
+    .background_linear_gradient(10%, 60%);
+    font-size: @common_title_font_size;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 0;
+    text-align: center;
+    color: @common_font_color;
+
+    svg {
+      padding: 0 10px;
+    }
+
+  }
+
+  .content {
+    //border: 1px solid @common_background_color;
+
+    > p {
+      padding: 7px 24px 0 24px;
+      text-align: justify;
+    }
+  }
+}

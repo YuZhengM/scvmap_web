@@ -1,0 +1,42 @@
+// 滚动的高度 && 宽度
+@carousel_height: 440px;
+@carousel_width: 100%;
+
+#base_carousel {
+
+  .el-carousel__container {
+    //height: @carousel_height;
+    width: @carousel_width;
+  }
+
+  .el-carousel__item {
+    //height: @carousel_height;
+    width: @carousel_width;
+
+    img {
+      width: @carousel_width;
+      //height: 100%;
+      cursor: pointer;
+    }
+  }
+
+  // 小图标
+  .el-carousel__indicators {
+    .el-carousel__indicator {
+      padding: 50px 8px;
+
+      .el-carousel__button {
+        height: 9px;
+      }
+    }
+  }
+
+  .el-carousel__item:nth-child(2n) {
+    background-color: #FFFFFF;
+  }
+
+  .el-carousel__item:nth-child(2n+1) {
+    background-color: #FFFFFF;
+  }
+
+}

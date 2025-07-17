@@ -1,0 +1,79 @@
+@import '../Index';
+
+#publication {
+  .auto_width();
+
+  .div_more() {
+    > div:first-child {
+      padding: 15px 15px 1px 15px;
+    }
+
+    > div {
+      padding: 0 15px 1px 15px;
+      margin: 10px 0;
+    }
+
+    > div:last-child {
+      padding: 0 15px 15px 15px;
+    }
+  }
+
+
+  .title {
+    font-size: 23px;
+    font-weight: bold;
+    margin-bottom: 15px;
+
+    sub {
+      position: relative;
+      font-size: 12px;
+      bottom: 7px;
+    }
+  }
+
+
+  .content {
+    > div {
+      background-color: #eee;
+    }
+  }
+
+  .main {
+
+    .content {
+      padding: 15px 15px;
+
+      > div {
+        background-color: #eee;
+        .div_more()
+      }
+    }
+
+    .journal {
+      color: #373737;
+      font-style: italic;
+      font-weight: bolder;
+    }
+
+    a {
+      text-decoration: none;
+      color: #0F79D0;
+      font-weight: bold;
+      transition: .2s;
+    }
+
+    a:hover {
+      color: blue;
+    }
+  }
+
+  .conference {
+
+    .content {
+      margin: 15px 15px;
+      background-color: #eee;
+      .div_more()
+    }
+  }
+
+}

@@ -1,0 +1,33 @@
+@import "../../Index";
+
+.base_loading_template {
+  .el-loading-spinner {
+    top: 80px;
+  }
+
+  .el-loading-spinner .circular {
+    display: inline;
+    height: var(--el-loading-spinner-size);
+    width: var(--el-loading-spinner-size);
+    animation: loading-rotate 2s cubic-bezier(.77, 0, .18, 1) infinite;
+    color: aqua;
+  }
+
+  .el-loading-spinner .path {
+    animation: loading-dash 1.5s cubic-bezier(.77, 0, .18, 1) infinite;
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: 0;
+    stroke-width: 3;
+    stroke: #fff;
+    stroke-linecap: round;
+  }
+
+  .el-loading-text {
+    font-size: 18px;
+    text-align: center;
+    color: #FFF;
+    margin-top: 0;
+    font-weight: bold;
+  }
+
+}

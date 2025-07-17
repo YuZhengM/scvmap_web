@@ -1,0 +1,36 @@
+@import "../Index.less";
+
+@footer_background_color: @common_background_color;
+@footer_color: @common_font_color;
+@footer_list_number: 3%;
+
+// 底部
+#footer {
+  flex-direction: column;
+  .div_flex_between();
+  background-color: @footer_background_color;
+  font-size: 16px;
+  color: @footer_color;
+  margin-top: 10px;
+  height: @footer_height;
+  padding: 5px;
+  border-top: 1px solid @common_border_color;
+
+  img {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+  }
+
+  .link {
+
+    a {
+      .a_no_decoration(@footer_color);
+      transition: .2s;
+    }
+
+    a:hover {
+      color: #0c798d;
+    }
+  }
+}

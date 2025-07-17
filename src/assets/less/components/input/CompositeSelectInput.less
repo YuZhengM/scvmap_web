@@ -1,0 +1,65 @@
+@import "../../Index";
+
+@title_select_width: 210px;
+@input_height: 42px;
+@input_font_size: 18px;
+@search_width: 500px;
+
+.composite_select_input_template {
+
+  .front {
+    display: inline-block;
+    height: @input_height;
+    width: @title_select_width;
+
+    .title {
+
+    }
+
+    .base_select_template {
+      display: inline-block;
+      border-radius: 0;
+      height: @input_height;
+      width: @title_select_width;
+
+      .el-select__wrapper {
+        font-size: @input_font_size;
+        height: @input_height;
+        width: @title_select_width;
+      }
+
+      input {
+        font-size: @input_font_size;
+        height: @input_height;
+        width: @title_select_width - 40;
+      }
+
+    }
+  }
+
+  .select_input_template {
+    display: inline-block;
+    width: @search_width;
+
+    .select_input_template, .el-autocomplete {
+      width: @search_width;
+    }
+
+    input {
+      font-size: @input_font_size;
+      height: @input_height;
+    }
+
+    button {
+      height: 100%;
+      font-size: 20px;
+    }
+
+    button:hover {
+      background-color: #0d6efd !important;
+      color: #FFFFFF !important;
+      transition: .5s;
+    }
+
+  }
+}

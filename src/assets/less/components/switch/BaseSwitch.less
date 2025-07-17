@@ -1,0 +1,55 @@
+@import "../../Index";
+
+@title_font_size: 18px;
+@switch_action_size: 18px;
+
+.base_switch_template {
+  margin: 0 auto;
+  text-align: center;
+
+  > span {
+    font-size: @title_font_size;
+  }
+
+  .el-switch {
+    .el-switch__core {
+      width: 50px;
+
+      .el-switch__inner {
+        span {
+          font-size: @title_font_size;
+        }
+      }
+
+      .el-switch__action {
+        border-radius: 25px !important;
+      }
+
+    }
+
+    .el-switch__label {
+      span {
+        font-weight: normal;
+        color: @common_two_font_color;
+        font-size: @title_font_size;
+        padding: 4px 10px;
+        border-radius: 14px;
+      }
+    }
+
+    > .is-active {
+      font-weight: bold;
+
+      span {
+        font-weight: normal;
+        color: @common_active_font_color;
+        font-size: @switch_action_size;
+        background-color: @common_background_active;
+        padding: 4px 10px;
+        border-radius: 14px;
+      }
+    }
+
+  }
+
+}

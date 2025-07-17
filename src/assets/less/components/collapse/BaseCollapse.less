@@ -1,0 +1,36 @@
+@import "../../Index";
+
+@background_color: @common_background_color;
+@background_color_active: @common_background_active;
+
+.base_collapse_template {
+
+  .el-collapse-item {
+    margin-bottom: 10px;
+
+    .el-collapse-item__header {
+      .background_linear_gradient(5%, 8%);
+      font-size: 18px;
+      font-weight: 700;
+      padding: 10px 25px;
+      color: @common_font_color;
+    }
+
+    > div {
+      > .is-active {
+        background-color: @background_color_active;
+      }
+    }
+  }
+
+  .el-collapse-item__wrap {
+    border-left: 2px solid @common_border_color;
+    border-bottom: 2px solid @common_border_color;
+    border-right: 1px solid @background_color_active;
+
+    .el-collapse-item__content {
+      padding: 15px;
+    }
+  }
+
+}

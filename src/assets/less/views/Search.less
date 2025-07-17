@@ -1,0 +1,61 @@
+@import "../Index";
+
+.p_span_font_size() {
+  .content {
+    p {
+      line-height: 20px;
+    }
+
+    p, span {
+      font-size: 17px;
+    }
+  }
+}
+
+.span_title_font_size() {
+  span.title {
+    font-size: 18px;
+    line-height: 25px;
+  }
+}
+
+#search {
+  .auto_width();
+
+  .search {
+    text-align: start;
+
+    div.single_card_template {
+      margin-bottom: 15px;
+    }
+
+    .region {
+      background-color: @common_one_background_color;
+      display: block;
+      margin: 8px 0 0 0;
+      padding: 9px 18px;
+      border-radius: 10px;
+      line-height: 24px;
+    }
+
+  }
+
+  #trait_search, #sample_search, #gene_search, #variant_search {
+    .content {
+      font-size: 17px;
+    }
+  }
+
+}
+
+#trait_search_result {
+  .auto_width();
+}
+
+#sample_search_result {
+  .auto_width();
+}
+
+#variant_search {
+  .auto_width();
+}

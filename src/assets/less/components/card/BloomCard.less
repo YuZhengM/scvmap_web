@@ -1,0 +1,91 @@
+// 整体高度
+@bloom_card_height: 280px;
+// 字体颜色
+@bloom_card_font_color: #f6f8ff;
+// 卡片的颜色
+@bloom_card_color: #43b9f6, #6686ff, #9878ff;
+// 卡片的个数
+@bloom_card_length: length(@bloom_card_color);
+// 卡片内的 padding, width
+@bloom_card_single_padding: 15px;
+@bloom_card_single_width: 400px;
+// 卡片的 icon 的背景颜色
+@bloom_card_icon_background_color: #41b3ee, #6382f7, #8b6eea;
+
+#bloomCard {
+  // 向上平移自身的十分之一
+  margin-top: -(@bloom_card_height / 9);
+  display: flex;
+  z-index: 900;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  height: @bloom_card_height + @bloom_card_single_padding * 2;
+  color: @bloom_card_font_color;
+  cursor: pointer;
+
+  // 进行循环 div
+  .index_card_div(@bloom_card_length);
+  .index_card_div(@n, @i:1) when (@i =< @n) {
+    > div:nth-of-type(@{i}) {
+      // 取得背景颜色
+      background-color: extract(@bloom_card_color, @i);
+      height: @bloom_card_height;
+      padding: @bloom_card_single_padding;
+      width: @bloom_card_single_width;
+      transition: all .3s ease-out 0s;
+      // icon
+      .up {
+        background-color: extract(@bloom_card_icon_background_color, @i);
+        // 高度为自身去掉 padding && margin 的一半
+        height: (@bloom_card_height - 3 * @bloom_card_single_padding) / 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all .3s ease-out 0s;
+      }
+
+      // title, content
+      .down {
+        // 高度为 icon 剩下的
+        height: (@bloom_card_height - 3 * @bloom_card_single_padding) / 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        margin-top: @bloom_card_single_padding;
+        transition: all .3s ease-out 0s;
+
+        .title {
+          font-size: larger;
+          font-weight: 500;
+        }
+
+        .content {
+          padding: 5px;
+        }
+      }
+
+    }
+
+    // 鼠标悬浮时
+    > div:nth-of-type(@{i}):hover {
+      // 增长自身 + 60px
+      @new_height: @bloom_card_height + 60;
+      height: @new_height;
+      // icon
+      .up {
+        height: (@new_height - 3 * @bloom_card_single_padding) / 2;
+      }
+
+      // title, content
+      .down {
+        height: (@new_height - 3 * @bloom_card_single_padding) / 2;
+        border: 1px solid @bloom_card_font_color;
+      }
+    }
+
+    // ++
+    .index_card_div(@n, (@i+1));
+  }
+}

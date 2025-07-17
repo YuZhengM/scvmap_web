@@ -1,0 +1,79 @@
+@import "../../Index";
+
+.list_card_template {
+  box-shadow: 0 5px 15px @common_background_color, 0 5px 15px @common_background_color !important;
+
+  .el-card {
+    border-radius: 0;
+    margin-bottom: 25px;
+    margin-right: 20px;
+
+    .el-card__body {
+      padding: 0;
+      border: 0;
+    }
+
+    .clearfix {
+      .background_linear_gradient(10%, 50%);
+      font-weight: bold;
+      font-size: 20px;
+      padding: 3px 25px;
+      margin-bottom: 0;
+      border-bottom: 1px solid @common_background_active;
+    }
+
+    .text, .item {
+      position: relative;
+      display: block;
+      padding: 3px 15px;
+      border-bottom: 1px solid @common_border_color;
+      cursor: pointer;
+      transition: .3s;
+
+      .label {
+        display: inline-block;
+        width: 80%;
+        line-height: normal;
+      }
+
+      .number {
+        position: absolute;
+        right: 20px;
+        background-color: gray !important;
+        color: #fff;
+        display: inline-block;
+        padding: .25em .4em;
+        font-size: 75%;
+        font-weight: 700;
+        line-height: 1;
+        text-align: center;
+        white-space: nowrap;
+      }
+
+    }
+
+    .text.active, .item.active {
+      .background_linear_gradient(5%, 85%);
+
+      .label {
+        color: @common_active_font_color;
+      }
+    }
+
+    .text:hover, .item:hover {
+      .background_linear_gradient(5%, 85%);
+
+      .label {
+        color: @common_active_font_color;
+      }
+
+    }
+
+  }
+
+  .paging_template {
+    padding: 8px 0;
+  }
+
+}
+

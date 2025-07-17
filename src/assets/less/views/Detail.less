@@ -1,0 +1,140 @@
+@import "../Index";
+
+.a_outer_style() {
+  display: inline-block;
+  padding: 0 5px;
+  font-size: 25px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#detail {
+  .container_width();
+  margin: 0 auto 0 auto;
+
+  .detail {
+    text-align: start;
+  }
+
+  #sample_detail, #trait_detail {
+    #sample_overview_detail, #trait_overview_detail {
+
+      .table_sample_overview {
+
+        th {
+          min-width: 40%;
+          max-width: 60%;
+        }
+
+        td {
+          text-align: justify;
+        }
+
+        span {
+          display: inline-block;
+          width: 40px;
+          text-align: center;
+          cursor: pointer;
+        }
+
+        span:hover {
+          color: @common_active_font_color;
+        }
+      }
+    }
+  }
+
+  #sample_cluster_annotation, #trait_cluster_annotation {
+    .enriched_trait {
+      display: inline-block;
+    }
+
+    .select_input_template {
+      display: inline-block;
+      width: 63%;
+    }
+
+    .title_alone {
+      font-size: 18px;
+      padding: 0;
+    }
+
+    .title_trait {
+      font-size: 18px;
+    }
+
+    .method_select {
+      padding: 10px 20px;
+      background-color: @common_two_background_color;
+      color: @common_active_font_color;
+
+      .title, .el-input {
+        font-size: 20px;
+      }
+    }
+
+  }
+
+}
+
+#gene_detail, #tf_detail, #variant_detail {
+  .auto_width();
+}
+
+#gene_detail {
+  #gene_annotation_table {
+
+    .base_tabs_template .el-tabs--card .el-tabs__header .el-tabs__nav {
+      .div_flex_between();
+      flex-wrap: wrap;
+
+      .el-tabs__item {
+        margin-bottom: 20px;
+      }
+
+    }
+
+  }
+}
+
+#tf_detail {
+  .overview {
+    align-items: center;
+  }
+}
+
+#variant_detail {
+  .base_select_template {
+    padding: 5px 50px;
+    background-color: #FFF;
+  }
+}
+
+#difference_heat_map {
+  .textarea {
+    width: 96%;
+    margin: 5px auto;
+
+    .title {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .el-button {
+      padding: 15px;
+      height: 26px;
+
+      span {
+        font-size: 18px;
+      }
+    }
+
+    .heatmap_value {
+      font-size: 16px;
+      background-color: @common_one_background_color;
+      padding: 5px 10px;
+      margin-left: 10px;
+      border-radius: 10px;
+    }
+  }
+}
