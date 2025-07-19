@@ -7,6 +7,7 @@
           <template #left>
             <BaseTabs active="hg38" :change="overviewChange" :tabs-data="genomeTabs">
               <template #hg19>
+                <BaseBr/>
                 <div v-show="isShowHg19">
                   <ArrayTable :table-data="geneTableData1" v-show="isSingle1" ref="singleGeneTable1"/>
                   <BaseTable :table-data="geneHg19Data"
@@ -32,6 +33,7 @@
                 </div>
               </template>
               <template #hg38>
+                <BaseBr/>
                 <div v-show="isShowHg38">
                   <ArrayTable :table-data="geneTableData2" v-show="isSingle2" ref="singleGeneTable2"/>
                   <BaseTable :table-data="geneHg38Data"
@@ -144,7 +146,8 @@ import {
   GENE_DETAIL_GENE_INFO_TABLE_DESCRIPTION,
   GENE_DETAIL_GENE_TRAIT_TABLE_DESCRIPTION,
   GENE_DETAIL_GENOME_TABS,
-  geneTraitCountOption, STATIC_MAGMA_PATH
+  geneTraitCountOption,
+  STATIC_MAGMA_PATH
 } from '@/assets/ts';
 import BaseTabs from '@/components/tabs/BaseTabs.vue';
 import LeftRight from '@/components/layout/LeftRight.vue';

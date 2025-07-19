@@ -10,6 +10,7 @@
           <ListCard title="Source cohort" :list-card="cohortList" :list-card-click="cohortClick" ref="cohort"/>
         </template>
         <template #right>
+          <br/>
           <BaseTable :update-new-data="tableInformation"
                      :callback-function="callBackFunction"
                      :service-search-width="85"

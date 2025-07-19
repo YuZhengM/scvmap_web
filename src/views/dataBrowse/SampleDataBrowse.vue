@@ -10,11 +10,14 @@
           <ListCard title="Cell type" :list-card="cellTypeList" :list-card-click="cellTypeClick" ref="cellType" v-show="!isShow"/>
         </template>
         <template #right>
+          <BaseBr/>
           <BaseTabs active="sampleId" :tabs-data="annotationTabs" :change="annotationChange">
             <template #sampleId>
+              <BaseBr/>
               <BaseTable :table-data="tableData1" :is-service-paging="false" :download-url="overviewDownload('sample_info.txt')" :table-description="tableDescription1"/>
             </template>
             <template #cellType>
+              <BaseBr/>
               <BaseTable :table-data="tableData2" :is-service-paging="false" :download-url="overviewDownload('cell_type_anno.txt')" :table-description="tableDescription2"/>
             </template>
           </BaseTabs>
@@ -37,10 +40,11 @@ import ListCard from '@/components/card/ListCard.vue';
 import { CardList } from '@/service/model/components/card';
 import ArrayUtil from '@/service/util/base/array';
 import { TabsPaneContext } from 'element-plus/es';
+import BaseBr from '@/components/divider/BaseBr.vue';
 
 export default defineComponent({
   name: 'SampleDataBrowse',
-  components: { ListCard, LeftRight, BaseTabs, BaseLoading, BaseTable },
+  components: { BaseBr, ListCard, LeftRight, BaseTabs, BaseLoading, BaseTable },
   setup() {
     const loading = ref();
     const tissueType1 = ref();

@@ -22,11 +22,11 @@ export const GENE_DETAIL_REGULATION_REGION_TABS = [
   { name: 'common_snp', title: 'Common SNP' },
   { name: 'risk_snp', title: 'Risk SNP' },
   { name: 'eqtl', title: 'eQTL' },
-  { name: 'enhancer_sea', title: 'Enhancer (SEA v3)' },
-  { name: 'enhancer_sedb', title: 'Enhancer (SEdb v2)' },
-  { name: 'super_enhancer_dbsuper', title: 'Super enhancer (dbSUPER)' },
-  { name: 'super_enhancer_sea', title: 'Super enhancer (SEA v3)' },
-  { name: 'super_enhancer_sedb', title: 'Super enhancer (SEdb v2)' }
+  { name: 'enhancer_sea', title: 'TE (SEA v3)' },
+  { name: 'enhancer_sedb', title: 'TE (SEdb v2)' },
+  { name: 'super_enhancer_dbsuper', title: 'SE (dbSUPER)' },
+  { name: 'super_enhancer_sea', title: 'SE (SEA v3)' },
+  { name: 'super_enhancer_sedb', title: 'SE (SEdb v2)' }
 ];
 
 export const GENE_DETAIL_GENOME_TABS = [
