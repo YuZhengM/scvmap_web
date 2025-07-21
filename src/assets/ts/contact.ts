@@ -1,7 +1,7 @@
 import { CardBase } from '@/service/model/components/card';
 
 // 联系内容
-export const Contacts = [
+export const CONTACTS = [
   {
     title: 'Principal Investigator:',
     content: 'Chunquan Li, Ph.D.'
@@ -16,6 +16,22 @@ export const Contacts = [
   }
 ];
 
+// 联系内容
+export const CONTACT_SELF_LINK = [
+  {
+    title: 'SCVdb tutorial: ',
+    link: 'https://scvdb-tutorial.readthedocs.io/en/latest/index.html'
+  },
+  {
+    title: 'SCVdb front-end: ',
+    link: 'https://github.com/YuZhengM/scvdb_web'
+  },
+  {
+    title: 'SCVdb back-end: ',
+    link: 'https://github.com/YuZhengM/scvdb'
+  }
+];
+
 // 团队其他项目
 export const SISTER_PROJECTS: Array<CardBase> = [{
   title: 'scATAC-Ref',
@@ -26,6 +42,10 @@ export const SISTER_PROJECTS: Array<CardBase> = [{
   url: 'https://bio.liclab.net/sc2GWAS/',
   content: 'sc2GWAS: A comprehensive platform linking single cell and GWAS traits of human'
 }, {
+  title: 'scImmOmics',
+  url: 'https://bio.liclab.net/scImmOmics/',
+  content: 'scImmOmics: a manually curated resource of single-cell multi-omics immune data'
+}, {
   title: 'SpatialRef',
   url: 'https://bio.liclab.net/spatialref/',
   content: 'SpatialRef: A reference of spatial omics with known spot annotation'
@@ -33,6 +53,10 @@ export const SISTER_PROJECTS: Array<CardBase> = [{
   title: 'scBlood',
   url: 'https://bio.liclab.net/scBlood/',
   content: 'scBlood: A comprehensive single-cell accessible chromatin database of blood cells'
+}, {
+  title: 'GREAP',
+  url: 'https://bio.liclab.net/Greap/view/index',
+  content: 'GREAP: a comprehensive human genomic region sets enrichment analysis platform'
 }, {
   title: 'SEdb',
   url: 'http://www.licpathway.net/sedb/',

@@ -2,7 +2,7 @@
   <div id="tf_explore">
     <LeftRight>
       <template #left>
-        <span class="title_strategy">TF:</span>
+        <span class="title_strategy">TFs:</span>
         <BaseSwitch active-text="Upload a file:" inactive-text="Paste your data:" :is-inline="false" :change-event="fileChange" ref="fileSwitch"/>
         <BaseInput type="textarea" :rows="10" v-show="!isUpload" placeholder="Please input the TFs." ref="fileContent"/>
         <FileUpload :action="uploadAction" :tip-text="fileTip" :file-type="['txt']" :upload-success="uploadSuccess" :file-remove="fileRemove" :max-file-size="20" v-show="isUpload" ref="fileUpload"/>
@@ -14,7 +14,7 @@
           <BaseSelect title="Log<sub>2</sub>(Fold change):" clearable :is-line="true" width="62%" :select-data="Log2FoldChangeSelectData" ref="log2FoldChange"/>
         </div>
         <BaseBr/>
-        <span class="title_strategy">Trait or Disease:</span>
+        <span class="title_strategy">Trait or disease:</span>
         <div class="trait_info">
           <BaseSelect title="P value:" clearable :is-line="true" width="62%" :select-data="pValueTraitSelectData" ref="pValueTrait"/>
           <BaseSelect title="Q value:" clearable :is-line="true" width="62%" :select-data="qValueTraitSelectData" ref="qValueTrait"/>
@@ -49,7 +49,7 @@
               4) <strong>Log<sub>2</sub>(Fold change)</strong>: Select the threshold for Log<sub>2</sub>(Fold change) in cell type differential TFs in single-cell samples.
             </span>
             <br />
-            <span class="font_red"> Trait or Disease: </span> Screening traits or diseases based on input TFs. <br/>
+            <span class="font_red"> Trait or disease: </span> Screening traits or diseases based on input TFs. <br/>
             <span class="region">
               5) <strong>P value</strong>: Select the threshold for p value in HOMER enriched TFs.
             </span>

@@ -15,7 +15,7 @@
         </div>
         <BaseBr/>
         <!-- 最小和 p—value 限制 -->
-        <span class="title_strategy">Trait or Disease:</span>
+        <span class="title_strategy">Trait or disease:</span>
         <div class="trait_info">
           <BaseInput title="Number of SNPs:" type="number" :min="0" :width="200" description="The minimum number of SNPs annotated onto a gene" is-line ref="min"/>
           <BaseSelect title="P value:" clearable :is-line="true" width="62%" :select-data="pValueTraitSelectData" ref="pValueTrait"/>
@@ -50,7 +50,7 @@
               4) <strong>Log<sub>2</sub>(Fold change)</strong>: Select the threshold for Log<sub>2</sub>(Fold change) in cell type differential genes in single-cell samples.
             </span>
             <br/>
-            <span class="font_red"> Trait or Disease: </span> Screening traits or diseases based on input genes. <br/>
+            <span class="font_red"> Trait or disease: </span> Screening traits or diseases based on input genes. <br/>
             <span class="region">
               5) <strong>Number of SNPs</strong>: Select the threshold for the number of SNPs in MAGMA enriched genes.
             </span>
