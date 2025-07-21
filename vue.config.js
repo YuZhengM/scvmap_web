@@ -12,8 +12,8 @@ module.exports = {
         minSize: 512 * 1024,
         maxSize: 1024 * 1024,
         minChunks: 1,
-        maxAsyncRequests: 5,
-        maxInitialRequests: 3,
+        maxAsyncRequests: 10,
+        maxInitialRequests: 5,
         automaticNameDelimiter: '_',
         name: true,
         cacheGroups: {
