@@ -6,7 +6,7 @@ export default class GeneTfDetailApi {
    * detail 接口路径前缀
    * @private
    */
-  private static PATH_PREFIX = 'element/detail';
+  private static PATH_PREFIX = '/element/detail';
 
   /**
    * Sample Overview 数据

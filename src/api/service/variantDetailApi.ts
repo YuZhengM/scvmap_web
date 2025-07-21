@@ -6,7 +6,7 @@ export default class VariantDetailApi {
    * detail 接口路径前缀
    * @private
    */
-  private static PATH_PREFIX = 'variant/detail';
+  private static PATH_PREFIX = '/variant/detail';
 
   /**
    * Sample Overview 数据
