@@ -1,2 +1,22 @@
 User-agent: *
 Disallow:
+
+# https://bio.liclab.net/scvdb_service/robots.txt
+Allow: /scvdb_service/test/
+Disallow: /scvdb_service/home/
+Disallow: /scvdb_service/data_browse/
+Disallow: /scvdb_service/search/
+Disallow: /scvdb_service/analysis/
+Disallow: /scvdb_service/download/
+Disallow: /scvdb_service/detail/
+Disallow: /scvdb_service/variant/
+
+# https://bio.liclab.net/scvdb_static/robots.txt
+User-agent: *
+Allow: /scvdb_static/download/
+Allow: /scvdb_static/homer/
+Allow: /scvdb_static/magma/
+Allow: /scvdb_static/trait_variant_overlap/
+Allow: /scvdb_static/trs/
+Disallow: /scvdb_static/python/
+Disallow: /scvdb_static/user/
