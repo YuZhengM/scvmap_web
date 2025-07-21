@@ -43,11 +43,11 @@ export const SISTER_PROJECTS: Array<CardBase> = [{
   content: 'ENdb: an experimentally supported enhancer database for human and mouse'
 }, {
   title: 'SEanalysis',
-  url: 'http://www.licpathway.net/SEanalysis/?tdsourcetag=s_pctim_aiomsg',
+  url: 'https://bio.liclab.net/SEanalysis/',
   content: 'SEanalysis: a web tool for super-enhancer associated regulatory analysis'
 }, {
   title: 'LncSEA',
-  url: 'http://bio.liclab.net/LncSEA/index.php',
+  url: 'https://bio.liclab.net/LncSEA/index.php',
   content: 'LncSEA: a comprehensive human lncRNA sets resource and enrichment analysis platform'
 }, {
   title: 'KnockTF',
