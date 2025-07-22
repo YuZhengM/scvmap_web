@@ -3,22 +3,22 @@
     <!-- 搜索信息 -->
     <div class="top_content" v-if="isSearch">
       <div class="search" v-if="!isServicePaging">
-        Search:
+        {{ searchTitle }}
         <el-input placeholder="Please enter the search content" v-model="search" clearable size="default" maxlength="100"></el-input>
       </div>
       <div class="serviceSearch" :style="`width: ${serviceSearchWidth}%;`" v-if="isServicePaging">
-        <div class="serviceSelect">
-          <BaseSelect title="Search: " :width="`${width}%`" :select-data="fieldData" :change-event="fieldChange" placeholder="Select field" is-line ref="select"/>
+        <div class="serviceSelect" :style="`width: ${fieldWidth}%;`">
+          <BaseSelect :title="searchTitle" :width="`${width}%`" :select-data="fieldData" :change-event="fieldChange" placeholder="Select field" is-line ref="select"/>
         </div>
         <div class="serviceSymbol">
           <BaseSelect width="114px" :select-data="symbolData" placeholder="Select" is-line ref="symbolLabel"/>
         </div>
         <div class="serviceContent" :style="`width: ${contentWidth}%;`">
-          <el-input placeholder="Please enter the search content" v-model="serviceSearch" clearable size="default" maxlength="100"></el-input>
+          <el-input placeholder="Search content" v-model="serviceSearch" clearable size="default" maxlength="100"></el-input>
         </div>
         <div class="serviceSubmit">
-          <el-button type="primary" @click="searchClick" :style="`padding: ${buttonPadding}px;`">Search</el-button>
-          <el-button type="info" @click="RefreshClick" :style="`padding: ${buttonPadding}px;`">Refresh</el-button>
+          <el-button type="primary" @click="searchClick" :style="`width: ${buttonSize[0]}px; height: ${buttonSize[1]}px;`">Search</el-button>
+          <el-button type="info" @click="RefreshClick" :style="`width: ${buttonSize[0]}px; height: ${buttonSize[1]}px;`">Refresh</el-button>
         </div>
       </div>
       <div class="download" v-show="fileDownloadUrl !== '' && fileDownloadUrl !== undefined">
@@ -110,15 +110,25 @@ export default defineComponent({
       type: Boolean,
       default: () => true
     },
+    // 是否为后端分页
+    searchTitle: {
+      type: String,
+      default: () => 'Search: '
+    },
+    // 后端分页选中字段的总宽度
+    fieldWidth: {
+      type: Number,
+      default: () => 30
+    },
     // 后端分页选中字段的框的宽度
     width: {
       type: Number,
-      default: () => 73
+      default: () => 70
     },
     // 后端分页选中输入内容框的宽度
     contentWidth: {
       type: Number,
-      default: () => 33
+      default: () => 25
     },
     // 后端分页选中输入内容框的宽度
     serviceSearchWidth: {
@@ -126,9 +136,9 @@ export default defineComponent({
       default: () => 70
     },
     // 后端分页选中按钮的 padding
-    buttonPadding: {
-      type: Number,
-      default: () => 15
+    buttonSize: {
+      type: Array,
+      default: () => [70, 32]
     },
     // 更新数据
     updateNewData: {

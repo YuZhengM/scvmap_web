@@ -437,7 +437,7 @@ export const getSampleArrayTable = (tableData: Array<KeyValue>, res: any, isLink
 export const DETAIL_TRAIT_INFORMATION_TABLE_DESCRIPTION: Array<TableHead> = [
   { column: 'chr', title: 'Chr', database: 'f_chr', type: 1, width: 100 },
   { column: 'position', title: 'Position', database: 'f_position', type: 1, width: 150 },
-  { column: 'pp', title: 'pp', database: 'f_pp', type: 1, width: 100 },
+  { column: 'pp', title: 'pp', database: 'f_pp', type: 2, width: 100 },
   { column: 'rsId', title: 'rsID', database: 'f_rs_id', type: 1, width: 100, href: (row: any) => linkDetailVariant(row.rsId) },
   { column: 'pvalue', title: 'P value', database: 'f_p_value', type: 2 },
   { column: 'allele1', title: 'Allele1', database: 'f_allele1', type: 1, content: 'Reference allele in the reference genome coordinate of the source cohort.' },

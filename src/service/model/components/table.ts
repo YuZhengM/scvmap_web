@@ -31,19 +31,19 @@ export const TABLE_NUMBER_SYMBOL_SELECT: Array<InputSelect> = [
     value: 2
   },
   {
-    label: '<',
+    label: '>',
     value: 3
   },
   {
-    label: '<=',
+    label: '>=',
     value: 4
   },
   {
-    label: '>',
+    label: '<',
     value: 5
   },
   {
-    label: '>=',
+    label: '<=',
     value: 6
   }
 ];
