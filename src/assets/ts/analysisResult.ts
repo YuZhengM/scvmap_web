@@ -107,9 +107,9 @@ export const DATA_ANALYSIS_TRAIT_TABLE_DESCRIPTION: Array<TableHead> = [
 ];
 
 export const DATA_ANALYSIS_SAMPLE_TABLE_DESCRIPTION: Array<TableHead> = [
-  { column: 'sampleId', title: 'Sample ID', width: 130, database: 'f_sample_id', href: (row: any) => linkSampleDetail(row.sampleId) },
-  { column: 'tissueType', title: 'Tissue type', width: 200, database: 'f_tissue_type' },
-  { column: 'healthTypeDescription', title: 'Health type description', width: 250, database: 'f_health_type_description' }
+  { column: 'sampleId', title: 'Sample ID', width: 130, database: 'f_sample_id', type: 1, href: (row: any) => linkSampleDetail(row.sampleId) },
+  { column: 'tissueType', title: 'Tissue type', width: 200, database: 'f_tissue_type', type: 1 },
+  { column: 'healthTypeDescription', title: 'Health type description', width: 250, database: 'f_health_type_description', type: 1 }
 ];
 
 export const DATA_ANALYSIS_DIFFERENCE_GENE_TABLE_DESCRIPTION: Array<TableHead> = [
@@ -123,12 +123,12 @@ export const DATA_ANALYSIS_DIFFERENCE_GENE_TABLE_DESCRIPTION: Array<TableHead> =
 ];
 
 export const DATA_ANALYSIS_DIFFERENCE_TF_TABLE_DESCRIPTION: Array<TableHead> = [
-  { column: 'sampleId', title: 'Sample ID', width: 130, href: (row: any) => linkSampleDetail(row.sampleId) },
-  { column: 'cellType', title: 'Cell type' },
-  { column: 'tf', title: 'TF', href: (row: any) => linkDetailTf(row.tf) },
-  { column: 'pvalue', title: 'P value', information: (row: any) => Number(row.pvalue).toExponential(3) },
-  { column: 'adjustedPValue', title: 'Adjusted P value', information: (row: any) => Number(row.adjustedPValue).toExponential(3) },
-  { column: 'log2FoldChange', title: 'Log2(Fold change)', information: (row: any) => Number(row.log2FoldChange).toFixed(3) }
+  { column: 'sampleId', title: 'Sample ID', width: 130, type: 1, href: (row: any) => linkSampleDetail(row.sampleId) },
+  { column: 'cellType', title: 'Cell type', type: 1 },
+  { column: 'tf', title: 'TF', type: 1, href: (row: any) => linkDetailTf(row.tf) },
+  { column: 'pvalue', title: 'P value', type: 2, information: (row: any) => Number(row.pvalue).toExponential(3) },
+  { column: 'adjustedPValue', title: 'Adjusted P value', type: 2, information: (row: any) => Number(row.adjustedPValue).toExponential(3) },
+  { column: 'log2FoldChange', title: 'Log2(Fold change)', type: 2, information: (row: any) => Number(row.log2FoldChange).toFixed(3) }
 ];
 
 export const DATA_ANALYSIS_TRAIT_GENE_TABLE_DESCRIPTION: Array<TableHead> = [

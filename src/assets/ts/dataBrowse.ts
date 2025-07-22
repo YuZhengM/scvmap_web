@@ -2,19 +2,31 @@ import { TableHead } from '@/service/model/components/table';
 import { getPubmedLink, linkGeo, linkSampleDetail, linkTraitDetail } from '@/assets/ts/statusUtil';
 
 export const DATA_BROWSE_TRAIT_TABLE_DESCRIPTION: Array<TableHead> = [
-  { column: 'traitId', title: 'Trait ID', database: 'f_trait_id', width: 120, href: (row: any) => linkTraitDetail(row.traitId) },
-  // { column: 'sourceId', title: 'Source ID', database: 'f_source_id', width: 120 },
-  { column: 'sourceName', title: 'Source cohort', database: 'f_source_name' },
-  { column: 'type', title: 'Type', database: 'f_type' },
-  // { column: 'sourceGenome', title: 'Source genome', database: 'f_source_genome', content: 'Reference genome information of this trait or disease in the original data.' },
-  { column: 'traitAbbr', title: 'Trait abbreviation', database: 'f_trait_abbr' },
-  { column: 'trait', title: 'Trait description', database: 'f_trait', width: 200 },
-  { column: 'variantCount', title: 'VC', database: 'f_variant_count', content: 'The number of variants in this trait or disease.' },
-  { column: 'variantPpSum', title: 'PP sum', database: 'f_variant_pp_sum', content: 'Sum the posterior probability values of mutations in this trait or disease.' }
-  // { column: 'hg19Count', title: 'hg19 VC', database: 'f_hg19_count', content: 'The number of variants in this trait or disease in the HG19 reference genome.' },
-  // { column: 'hg19PpSum', title: 'hg19 PP sum', database: 'f_hg19_pp_sum', content: 'Sum the posterior probability values of mutations in this trait or disease in the HG19 reference genome.' },
-  // { column: 'hg38Count', title: 'hg38 VC', database: 'f_hg38_count', content: 'The number of variants in this trait or disease in the HG38 reference genome.' },
-  // { column: 'hg38PpSum', title: 'hg38 PP sum', database: 'f_hg38_pp_sum', content: 'Sum the posterior probability values of mutations in this trait or disease in the HG38 reference genome.' }
+  { column: 'traitId', title: 'Trait ID', database: 'f_trait_id', type: 1, width: 120, href: (row: any) => linkTraitDetail(row.traitId) },
+  // { column: 'sourceId', title: 'Source ID', database: 'f_source_id', type: 1, width: 120 },
+  { column: 'sourceName', title: 'Source cohort', database: 'f_source_name', type: 1 },
+  { column: 'type', title: 'Type', database: 'f_type', type: 1 },
+  // { column: 'sourceGenome', title: 'Source genome', database: 'f_source_genome', type: 1, content: 'Reference genome information of this trait or disease in the original data.' },
+  { column: 'traitAbbr', title: 'Trait abbreviation', database: 'f_trait_abbr', type: 1 },
+  { column: 'trait', title: 'Trait description', database: 'f_trait', type: 1, width: 200 },
+  { column: 'variantCount', title: 'VC', database: 'f_variant_count', type: 2, content: 'The number of variants in this trait or disease.' },
+  { column: 'variantPpSum', title: 'PP sum', database: 'f_variant_pp_sum', type: 2, content: 'Sum the posterior probability values of mutations in this trait or disease.' }
+  // { column: 'hg19Count', title: 'hg19 VC', database: 'f_hg19_count', type: 2, content: 'The number of variants in this trait or disease in the HG19 reference genome.' },
+  // {
+  //   column: 'hg19PpSum',
+  //   title: 'hg19 PP sum',
+  //   database: 'f_hg19_pp_sum',
+  //   type: 2,
+  //   content: 'Sum the posterior probability values of mutations in this trait or disease in the HG19 reference genome.'
+  // },
+  // { column: 'hg38Count', title: 'hg38 VC', database: 'f_hg38_count', type: 2, content: 'The number of variants in this trait or disease in the HG38 reference genome.' },
+  // {
+  //   column: 'hg38PpSum',
+  //   title: 'hg38 PP sum',
+  //   database: 'f_hg38_pp_sum',
+  //   type: 2,
+  //   content: 'Sum the posterior probability values of mutations in this trait or disease in the HG38 reference genome.'
+  // }
 ];
 
 export const DATA_BROWSE_SAMPLE_TABLE_DESCRIPTION1: Array<TableHead> = [

@@ -8,7 +8,10 @@
       </div>
       <div class="serviceSearch" :style="`width: ${serviceSearchWidth}%;`" v-if="isServicePaging">
         <div class="serviceSelect">
-          <BaseSelect title="Search: " :width="`${width}%`" :select-data="fieldData" placeholder="Select field" is-line ref="select"/>
+          <BaseSelect title="Search: " :width="`${width}%`" :select-data="fieldData" :change-event="fieldChange" placeholder="Select field" is-line ref="select"/>
+        </div>
+        <div class="serviceSymbol">
+          <BaseSelect width="114px" :select-data="symbolData" placeholder="Select" is-line ref="symbolLabel"/>
         </div>
         <div class="serviceContent" :style="`width: ${contentWidth}%;`">
           <el-input placeholder="Please enter the search content" v-model="serviceSearch" clearable size="default" maxlength="100"></el-input>
@@ -59,7 +62,7 @@ import ArrayUtil from '@/service/util/base/array';
 import Json from '@/service/util/base/json';
 import Time from '@/service/util/base/time';
 import '@/assets/less/components/table/BaseTable.less';
-import { TableHead } from '@/service/model/components/table';
+import { TABLE_NUMBER_SYMBOL_SELECT, TABLE_STRING_SYMBOL_SELECT, TableHead } from '@/service/model/components/table';
 import ColumnTable from '@/components/table/ColumnTable.vue';
 import { Page } from '@/service/model/reponse/request';
 import BaseLoading from '@/components/loading/BaseLoading.vue';
@@ -115,7 +118,7 @@ export default defineComponent({
     // 后端分页选中输入内容框的宽度
     contentWidth: {
       type: Number,
-      default: () => 40
+      default: () => 33
     },
     // 后端分页选中输入内容框的宽度
     serviceSearchWidth: {
@@ -260,9 +263,10 @@ export default defineComponent({
     // 获取分页标签
     const paging = ref();
     const baseTable = ref();
+    const symbolLabel = ref();
     // 获取数据信息
-    const signalColumNumber = props.beforeColumnNumber === -1 ? props.tableDescription?.length : props.beforeColumnNumber;
-    const tableDescription = ArrayUtil.deepCopy(props.tableDescription);
+    const tableDescription = props.tableDescription.filter((item: any) => Base.noNull(item.column));
+    const signalColumNumber = props.beforeColumnNumber === -1 ? tableDescription?.length : props.beforeColumnNumber;
     // 设置响应数据
     const data = reactive({
       // 搜索的内容
@@ -270,6 +274,7 @@ export default defineComponent({
       serviceSearch: '' as string,
       // 下拉的字段信息
       fieldData: [] as Array<InputSelect>,
+      symbolData: [] as Array<InputSelect>,
       // 页面传入的数据 (搜索后的内容整体信息, 称之为局部数据)
       pagingChangeData: [] as Array<{}>,
       // 前端用户直接可以看到的数据 (展示数据)
@@ -283,7 +288,7 @@ export default defineComponent({
        */
       pageTableData: props.tableData as { [key: string]: any },
       // 表格标题信息
-      signalColumNumber: props.beforeColumnNumber === -1 ? props.tableDescription?.length : props.beforeColumnNumber,
+      signalColumNumber: props.beforeColumnNumber === -1 ? tableDescription?.length : props.beforeColumnNumber,
       beforeColumnTableDescription: tableDescription.slice(0, signalColumNumber),
       afterColumnTableDescription: tableDescription.slice(signalColumNumber),
       feasibilityValue: props.isMounted,
@@ -297,7 +302,8 @@ export default defineComponent({
         order: 0,
         searchField: '',
         content: '',
-        type: 1
+        type: 1,
+        symbol: 1
       } as Page,
       fileDownloadUrl: '' as string
     });
@@ -351,6 +357,15 @@ export default defineComponent({
       return setData;
     }
 
+    const setPageValue = () => {
+      data.page.page = paging.value.currentPage;
+      data.page.size = paging.value.pageSize;
+      data.page.searchField = String(select.value.select.split('##')[0]);
+      data.page.content = data.serviceSearch;
+      data.page.type = Number(Base.isNull(select.value.select.split('##')[1]) ? 1 : select.value.select.split('##')[1]);
+      data.page.symbol = symbolLabel.value.select;
+    };
+
     /**
      * 更新数据
      * @param isReset 是否进行重新请求数据
@@ -362,11 +377,7 @@ export default defineComponent({
         // 更新选择的字段信息
         updateField();
         // 赋值
-        data.page.page = paging.value.currentPage;
-        data.page.size = paging.value.pageSize;
-        data.page.searchField = String(select.value.select.split('##')[0]);
-        data.page.content = data.serviceSearch;
-        data.page.type = Number(Base.isNull(select.value.select.split('##')[1]) ? 1 : select.value.select.split('##')[1]);
+        setPageValue();
         // 加载动画
         if (props.isLoading) {
           loading.value.loading = true;
@@ -427,13 +438,9 @@ export default defineComponent({
         // 获取数据库中的类名
         const columnInfo: TableHead = props.tableDescription?.filter((item: any) => item.column === column.prop)[0] as TableHead;
         // 获取分页排序信息
-        data.page.page = paging.value.currentPage;
-        data.page.size = paging.value.pageSize;
+        setPageValue();
         data.page.field = data.direction === 0 ? '' : String(columnInfo.database);
         data.page.order = data.direction;
-        data.page.searchField = String(select.value.select.split('##')[0]);
-        data.page.content = data.serviceSearch;
-        data.page.type = Number(select.value.select.split('##')[1]);
         // 加载动画
         if (props.isLoading) {
           loading.value.loading = true;
@@ -486,7 +493,6 @@ export default defineComponent({
 
     // 后台分页搜索点击事件
     const RefreshClick = () => {
-      select.value.select = '';
       data.serviceSearch = '';
       dataUpdate(false);
     };
@@ -550,9 +556,10 @@ export default defineComponent({
     // 监控
     watch(() => props.tableDescription, (newValue) => {
       // 更新表列名
-      data.signalColumNumber = props.beforeColumnNumber === -1 ? newValue?.length : props.beforeColumnNumber;
-      data.beforeColumnTableDescription = newValue.slice(0, data.signalColumNumber);
-      data.afterColumnTableDescription = newValue.slice(data.signalColumNumber);
+      const tableDescription = newValue.filter((item: any) => Base.noNull(item.column));
+      data.signalColumNumber = props.beforeColumnNumber === -1 ? tableDescription?.length : props.beforeColumnNumber;
+      data.beforeColumnTableDescription = tableDescription.slice(0, data.signalColumNumber);
+      data.afterColumnTableDescription = tableDescription.slice(data.signalColumNumber);
     }, {
       immediate: true,
       deep: true
@@ -651,6 +658,16 @@ export default defineComponent({
       data.expandDataSize = length;
     };
 
+    const fieldChange = (value: string) => {
+      const typeValue = Number(value.split('##')[1]);
+      if (typeValue === 1) {
+        data.symbolData = TABLE_STRING_SYMBOL_SELECT;
+      } else if (typeValue === 2) {
+        data.symbolData = TABLE_NUMBER_SYMBOL_SELECT;
+      }
+      symbolLabel.value.select = TABLE_NUMBER_SYMBOL_SELECT[0].value;
+    };
+
     const selectionToggleChange = (rows?: any[]) => {
       if (baseTable.value) {
         if (rows) {
@@ -672,11 +689,13 @@ export default defineComponent({
       select,
       paging,
       baseTable,
+      symbolLabel,
       searchClick,
       RefreshClick,
       dataUpdate,
       changeTableSort,
       expandChange,
+      fieldChange,
       dataDownload,
       handleSelectionChange,
       selectionToggleChange,

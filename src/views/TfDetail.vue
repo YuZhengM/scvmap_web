@@ -68,7 +68,6 @@ import {
   geneTraitCountOption
 } from '@/assets/ts';
 import Echarts from '@/components/echarts/Echarts.vue';
-import overview from '@/views/detail/Overview.vue';
 import BaseSelect from '@/components/input/BaseSelect.vue';
 import AnalysisApi from '@/api/service/analysisApi';
 import LeftRight from '@/components/layout/LeftRight.vue';
@@ -79,11 +78,6 @@ import Time from '@/service/util/base/time';
 
 export default defineComponent({
   name: 'TfDetail',
-  computed: {
-    overview() {
-      return overview;
-    }
-  },
   components: {
     BaseDrawer,
     ArrayTable,

@@ -38,7 +38,7 @@
                    :download-url="overviewDownload('trait_info.xlsx')"
                    :table-description="traitDescription">
           <template #default>
-            <el-table-column label="Trait" stripe align="center">
+            <el-table-column label="Trait" stripe align="center" width="250">
               <template #default="scope">
                 <BaseTooltip :content="scope.row.trait">
                   <span>{{ scope.row.trait.length > 25 ? `${scope.row.trait.substring(0, 25)}...` : scope.row.trait }}</span>

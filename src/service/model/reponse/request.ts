@@ -15,6 +15,7 @@ export interface Page {
   field: string;
   order: number;
   type?: number;
+  symbol?: number;
   searchField?: string;
   content?: string;
 }

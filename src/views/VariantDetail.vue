@@ -43,17 +43,11 @@ import {
   variantGraphOption
 } from '@/assets/ts';
 import Echarts from '@/components/echarts/Echarts.vue';
-import overview from '@/views/detail/Overview.vue';
 import BaseSelect from '@/components/input/BaseSelect.vue';
 import BaseTooltip from '@/components/tooltip/BaseTooltip.vue';
 
 export default defineComponent({
   name: 'VariantDetail',
-  computed: {
-    overview() {
-      return overview;
-    }
-  },
   components: {
     BaseTooltip,
     BaseSelect,

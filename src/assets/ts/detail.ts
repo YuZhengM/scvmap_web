@@ -218,52 +218,6 @@ export const DETAIL_METHOD_DATA: Array<InputSelect> = [
   }
 ];
 
-// 注释按钮信息
-export const DETAIL_OVERVIEW_TABS: Array<TabsBase> = [
-  {
-    name: 'scATAC',
-    title: 'scATAC'
-  },
-  {
-    name: 'variant',
-    title: 'Variant'
-  }
-];
-
-// 注释按钮信息
-export const DETAIL_OVERVIEW_QC_TABS: Array<TabsBase> = [
-  {
-    name: 'info',
-    title: 'QC information'
-  },
-  {
-    name: 'view',
-    title: 'QC view'
-  },
-  {
-    name: 'tss_enrichment',
-    title: 'TSS enrichment'
-  },
-  {
-    name: 'log_n_frags',
-    title: 'Log10nFrags'
-  }
-];
-
-export const DETAIL_SAMPLE_QC_DESCRIPTION: Array<TableHead> = [
-  { column: 'tssEnrichment', title: 'Tss enrichment', database: 'f_tss_enrichment', width: 100 },
-  { column: 'readsInTss', title: 'Reads InTss', database: 'f_reads_in_tss', width: 100 },
-  { column: 'readsInPromoter', title: 'Reads InPromoter', database: 'f_reads_in_promoter', width: 100 },
-  { column: 'readsInBlacklist', title: 'Reads InBlacklist', database: 'f_reads_in_blacklist', width: 100 },
-  { column: 'readsInPeaks', title: 'Reads InPeaks', database: 'f_promoter_ratio', width: 100 },
-  { column: 'passQc', title: 'Pass QC', database: 'f_pass_qc', width: 100 },
-  { column: 'nucleosomeRatio', title: 'Nucleosome Ratio', database: 'f_nucleosome_ratio', width: 100 },
-  { column: 'promoterRatio', title: 'Promoter Ratio', database: 'f_n_multi_frags', width: 100 },
-  { column: 'nMonoFrags', title: 'nMonoFrags', database: 'f_n_mono_frags', width: 100 },
-  { column: 'nFrags', title: 'nFrags', database: 'f_n_frags', width: 100 },
-  { column: 'nDiFrags', title: 'nDiFrags', database: 'f_n_di_frags', width: 100 }
-];
-
 // noinspection JSUnusedGlobalSymbols
 export const enrichedTraitCountCountOption = (data: any, labelShow = true) => ({
   title: {
@@ -491,8 +445,8 @@ export const DETAIL_TRAIT_INFORMATION_TABLE_DESCRIPTION: Array<TableHead> = [
 ];
 
 export const DATA_DETAIL_SAMPLE_TABLE_DESCRIPTION: Array<TableHead> = [
-  { column: 'sampleId', title: 'Sample ID', database: 'f_sample_id', href: (row: any) => linkSampleDetail(row.sampleId) },
-  { column: 'tissueType', title: 'Tissue type', database: 'f_tissue_type' }
+  { column: 'sampleId', title: 'Sample ID', database: 'f_sample_id', type: 1, href: (row: any) => linkSampleDetail(row.sampleId) },
+  { column: 'tissueType', title: 'Tissue type', database: 'f_tissue_type', type: 1 }
 ];
 
 export const DETAIL_ELEMENT_HEAT_MAP_TOP_COUNT_DATA: Array<InputSelect> = [

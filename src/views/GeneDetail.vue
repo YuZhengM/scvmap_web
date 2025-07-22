@@ -153,7 +153,6 @@ import BaseTabs from '@/components/tabs/BaseTabs.vue';
 import LeftRight from '@/components/layout/LeftRight.vue';
 import Echarts from '@/components/echarts/Echarts.vue';
 import GeneAnnotationTable from '@/views/geneDetail/GeneAnnotationTable.vue';
-import overview from '@/views/detail/Overview.vue';
 import BaseSelect from '@/components/input/BaseSelect.vue';
 import Time from '@/service/util/base/time';
 import BaseDrawer from '@/components/drawer/BaseDrawer.vue';
@@ -167,11 +166,6 @@ import BaseBr from '@/components/divider/BaseBr.vue';
 
 export default defineComponent({
   name: 'GeneDetail',
-  computed: {
-    overview() {
-      return overview;
-    }
-  },
   components: {
     BaseBr,
     ArrayTable,
