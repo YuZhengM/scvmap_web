@@ -1,6 +1,4 @@
-// overview echarts graph
 import { TableHead } from '@/service/model/components/table';
-import { TabsBase } from '@/service/model/components/tabs';
 import { InputSelect } from '@/service/model/components/input';
 import ArrayUtil from '@/service/util/base/array';
 import { getGeoLink, getPubmedLink, getSampleDetailLink, linkDetailVariant, linkSampleDetail } from '@/assets/ts/statusUtil';
