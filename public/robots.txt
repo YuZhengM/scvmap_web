@@ -2,6 +2,7 @@ User-agent: *
 Disallow:
 
 # https://bio.liclab.net/scvdb_service/robots.txt
+User-agent: *
 Allow: /scvdb_service/test/
 Disallow: /scvdb_service/home/
 Disallow: /scvdb_service/data_browse/
