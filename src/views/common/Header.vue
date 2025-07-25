@@ -18,10 +18,10 @@
       </template>
       <template #right>
         <div class="tools">
-<!--          <a href="https://github.com/YuZhengM/" target="_blank">-->
-<!--            <i class="fab fa-github-square"></i>-->
-<!--          </a>-->
-          <a href="https://clustrmaps.com/site/1c6dv" target="_blank">
+          <a class="github" href="https://github.com/YuZhengM/scvdb-tutorial" target="_blank">
+            <i class="fab fa-github-square"></i>
+          </a>
+          <a class="globe" href="https://clustrmaps.com/site/1c6dv" target="_blank">
             <i class="fas fa-globe-americas"></i>
             <a href='https://clustrmaps.com/site/1c6dv'  title='Visit tracker' v-show="false">
               <img src='//clustrmaps.com/map_v2.png?cl=ffffff&w=70&t=n&d=uBhdPbNtfUHxS71n7MyG3Ot20ZVijOiUdLDGyzgPjTo' alt="visit"/>
