@@ -23,10 +23,13 @@
           </a>
           <a class="globe" href="https://clustrmaps.com/site/1c6dv" target="_blank">
             <i class="fas fa-globe-americas"></i>
-            <a href='https://clustrmaps.com/site/1c6dv'  title='Visit tracker' v-show="false">
+            <a href='https://clustrmaps.com/site/1c6dv' title='Visit tracker' v-show="false">
               <img src='//clustrmaps.com/map_v2.png?cl=ffffff&w=70&t=n&d=uBhdPbNtfUHxS71n7MyG3Ot20ZVijOiUdLDGyzgPjTo' alt="visit"/>
             </a>
           </a>
+<!--          <a class="orcid" href="https://orcid.org/0009-0006-0777-4043" target="orcid.widget" rel="me noopener noreferrer">-->
+<!--            <img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" alt="ORCID iD icon"/>-->
+<!--          </a>-->
         </div>
       </template>
     </LeftRight>
