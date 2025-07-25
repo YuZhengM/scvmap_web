@@ -30,6 +30,6 @@ A comprehensive platform for human **integrating** `single-cell chromatin access
 
 > CanvasXpress: 38.4.1
 
-## 部署
+## Deploy
 
 [README.md](deploy/README.md)

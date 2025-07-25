@@ -18,7 +18,7 @@ A comprehensive platform for human **integrating** `single-cell chromatin access
 
 > Axios: 0.21.4
 
-> Bootstrap: v5.1.3 
+> Bootstrap: v5.1.3
 
 > Element-UI: (element-plus 2.2.0)
 
@@ -30,6 +30,6 @@ A comprehensive platform for human **integrating** `single-cell chromatin access
 
 > CanvasXpress: 38.4.1
 
-## 部署
+## Deploy
 
 [README.md](deploy/README.md)
