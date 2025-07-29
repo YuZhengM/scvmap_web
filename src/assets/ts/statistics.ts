@@ -19,32 +19,8 @@ export const CHROMATIN_ACCESSIBILITY: Array<KeyValue> = [
     value: '1,342,173'
   },
   {
-    key: 'The total sum of accessible chromatin regions in all scATAC-seq samples',
+    key: 'The total sum of accessible chromatin regions',
     value: '54,615,438'
-  },
-  {
-    key: 'Number of trait- or disease-scATAC-seq sample pairs (SCAVENGE)',
-    value: '1,923,600'
-  },
-  {
-    key: 'Number of trait- or disease-scATAC-seq sample pairs (g-chromVAR)',
-    value: '1,925,318'
-  },
-  {
-    key: 'Number of trait- or disease-cell type pairs (SCAVENGE)',
-    value: '13,060,769'
-  },
-  {
-    key: 'Number of trait- or disease-cell type pairs (g-chromVAR)',
-    value: '13,071,526'
-  },
-  {
-    key: 'Number of trait- or disease-cell pairs (SCAVENGE)',
-    value: '15,950,206,407'
-  },
-  {
-    key: 'Number of trait- or disease-cell pairs (g-chromVAR)',
-    value: '15,961,309,910'
   }
 ];
 // Statistics of chromatin accessibility data
@@ -82,8 +58,35 @@ export const FINE_MAPPING_RESULTS: Array<KeyValue> = [
     value: '10,325'
   },
   {
-    key: 'Number of causal variant sets',
+    key: 'Number of fine-mapping results',
     value: '15,805'
+  }
+];
+
+export const STATISTICS_TRS: Array<KeyValue> = [
+  {
+    key: 'Number of trait/disease-sample pairs (SCAVENGE)',
+    value: '1,923,600'
+  },
+  {
+    key: 'Number of trait/disease-sample pairs (g-chromVAR)',
+    value: '1,925,318'
+  },
+  {
+    key: 'Number of trait/disease-cell type pairs (SCAVENGE)',
+    value: '13,060,769'
+  },
+  {
+    key: 'Number of trait/disease-cell type pairs (g-chromVAR)',
+    value: '13,071,526'
+  },
+  {
+    key: 'Number of trait/disease-cell pairs (SCAVENGE)',
+    value: '15,950,206,407'
+  },
+  {
+    key: 'Number of trait/disease-cell pairs (g-chromVAR)',
+    value: '15,961,309,910'
   }
 ];
 
@@ -111,11 +114,10 @@ export const ANNOTATION: Array<KeyValue> = [
 
 export const echartsPairPieOption = (content: any) => ({
   title: content.map((data: any, idx: number) => {
-    const top = idx * 33.3;
+    const left = idx * 33.3;
     return {
       text: data.title,
-      top: `${top}%`,
-      left: 'center',
+      left: `${left + 4}%`,
       textStyle: {
         color: '#333',
         fontWeight: 'normal',
@@ -128,15 +130,15 @@ export const echartsPairPieOption = (content: any) => ({
     formatter: '{a} <br/>{b}: {c} ({d}%)'
   },
   series: content.map((data: any, idx: number) => {
-    const top = idx * 33.3;
+    const left = idx * 33.3;
     return {
       name: data.title,
       type: 'pie',
       radius: [20, 50],
-      top: `${top}%`,
-      height: '33.33%',
-      left: 'center',
-      width: 400,
+      left: `${left}%`,
+      // height: '33.33%',
+      // top: 'center',
+      width: 366.6,
       color: data.color,
       itemStyle: {
         borderColor: '#fff',
@@ -309,16 +311,19 @@ export const echartsBarOption = (data: any, left: any = '10%') => ({
   toolbox: toolboxSimple(),
   grid: {
     top: '10%',
-    right: '5%',
+    right: '6%',
     left,
-    bottom: '40%'
+    bottom: '10%'
   },
   xAxis: {
     type: 'category',
     data: data.data,
     axisLabel: {
       interval: 0,
-      rotate: 65
+      rotate: 0
+    },
+    nameTextStyle: {
+      fontSize: 15
     }
   },
   yAxis: {

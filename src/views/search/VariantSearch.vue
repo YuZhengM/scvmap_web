@@ -7,12 +7,12 @@
       </template>
       <template #right>
         <div class="content">
-          <span class="font_red">Function introduction:</span> Search for traits or diseases through `rsId`.
+          <span class="font_red">Function introduction:</span> Search for traits or diseases through `rsID`.
           <el-divider></el-divider>
           <span class="font_red">Parameter explanation:</span>
           <p>
             <span class="region">
-            1) <strong>SNP</strong>: Please select a rsId of variant.
+            1) <strong>SNP</strong>: Please select a rsID of variant.
             </span>
           </p>
         </div>

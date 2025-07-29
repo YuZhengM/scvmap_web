@@ -10,35 +10,42 @@
                     :left-event="displayEvent"
                     :right-event="visualizationEvent"/>
       <el-divider></el-divider>
-      <BaseCard icon="fas fa-list" title="Statistics of scATAC-seq data">
-        <ArrayTable :table-data="chromatinAccessibility" :is_striped="false" v-show="!isVisualization"/>
+      <BaseCard icon="fas fa-list" title="Statistics of fine-mapping results">
+        <ArrayTable :table-data="fineMappingResults" :column-pair="2" :is_striped="false" v-show="!isVisualization"/>
         <div v-show="isVisualization">
           <br/>
-          <div class="pair_bar">
+          <div class="plot">
+            <Echarts :resize-value="{ width: 600, height: 400 }" v-show="isVisualization" ref="traitCountECharts"/>
+            <Echarts :resize-value="{ width: 500, height: 400 }" v-show="isVisualization" ref="genomePieECharts"/>
+          </div>
+        </div>
+      </BaseCard>
+      <BaseBr/>
+      <BaseCard icon="fas fa-list" title="Statistics of scATAC-seq data">
+        <ArrayTable :table-data="chromatinAccessibility" :is_striped="false" :column-pair="2" v-show="!isVisualization"/>
+        <div v-show="isVisualization">
+          <br/>
+          <div class="plot">
             <div>
               <div class="text-center">Number of annotations in single-cell samples</div>
               <br/>
-              <div class="pair_bar">
-                <Echarts :resize-value="{ width: 300, height: 500 }" ref="sampleCountECharts"/>
-                <Echarts :resize-value="{ width: 175, height: 500 }" ref="cellCountECharts"/>
-                <Echarts :resize-value="{ width: 180, height: 500 }" ref="regionCountECharts"/>
+              <div class="plot">
+                <Echarts :resize-value="{ width: 500, height: 500 }" ref="sampleCountECharts"/>
+                <Echarts :resize-value="{ width: 300, height: 500 }" ref="cellCountECharts"/>
+                <Echarts :resize-value="{ width: 350, height: 500 }" ref="regionCountECharts"/>
               </div>
-            </div>
-            <div>
-              <Echarts :resize-value="{ width: 420, height: 500 }" ref="pairECharts"/>
-              <br/>
             </div>
           </div>
         </div>
       </BaseCard>
       <BaseBr/>
-      <BaseCard icon="fas fa-list" title="Statistics of fine-mapping results">
-        <ArrayTable :table-data="fineMappingResults" :column-pair="2" :is_striped="false" v-show="!isVisualization"/>
+      <BaseCard icon="fas fa-list" title="Statistics of trait- or disease-relevant cell score (TRS) data">
+        <ArrayTable :table-data="trsCount" :is_striped="false" :column-pair="2" v-show="!isVisualization"/>
         <div v-show="isVisualization">
           <br/>
-          <div class="pair_bar">
-            <Echarts :resize-value="{ width: 600, height: 400 }" v-show="isVisualization" ref="traitCountECharts"/>
-            <Echarts :resize-value="{ width: 500, height: 400 }" v-show="isVisualization" ref="genomePieECharts"/>
+          <div class="plot">
+            <Echarts :resize-value="{ width: 1100, height: 220 }" ref="pairECharts"/>
+            <br/>
           </div>
         </div>
       </BaseCard>
@@ -47,7 +54,7 @@
         <ArrayTable :table-data="annotation" :column-pair="2" :is_striped="false" v-show="!isVisualization"/>
         <div v-show="isVisualization">
           <br/>
-          <div class="pair_bar">
+          <div class="plot">
             <Echarts :resize-value="{ width: 800, height: 500 }" v-show="isVisualization" ref="annotationECharts"/>
             <Echarts :resize-value="{ width: 400, height: 500 }" v-show="isVisualization" ref="elementECharts"/>
           </div>
@@ -69,7 +76,8 @@ import {
   echartsPieOption,
   echartsPopulationPieOption,
   echartsPairPieOption,
-  annotationOption
+  annotationOption,
+  STATISTICS_TRS
 } from '@/assets/ts';
 import BaseBr from '@/components/divider/BaseBr.vue';
 import BaseCard from '@/components/card/BaseCard.vue';
@@ -93,6 +101,7 @@ export default defineComponent({
       isVisualization: true,
       chromatinAccessibility: CHROMATIN_ACCESSIBILITY,
       fineMappingResults: FINE_MAPPING_RESULTS,
+      trsCount: STATISTICS_TRS,
       annotation: ANNOTATION
     });
 
@@ -109,19 +118,19 @@ export default defineComponent({
         data: ['scATAC-seq sample', 'Tissue type', 'Cell type'],
         value: [183, 20, 206],
         color: '#c8961f'
-      }, '12%'));
+      }, '10%'));
 
       cellCountECharts.value.drawEcharts(echartsBarOption({
         data: ['Cell'],
         value: [1342173],
         color: '#1fc86e'
-      }, '40%'));
+      }, '30%'));
 
       regionCountECharts.value.drawEcharts(echartsBarOption({
         data: ['Accessible chromatin region'],
         value: [54615438],
         color: '#1f68c8'
-      }, '40%'));
+      }, '30%'));
 
       pairECharts.value.drawEcharts(echartsPairPieOption([
         {
