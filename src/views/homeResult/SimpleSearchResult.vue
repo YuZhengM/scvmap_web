@@ -2,7 +2,9 @@
   <div id="sample_search_result">
     <div>
       <span class="title">Search By `{{ label }}`: {{ content }}</span>
-      <BaseTable :table-data="tableData" :is-service-paging="false" :table-description="tableDescription" ref="table"/>
+      <BaseTable :update-new-data="listSampleInformation"
+                 :download-url="overviewDownload(filename)"
+                 :table-description="tableDescription" ref="table"/>
     </div>
   </div>
 </template>
@@ -14,9 +16,10 @@ import Base from '@/service/util/base/base';
 import '@/assets/less/views/Search.less';
 import Jump from '@/service/util/base/jump';
 import BaseTable from '@/components/table/BaseTable.vue';
-import { SEARCH_SAMPLE_TABLE_DESCRIPTION, SEARCH_TRAIT_TABLE_DESCRIPTION } from '@/assets/ts';
+import { SEARCH_SAMPLE_TABLE_DESCRIPTION, SEARCH_TRAIT_TABLE_DESCRIPTION, STATIC_DOWNLOAD_PATH } from '@/assets/ts';
 import { ElNotification } from 'element-plus';
 import HomeApi from '@/api/service/homeApi';
+import { Page } from '@/service/model/reponse/request';
 
 export default defineComponent({
   name: 'SimpleSearchResult',
@@ -28,15 +31,15 @@ export default defineComponent({
     const data = reactive({
       label: '' as string,
       content: '' as string,
-      tableData: [] as Array<any>,
+      filename: '' as string,
       tableDescription: [] as Array<any>
     });
     // 请求后台数据
-    const listSampleInformation = () => {
+    const listSampleInformation = (page: Page) => {
       table.value.startLoading();
-      HomeApi.listInfoByContent(String(route.query.title), String(route.query.value)).then((res: any) => {
+      return HomeApi.listInfoByContent(String(route.query.title), String(route.query.value), page).then((res: any) => {
         table.value.endLoading();
-        const { name, content, traitList, sampleList } = res;
+        const { name, content, dataList } = res;
         data.content = content;
         switch (name) {
           case 'trait':
@@ -52,30 +55,33 @@ export default defineComponent({
           case 'traitList':
             data.label = 'Trait or disease';
             data.tableDescription = SEARCH_TRAIT_TABLE_DESCRIPTION;
-            data.tableData = traitList;
-            break;
+            data.filename = 'trait_info.xlsx';
+            return dataList;
           case 'sampleList':
             data.label = 'Single cell sample';
             data.tableDescription = SEARCH_SAMPLE_TABLE_DESCRIPTION;
-            data.tableData = sampleList;
-            break;
+            data.filename = 'sample_info.txt';
+            return dataList;
           default:
             Jump.routerDefault(router, '/');
             break;
         }
       });
     };
+
+    const overviewDownload = (filename: string) => `${STATIC_DOWNLOAD_PATH}/overview/${filename}`;
+
     onMounted(() => {
       if (Base.isNull(route.query.title) && Base.isNull(route.query.value)) {
         Jump.routerDefault(router, '/');
         ElNotification({ title: 'Please check', message: `${route.fullPath}: The path is not feasible!`, type: 'error' });
       }
-      listSampleInformation();
     });
     return {
       ...toRefs(data),
       table,
-      listSampleInformation
+      listSampleInformation,
+      overviewDownload
     };
   }
 });

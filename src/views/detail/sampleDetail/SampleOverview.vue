@@ -32,14 +32,8 @@
                 </td>
                 <td v-if="i == overviewTableData.length - 1 && !isShow">
                   {{ item.value.toString().substring(0, 30) }}
-                  <span @click="isShow = true">
-                ... <i class="fas fa-plus-square"></i>
-                </span>
+                  <span @click="isShow = true"> ... <i class="fas fa-plus-square"></i></span>
                 </td>
-              </tr>
-              <tr>
-                <th></th>
-                <td></td>
               </tr>
               </tbody>
             </table>

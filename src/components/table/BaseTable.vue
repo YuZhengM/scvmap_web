@@ -1,6 +1,6 @@
 <template>
   <BaseLoading class="base_table_template" ref="loading">
-    <!-- 搜索信息 -->
+    <!-- Search Information -->
     <div class="top_content" v-if="isSearch">
       <div class="search" v-if="!isServicePaging">
         {{ searchTitle }}
@@ -27,7 +27,7 @@
         </el-link>
       </div>
     </div>
-    <!-- table 数据显示 -->
+    <!-- Table data display -->
     <el-table class="table_info"
               :data="showData"
               @sort-change="changeTableSort"
@@ -48,7 +48,7 @@
       <slot name="default"></slot>
       <ColumnTable :table-description="afterColumnTableDescription"/>
     </el-table>
-    <!-- 分页数据显示 -->
+    <!-- Pagination data display -->
     <Paging :change-page="changePage" :layout="layout" :change-size="changeSize" :pager-count="pagerCount" v-if="isPaging" :pageSizes="pageSizes" :is-simple="isSimple" ref="paging"/>
   </BaseLoading>
 </template>
@@ -71,10 +71,9 @@ import { InputSelect } from '@/service/model/components/input';
 import { ElNotification } from 'element-plus';
 
 /**
- * tableDescription 必须传递的参数
- * isRearPaging = false 时候, 必须传递 tableData 参数内容
- * isRearPaging = true 时候, 必须传递 updateNewData 函数内容
- * tableSort 排序函数, 需要进行传递, 不然排序就会在页面显示生效, 全局无效
+ * The `tableDescription` is a required parameter.
+ * When `isRearPaging` = false, the `tableData` parameter content must be passed.
+ * When `isRearPaging` = true, the `updateNewData` function content must be passed.
  */
 export default defineComponent({
   name: 'BaseTable',
@@ -85,167 +84,167 @@ export default defineComponent({
     Paging
   },
   props: {
-    // 传递的数据
+    // Passed data
     tableData: {
       type: Array,
       default: () => ([])
     },
-    // 列名和数据中列名信息
+    // Column names and column name information in the data
     tableDescription: {
       type: Array,
       default: () => ([] as Array<TableHead>)
     },
-    // 是否显示分页
+    // Whether to show pagination
     isPaging: {
       type: Boolean,
       default: () => true
     },
-    // 是否显示搜索
+    // Whether to show the search
     isSearch: {
       type: Boolean,
       default: () => true
     },
-    // 是否为后端分页
+    // Whether it is backend pagination
     isServicePaging: {
       type: Boolean,
       default: () => true
     },
-    // 是否为后端分页
+    // Whether it is backend pagination
     searchTitle: {
       type: String,
       default: () => 'Search: '
     },
-    // 后端分页选中字段的总宽度
+    // Total width of the selected field in backend pagination
     fieldWidth: {
       type: Number,
       default: () => 30
     },
-    // 后端分页选中字段的框的宽度
+    // Width of the selected field box in backend pagination
     width: {
       type: Number,
       default: () => 70
     },
-    // 后端分页选中输入内容框的宽度
+    // Width of the input content box in backend pagination
     contentWidth: {
       type: Number,
       default: () => 25
     },
-    // 后端分页选中输入内容框的宽度
+    // Width of the input content box in backend pagination
     serviceSearchWidth: {
       type: Number,
       default: () => 70
     },
-    // 后端分页选中按钮的 padding
+    // Padding of the selected button in backend pagination
     buttonSize: {
       type: Array,
       default: () => [70, 32]
     },
-    // 更新数据
+    // Update data
     updateNewData: {
       type: Function,
       default: () => ({})
     },
-    // 最大页码按钮数
+    // Maximum number of page number buttons
     pagerCount: {
       type: Number,
       default: () => 7
     },
-    // 是否开启加载动画
+    // Whether to enable the loading animation
     isLoading: {
       type: Boolean,
       default: () => true
     },
-    // 是否懒加载子节点数据
+    // Whether to lazy load child node data
     lazy: {
       type: Boolean,
       default: () => true
     },
-    // 子节点加载数据的函数
+    // Function to load child node data
     childrenLoad: {
       type: Function,
       default: () => ({})
     },
-    // 是否带有外延信息
+    // Whether to have extended information
     isExpand: {
       type: Boolean,
       default: () => false
     },
-    // 外延点击的时候
+    // When the extended part is clicked
     expandEvent: {
       type: Function,
       default: () => ({})
     },
-    // 外延点击的时候 (展开)
+    // When the extended part is opened
     expandOpen: {
       type: Function,
       default: () => ({})
     },
-    // 外延点击的时候 (关闭)
+    // When the extended part is closed
     expandClose: {
       type: Function,
       default: () => ({})
     },
-    // 筛选事件
+    // Selection event
     selectionChange: {
       type: Function,
       default: () => ({})
     },
-    // 顺序事件
+    // Sorting event
     sortChange: {
       type: Function,
       default: () => ({})
     },
-    // 页数改变
+    // Page number change event
     pageEvent: {
       type: Function,
       default: () => ({})
     },
-    // 页数改变
+    // Page size change event
     sizeEvent: {
       type: Function,
       default: () => ({})
     },
-    // 后端分页的回调函数
+    // Callback function before backend pagination
     callbackFunctionBefore: {
       type: Function,
       default: () => ({})
     },
-    // 后端分页的回调函数
+    // Callback function for backend pagination
     callbackFunction: {
       type: Function,
       default: () => ({})
     },
-    // 分页是否为简单形式
+    // Whether the pagination is in simple form
     isSimple: {
       type: Boolean,
       default: () => false
     },
-    // 表格是否添加一列筛选
+    // Whether to add a selection column to the table
     isSelection: {
       type: Boolean,
       default: () => false
     },
-    // 下拉页数列表
+    // Drop-down page size list
     pageSizes: {
       type: Array,
       default: () => [10, 25, 45, 50, 75, 100]
     },
-    // 下拉页数列表
+    // Drop-down page size list
     removeSelectContent: {
       type: Array,
       default: () => []
     },
-    // 监控的可行性值
+    // Feasibility value for monitoring
     continueValue: {
       type: Boolean,
       default: () => true
     },
-    // 是否开始进行加载
+    // Whether to start loading
     isMounted: {
       type: Boolean,
       default: () => true
     },
-    // 是否开始进行加载
+    // Whether to start loading
     isSelectChange: {
       type: Boolean,
       default: () => true
@@ -254,57 +253,58 @@ export default defineComponent({
       type: Number,
       default: () => -1
     },
-    // 显示的样式
+    // Display layout
     layout: {
       type: String,
       default: () => 'total, sizes, prev, pager, next, jumper'
     },
-    // 下载表格的 URL 信息
+    // URL information for downloading the table
     downloadUrl: {
       type: String,
       default: () => ''
     }
   },
   setup(props) {
-    // 加载动画标签
+    // Loading animation label
     const loading = ref();
-    // 获取搜索标签
+    // Get the search label
     const select = ref();
-    // 获取分页标签
+    // Get the pagination label
     const paging = ref();
     const baseTable = ref();
     const symbolLabel = ref();
-    // 获取数据信息
+    // Get data information
     const tableDescription = props.tableDescription.filter((item: any) => Base.noNull(item.column));
     const signalColumNumber = props.beforeColumnNumber === -1 ? tableDescription?.length : props.beforeColumnNumber;
-    // 设置响应数据
+    // Set reactive data
     const data = reactive({
-      // 搜索的内容
+      // Search content
       search: '' as string,
       serviceSearch: '' as string,
-      // 下拉的字段信息
+      // Drop-down field information
       fieldData: [] as Array<InputSelect>,
       symbolData: [] as Array<InputSelect>,
-      // 页面传入的数据 (搜索后的内容整体信息, 称之为局部数据)
+      // Data passed from the page (overall information of the searched content, referred to as local data)
       pagingChangeData: [] as Array<{}>,
-      // 前端用户直接可以看到的数据 (展示数据)
+      // Data directly visible to the front-end user (display data)
       showData: [] as { [key: string]: any },
       direction: 0,
       column: Object,
       /**
-       * 页面整体数据信息 (全部数据, 仅限制于非后端分页, 意味着前端拿到了所有数据方有值)
-       * [与 pagingChangeData 数据的区别在于, 当搜索内容的时候 (当 search 改变的时候) pageTableData 不会变, 而 pagingChangeData 是搜索后的内容整体信息]
-       * 其中当为后端分页的时候只有 showData 有值, 其余的 (pagingChangeData, pageTableData, tableData) 没有值
+       * Overall page data information (all data, only applicable to non-backend pagination, meaning the front-end has all the data)
+       * [The difference from pagingChangeData is that when the search content changes (when search changes),
+       * pageTableData remains unchanged, while pagingChangeData is the overall information of the searched content]
+       * When using backend pagination, only showData has a value, and the rest (pagingChangeData, pageTableData, tableData) have no value
        */
       pageTableData: props.tableData as { [key: string]: any },
-      // 表格标题信息
+      // Table title information
       signalColumNumber: props.beforeColumnNumber === -1 ? tableDescription?.length : props.beforeColumnNumber,
       beforeColumnTableDescription: tableDescription.slice(0, signalColumNumber),
       afterColumnTableDescription: tableDescription.slice(signalColumNumber),
       feasibilityValue: props.isMounted,
-      // 存储扩展开关的
+      // Store the expand switch
       expandDataSize: 0,
-      // 分页情况
+      // Pagination information
       page: {
         page: 1,
         size: 10,
@@ -319,7 +319,7 @@ export default defineComponent({
     });
 
     /**
-     * 后台分页搜索信息的字段情况
+     * Field information for backend pagination search
      */
     const updateField = () => {
       if (props.isServicePaging && props.tableDescription) {
@@ -336,31 +336,31 @@ export default defineComponent({
     };
 
     /**
-     * 设置分页信息和当页显示数据
-     * @param tableData 加上分页全部显示的数据
-     * @param isReset 是否需要重新设置局部数据 此变量用于深拷贝含义, 主要由于排序默认信息而设
+     * Set pagination information and the data displayed on the current page
+     * @param tableData All data to be displayed with pagination
+     * @param isReset Whether to reset the local data. This variable is used for deep copy, mainly due to the default sorting information.
      */
     function setPagingData(tableData: { [key: string]: any }, isReset = true) {
-      // 更新数据
+      // Update data
       if (isReset) {
         data.pagingChangeData = tableData as Array<{}>;
       }
-      // 保证 paging 可行
+      // Ensure paging is available
       if (!paging.value) {
         return [];
       }
-      // 数据为空直接返回且数据长度重新设置为 0
+      // If the data is empty, return directly and reset the data length to 0
       if (Base.isNull(tableData)) {
         paging.value.total = 0;
         return [];
       }
-      // 重新设定长度
+      // Reset the length
       paging.value.total = tableData?.length;
-      // 获取展示数据的开始和结束的范围
+      // Get the start and end range of the displayed data
       const start = (paging.value.currentPage - 1) * paging.value.pageSize;
       const end = start + paging.value.pageSize > paging.value.total ? paging.value.total : start + paging.value.pageSize;
       const setData = [];
-      // 添加数据
+      // Add data
       for (let i = start; i < end; i++) {
         setData.push(tableData[i]);
       }
@@ -377,30 +377,30 @@ export default defineComponent({
     };
 
     /**
-     * 更新数据
-     * @param isReset 是否进行重新请求数据
-     * @param newData 若重新请求, 则该数据的信息
+     * Update data
+     * @param isReset Whether to make a new data request
+     * @param newData Information of the data if a new request is made
      */
     const dataUpdate = (isReset = false, newData?: { [key: string]: any }) => {
-      // 判断是否为后端分页
+      // Check if it is backend pagination
       if (props.isServicePaging && paging.value) {
-        // 更新选择的字段信息
+        // Update the selected field information
         updateField();
-        // 赋值
+        // Assign values
         setPageValue();
-        // 加载动画
+        // Show loading animation
         if (props.isLoading) {
           loading.value.loading = true;
         }
         Time.awaitPromise(true, 500, 150000, () => data.feasibilityValue).then(() => {
           props.callbackFunctionBefore();
-          // 先执行查询数据函数
+          // Execute the data query function first
           props.updateNewData(data.page).then((res: PageResult<Array<any>>) => {
-            // 加载动画
+            // Hide loading animation
             if (props.isLoading) {
               loading.value.loading = false;
             }
-            // 重新设定数据
+            // Reset the data
             paging.value.total = res.total;
             data.showData = res.data as { [key: string]: any };
           }).then(() => {
@@ -408,62 +408,63 @@ export default defineComponent({
           });
         });
       } else {
-        // 刷新全部数据
+        // Refresh all data
         if (isReset && newData) {
           data.pageTableData = newData;
         }
-        // 无论 isReset 是否为 ture, 只要 newData 存在, 就将 data.pagingChangeData 数据进行赋值
-        // 业务逻辑中代表:
-        // 1. isReset === true 代表这全局数据变化, 则局部数据必须更新, 暂且将全局数据赋值给局部数据
-        // 2. isReset === false 全局数据没有变化, 只是更改了页数刷新了局部数据
+        // Regardless of the value of isReset, if newData exists, assign the data to data.pagingChangeData
+        // In business logic:
+        // 1. isReset === true means the global data has changed, so the local data must be updated. Temporarily assign the global data to the local data.
+        // 2. isReset === false means the global data has not changed, only the page number has been changed to refresh the local data.
         if (newData) {
           data.pagingChangeData = newData as Array<{}>;
         }
-        // 判断处理的数据来源
+        // Determine the source of the processed data
         const tableData = Base.noNull(data.search) ? data.pagingChangeData : data.pageTableData;
         const setData = setPagingData(tableData);
         if (Base.isNull(setData)) {
-          // 此处为了保证改变换来表列名结构后, 数据为空却出现有行现象
+          // To ensure that when the table column name structure changes, no rows are displayed when the data is empty
           data.showData = [];
           return [];
         }
         data.showData = setData;
       }
     };
-    // 排序
+
+    // Sorting
     const changeTableSort = (column: any) => {
-      // 判断是否进行了分页
+      // Check if pagination is enabled
       if (!props.isPaging) {
         return;
       }
-      // 当前的总数 <= 每页的显示数量大小, 直接返回
+      // If the current total is less than or equal to the number of items per page, return directly
       if (paging.value.total <= paging.value.pageSize) {
         return;
       }
-      // column.order: ascending: 升序, descending: 降序
+      // column.order: ascending: ascending order, descending: descending order
       data.direction = column.order === 'ascending' ? 1 : column.order === 'descending' ? -1 : 0;
       data.column = column;
-      // 判断是否为后端分页
+      // Check if it is backend pagination
       if (props.isServicePaging) {
-        // 获取数据库中的类名
+        // Get the class name in the database
         const columnInfo: TableHead = props.tableDescription?.filter((item: any) => item.column === column.prop)[0] as TableHead;
-        // 获取分页排序信息
+        // Get pagination sorting information
         setPageValue();
         data.page.field = data.direction === 0 ? '' : String(columnInfo.database);
         data.page.order = data.direction;
-        // 加载动画
+        // Show loading animation
         if (props.isLoading) {
           loading.value.loading = true;
         }
-        Time.awaitPromise(data.feasibilityValue).then(() => {
+        Time.awaitPromise(true, 500, 150000, () => data.feasibilityValue).then(() => {
           props.callbackFunctionBefore();
-          // 先执行查询数据函数
+          // Execute the data query function first
           props.updateNewData(data.page).then((res: PageResult<Array<any>>) => {
-            // 加载动画
+            // Hide loading animation
             if (props.isLoading) {
               loading.value.loading = false;
             }
-            // 重新设定数据
+            // Reset the data
             paging.value.total = res.total;
             data.showData = res.data as { [key: string]: any };
           }).then(() => {
@@ -471,23 +472,23 @@ export default defineComponent({
           });
         });
       } else {
-        // 获取需要排序的数据
+        // Get the data to be sorted
         const localData = Base.noNull(data.search) ? data.pagingChangeData : data.pageTableData;
-        // 进行浅拷贝, 保证 props.tableData 数据永远不会变化, 防止回归正常数据出问题 (也就是 direction === 0 时)
+        // Perform a shallow copy to ensure that the props.tableData data never changes, preventing issues when returning to normal data (i.e., when direction === 0)
         const tableData = ArrayUtil.deepCopy(localData);
-        // 不进行排序
+        // Do not perform sorting
         if (data.direction === 0) {
           data.showData = setPagingData(localData);
         }
-        // 进行排序
+        // Perform sorting
         ArrayUtil.sort(tableData, column.prop, data.direction);
-        // 更新 table 数据
+        // Update table data
         data.showData = setPagingData(tableData, false);
       }
       props.sortChange();
     };
 
-    // 后台分页搜索点击事件
+    // Backend pagination search click event
     const searchClick = () => {
       if (Base.isNull(select.value.select)) {
         ElNotification({ title: 'Search', message: 'Please select the column to search for!', type: 'error' });
@@ -497,17 +498,17 @@ export default defineComponent({
         ElNotification({ title: 'Search', message: 'Please enter search content!', type: 'error' });
         return;
       }
-      // 是否为请求的数据
+      // Whether it is requested data
       dataUpdate(false);
     };
 
-    // 后台分页搜索点击事件
+    // Backend pagination search click event
     const RefreshClick = () => {
       data.serviceSearch = '';
       dataUpdate(false);
     };
 
-    // 后台分页搜索点击事件
+    // Backend pagination search click event
     const handleSelectionChange = (val: Array<any>) => {
       if (props.isSelectChange) {
         props.selectionChange(val, data.showData);
@@ -515,13 +516,13 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      // 是否开始进行加载
+      // Check if loading should start
       if (data.feasibilityValue) {
-        // 判断是否分页类型和判断是否为一次性查询所有数据
+        // Check the pagination type and if all data is queried at once
         if (!props.isPaging) {
           data.showData = data.pageTableData;
         } else {
-          // 是否为请求的数据
+          // Whether it is requested data
           dataUpdate(false);
         }
       }
@@ -537,7 +538,7 @@ export default defineComponent({
       }
     };
 
-    // 改变大小
+    // Change page size
     const changeSize = () => {
       dataUpdate();
       if (props.sizeEvent) {
@@ -548,14 +549,14 @@ export default defineComponent({
       }
     };
 
-    // 监控
+    // Watch
     watch(() => props.tableData, (newValue) => {
-      // 这里需要判断是否为后台分页, 由于后台分页不需要监督 props.tableData
+      // Here we need to check if it is backend pagination, as backend pagination does not need to monitor props.tableData
       if (!props.isPaging) {
         data.pageTableData = newValue;
         data.showData = newValue;
       } else if (props.isPaging && !props.isServicePaging) {
-        // 更新 table 数据
+        // Update table data
         dataUpdate(true, newValue);
       }
     }, {
@@ -563,24 +564,25 @@ export default defineComponent({
       deep: true
     });
 
-    // 监控
+    // Watch
     watch(() => props.tableDescription, (newValue) => {
-      // 更新表列名
+      // Update table column names
       const tableDescription = newValue.filter((item: any) => Base.noNull(item.column));
       data.signalColumNumber = props.beforeColumnNumber === -1 ? tableDescription?.length : props.beforeColumnNumber;
       data.beforeColumnTableDescription = tableDescription.slice(0, data.signalColumNumber);
       data.afterColumnTableDescription = tableDescription.slice(data.signalColumNumber);
+      updateField();
     }, {
       immediate: true,
       deep: true
     });
 
-    // 监控
+    // Watch
     watch(() => props.isMounted, (newValue) => {
-      // 更新表列名
+      // Update table column names
       data.feasibilityValue = newValue;
       if (props.isServicePaging) {
-        // 更新 table 数据
+        // Update table data
         dataUpdate(false);
       }
     }, {
@@ -588,29 +590,29 @@ export default defineComponent({
       deep: true
     });
 
-    // watch 监听, 延迟 1 秒 (监听 reactive 创建的响应式变量, 可以直接监听对象, 必须使用内联函数)
+    // Watch with a 1-second delay (When monitoring reactive variables, you can directly monitor the object and must use an inline function)
     watch(() => data.search, Time.debounce((value: string) => {
-      // 判断搜索内容是否为空
+      // Check if the search content is empty
       if (Base.noNull(value)) {
-        // 判断是否为后端分页
+        // Check if it is backend pagination
         // eslint-disable-next-line no-empty
         if (props.isServicePaging) {
 
         } else if (!props.isServicePaging) {
-          // 进行浅拷贝
+          // Perform a shallow copy
           const tableData = ArrayUtil.deepCopy(data.pageTableData) as Array<{}>;
           const newData: { [key: string]: any; } | undefined = [];
-          // 判断不为空
+          // Check if it is not empty
           if (Base.noNull(tableData)) {
-            // 获取对象的列信息
+            // Get the column information of the object
             const keys = Json.getKeys(tableData[0]);
-            // 循环数据
+            // Loop through the data
             tableData.forEach((item: any) => {
-              // 循环数据的列
+              // Loop through the columns of the data
               for (let i = 0; i < keys.length; i++) {
-                // 获取值
+                // Get the value
                 const string = String(item[keys[i]]);
-                // 判断是否含有搜索的信息
+                // Check if it contains the search information
                 if (string.search(value) !== -1) {
                   newData.push(item);
                   break;
@@ -618,16 +620,16 @@ export default defineComponent({
               }
             });
           }
-          // 获取数据
+          // Get the data
           data.showData = setPagingData(newData);
         }
       } else {
-        // 判断是否为后端分页
+        // Check if it is backend pagination
         // eslint-disable-next-line no-lonely-if
         if (!props.isPaging) {
           data.showData = data.pageTableData;
         } else if (!props.isServicePaging) {
-          // 获取数据
+          // Get the data
           data.showData = setPagingData(data.pageTableData);
         }
       }

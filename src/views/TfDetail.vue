@@ -38,7 +38,7 @@
       </BaseTable>
     </SingleCard>
     <br/>
-    <SingleCard :title="{ icon: 'fas fa-list', content: 'scATAC-seq data associated with the gene' }" ref="singleCard3">
+    <SingleCard :title="{ icon: 'fas fa-list', content: 'scATAC-seq data associated with the TF' }" ref="singleCard3">
       <BaseTable :table-data="sampleTableData" :is-service-paging="false" :table-description="sampleTableDescription"/>
     </SingleCard>
     <br/>

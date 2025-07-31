@@ -64,7 +64,7 @@ export const SEARCH_SAMPLE_TABLE_DESCRIPTION: Array<TableHead> = [
     title: 'PMID',
     database: 'f_pmid',
     type: 1,
-    information: (row: any) => row.pmid.split(',').map((item: string) => getPubmedLink(item)).join(',')
+    information: (row: any) => (row.pmid === '-' ? '-' : row.pmid.split(',').map((item: string) => getPubmedLink(item)).join(','))
   },
   { column: 'genome', title: 'Genome', database: 'f_genome', type: 1 },
   { column: 'sequencingType', title: 'Sequencing type', database: 'f_sequencing_type', type: 1 }

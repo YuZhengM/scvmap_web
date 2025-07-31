@@ -64,10 +64,10 @@ export default defineComponent({
       if (value === '') {
         switch (title) {
           case 'trait':
-            paramValue = 'trait_id_1';
+            paramValue = 'Trait or disease ==> All data';
             break;
           case 'sample':
-            paramValue = 'sample_id_1';
+            paramValue = 'scATAC-seq sample ==> All data';
             break;
           case 'gene':
             paramValue = 'RCC2';
