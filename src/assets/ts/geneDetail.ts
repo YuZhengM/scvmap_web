@@ -189,8 +189,6 @@ export const geneSnpGraphOption: any = (data: Array<any>, gene: string) => {
     categories
   };
 
-  console.log(geneSnpGraphData);
-
   return {
     title: {
       top: 'bottom',
