@@ -13,7 +13,7 @@ export const DETAIL_BUTTON_POSITION_DATA: Array<ButtonBase> = [
   },
   {
     id: 'position_cell',
-    title: 'Enriched cells'
+    title: 'TRS'
   },
   {
     id: 'position_difference_gene',
@@ -21,7 +21,7 @@ export const DETAIL_BUTTON_POSITION_DATA: Array<ButtonBase> = [
   },
   {
     id: 'position_magma_gene',
-    title: 'Genes with enriched trait'
+    title: 'Trait-relevant genes'
   },
   {
     id: 'position_gene_network',
@@ -33,7 +33,7 @@ export const DETAIL_BUTTON_POSITION_DATA: Array<ButtonBase> = [
   },
   {
     id: 'position_homer_tf',
-    title: 'TFs with enriched trait'
+    title: 'Trait-relevant TFs'
   },
   {
     id: 'position_tf_network',

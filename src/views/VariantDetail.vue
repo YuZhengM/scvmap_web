@@ -18,7 +18,7 @@
       </BaseTable>
     </SingleCard>
     <br/>
-    <SingleCard :title="{ icon: 'fas fa-list', content: `The regulatory network of ${variant}` }" ref="singleCard2">
+    <SingleCard :title="{ icon: 'fas fa-list', content: `${variant}-relevant regulatory network` }" ref="singleCard2">
       <Echarts :resize-value="graphResize" ref="echarts" v-show="isShowPlot"/>
       <div v-show="!isShowPlot">No relevant data for visualization.</div>
     </SingleCard>
@@ -39,7 +39,8 @@ import BaseTable from '@/components/table/BaseTable.vue';
 import {
   ANALYSIS_GENOME_DATA,
   GENE_DETAIL_GENOME_TABS,
-  VARIANT_DETAIL_TRAIT_TABLE_DESCRIPTION, variantGraphCircularOption,
+  VARIANT_DETAIL_TRAIT_TABLE_DESCRIPTION,
+  variantGraphCircularOption,
   variantGraphOption
 } from '@/assets/ts';
 import Echarts from '@/components/echarts/Echarts.vue';

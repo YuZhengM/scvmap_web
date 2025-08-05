@@ -66,7 +66,7 @@
         </LeftRight>
       </SingleCard>
       <br/>
-      <SingleCard :title="{ icon: 'fas fa-list', content: 'Traits or diseases associated with the gene' }" ref="singleCard2">
+      <SingleCard :title="{ icon: 'fas fa-list', content: 'Gene-relevant traits or diseases' }" ref="singleCard2">
         <BaseSelect title="Genome:" :select-data="genomeData" width="20%" is-line :change-event="genomeChange" ref="genome"/>
         <BaseTable :table-data="geneTraitData" :is-service-paging="false" :before-column-number="0" :table-description="geneTraitTableDescription" ref="geneTrait">
           <template #default>
@@ -125,6 +125,10 @@
                    :table-description="magmaVariantInfoTableDescription"
                    ref="magmaVariantInfoTable"/>
       </SingleCard>
+      <br/>
+      <SingleCard :title="{ content: `${gene}-relevant SNP regulatory network` }">
+        <Echarts :resize-value="{ width: 500, height: 500 }" ref="geneSnpGraphECharts"/>
+      </SingleCard>
     </BaseDrawer>
   </div>
 </template>
@@ -145,7 +149,7 @@ import {
   DATA_BROWSE_SAMPLE_TABLE_DESCRIPTION1,
   GENE_DETAIL_GENE_INFO_TABLE_DESCRIPTION,
   GENE_DETAIL_GENE_TRAIT_TABLE_DESCRIPTION,
-  GENE_DETAIL_GENOME_TABS,
+  GENE_DETAIL_GENOME_TABS, geneSnpGraphOption,
   geneTraitCountOption,
   STATIC_MAGMA_PATH
 } from '@/assets/ts';
@@ -196,6 +200,7 @@ export default defineComponent({
     const geneIdSelect2 = ref();
     const magmaInfoTable = ref();
     const magmaVariantInfoTable = ref();
+    const geneSnpGraphECharts = ref();
     const drawer = ref();
 
     const data = reactive({
@@ -340,6 +345,7 @@ export default defineComponent({
       Time.delay(() => {
         magmaInfoTable.value.startLoading();
         magmaVariantInfoTable.value.startLoading();
+        geneSnpGraphECharts.value.startLoading();
         GeneTfDetailApi.listMagmaInfoDataByTraitIdAndGene(row.traitId, data.gene, genome.value.select).then((res: any) => {
           magmaInfoTable.value.endLoading();
           data.magmaInfoTableData.push({ key: 'Trait ID:', value: res[0].traitId });
@@ -354,7 +360,9 @@ export default defineComponent({
         });
         AnalysisApi.listMagmaVariantInfoDataByTraitIdAndGene(row.traitId, genome.value.select, data.gene).then((res: any) => {
           magmaVariantInfoTable.value.endLoading();
+          geneSnpGraphECharts.value.endLoading();
           data.magmaVariantInfoTableData = res;
+          geneSnpGraphECharts.value.drawEcharts(geneSnpGraphOption(res, data.gene));
         });
       }, 300);
     };
@@ -402,6 +410,7 @@ export default defineComponent({
       geneIdSelect2,
       magmaInfoTable,
       magmaVariantInfoTable,
+      geneSnpGraphECharts,
       drawer,
       geneIdHg19Change,
       geneIdHg38Change,

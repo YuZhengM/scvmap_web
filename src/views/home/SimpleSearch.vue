@@ -5,7 +5,7 @@
       A comprehensive platform for human
       <strong> integrating </strong>
       <span class="font_red"> single-cell chromatin accessibility data </span> with
-      <span class="font_red"> causal variant effects</span>.
+      <span class="font_red"> causal variants</span>.
     </div>
     <div class="search">
       <CompositeSelectInput :placeholder="placeholder" :title-select-data="titleData" :title-change-event="titleChangeEvent" :handle-event="searchEvent"/>

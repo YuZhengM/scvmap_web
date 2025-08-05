@@ -1,12 +1,14 @@
 # Welcome to SCVdb Database Development Front-end!
 
-> SCVdb: https://bio.liclab.net/scvdb/
+> SCVdb: https://${IP}/scvdb/
 
 > SCVdb tutorial: https://scvdb-tutorial.readthedocs.io/en/latest/index.html
 
 > SCVdb back-end: https://github.com/YuZhengM/scvdb
 
-A comprehensive platform for human **integrating** `single-cell chromatin accessibility data` with `causal variant effects`.
+> SCVdb API: https://bio.liclab.net/scvdb_service/swagger-ui/index.html
+
+A comprehensive platform for human **integrating** `single-cell chromatin accessibility data` with `causal variants`.
 
 ![overview.png](src/assets/img/home/overview.png)
 

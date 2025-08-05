@@ -40,7 +40,7 @@
       </template>
     </SingleCard>
     <BaseBr/>
-    <SingleCard :title="{ content: `Genes associated with ${traitId}` }" id="position_magma_gene" ref="singleCard">
+    <SingleCard :title="{ content: `${traitId}-relevant genes` }" id="position_magma_gene" ref="singleCard">
       <LeftRight>
         <template #left>
           <BaseSelect title="Genome:" is-line width="20%" :select-data="genomeData" ref="genome" v-show="false"/>
@@ -66,7 +66,7 @@
       </LeftRight>
     </SingleCard>
     <BaseBr/>
-    <SingleCard :title="{ content: `${sampleId} and ${traitId} related enrichment regulation landscape network` }" id="position_gene_network" ref="singleCard">
+    <SingleCard :title='{ content: `Regulatory network related to ${traitId} to ${sampleId}` }' id="position_gene_network" ref="singleCard">
       <LeftRight>
         <template #left>
           <BaseSelect title="Cell type:" is-line width="40%" :change-event="cellTypeGraphChange" :select-data="cellTypeData" ref="cellTypeGraph"/>
@@ -107,12 +107,17 @@
       <Echarts :resize-value="{ width: 1100, height: 800 }" ref="graphECharts"/>
     </SingleCard>
     <BaseDrawer title="Annotation on variant information enriched in MAGAM" size="50%" ref="drawer">
-      <BaseTable :table-data="magmaVariantInfoTableData"
-                 :is-service-paging="false"
-                 :download-url="magmaGeneAnnoDownloadUrl"
-                 :table-description="magmaVariantInfoTableDescription"
-                 ref="magmaVariantTable"/>
-      <Echarts :resize-value="{ width: 500, height: 500 }" ref="geneSnpGraphECharts"/>
+      <SingleCard :title="{ content: `Information mapping of gene and variants in ${traitId}` }">
+        <BaseTable :table-data="magmaVariantInfoTableData"
+                   :is-service-paging="false"
+                   :download-url="magmaGeneAnnoDownloadUrl"
+                   :table-description="magmaVariantInfoTableDescription"
+                   ref="magmaVariantTable"/>
+      </SingleCard>
+      <br/>
+      <SingleCard :title="{ content: `Gene-relevant SNP regulatory network` }">
+        <Echarts :resize-value="{ width: 500, height: 500 }" ref="geneSnpGraphECharts"/>
+      </SingleCard>
     </BaseDrawer>
   </BaseLoading>
 </template>
@@ -338,43 +343,7 @@ export default defineComponent({
           magmaVariantTable.value.endLoading();
           geneSnpGraphECharts.value.endLoading();
           data.magmaVariantInfoTableData = res;
-
-          const categories: Array<any> = [
-            {
-              name: 'Gene'
-            },
-            {
-              name: 'Variant'
-            }
-          ];
-          const nodes: Array<any> = [{
-            id: row.gene,
-            name: row.gene,
-            category: 'Gene',
-            symbolSize: 50
-          }];
-          const links: Array<any> = [];
-
-          data.magmaVariantInfoTableData.forEach((item: any) => {
-            links.push({
-              source: item.rsId,
-              target: row.gene
-            });
-            nodes.push({
-              id: item.rsId,
-              name: item.rsId,
-              category: 'Variant',
-              symbolSize: 25
-            });
-          });
-
-          const geneSnpGraphData = {
-            nodes,
-            links,
-            categories
-          };
-
-          geneSnpGraphECharts.value.drawEcharts(geneSnpGraphOption(geneSnpGraphData));
+          geneSnpGraphECharts.value.drawEcharts(geneSnpGraphOption(res, row.gene));
         });
       }, 300);
     };

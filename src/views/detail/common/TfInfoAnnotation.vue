@@ -25,7 +25,7 @@
       </template>
     </SingleCard>
     <BaseBr/>
-    <SingleCard :title="{ content: `TFs associated with ${traitId}` }" id="position_homer_tf" ref="singleCard">
+    <SingleCard :title="{ content: `${traitId}-relevant TFs` }" id="position_homer_tf" ref="singleCard">
       <template #head>
         <el-link :href="linkHomerDetailUrl" target="_blank" v-show="linkHomerDetailUrl">
           <el-button size="small" type="primary"><i class="fas fa-link"></i></el-button>
@@ -52,7 +52,7 @@
       </template>
     </SingleCard>
     <BaseBr/>
-    <SingleCard :title="{ content: `${sampleId} and ${traitId} related enrichment regulation landscape network` }" id="position_tf_network" ref="singleCard">
+    <SingleCard :title='{ content: `Regulatory network related to ${traitId} to ${sampleId}` }' id="position_tf_network" ref="singleCard">
       <LeftRight>
         <template #left>
           <BaseSelect title="Cell type:" is-line width="40%" :change-event="cellTypeGraphChange" :select-data="cellTypeData" ref="cellTypeGraph"/>

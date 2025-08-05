@@ -153,46 +153,85 @@ export const geneGraphOption: any = (data: any) => ({
   ]
 });
 
-export const geneSnpGraphOption: any = (data: any) => ({
-  title: {
-    top: 'bottom',
-    left: 'right'
-  },
-  toolbox: toolboxSimple(),
-  tooltip: {},
-  legend: [
+export const geneSnpGraphOption: any = (data: Array<any>, gene: string) => {
+  const categories: Array<any> = [
     {
-      // selectedMode: 'single',
-      data: data.categories.map((a: any) => a.name)
+      name: 'Gene'
+    },
+    {
+      name: 'Variant'
     }
-  ],
-  grid: {
-    top: '10%',
-    left: '10%',
-    right: '10%',
-    bottom: '10%',
-    containLabel: true
-  },
-  series: [
-    {
-      name: '',
-      type: 'graph',
-      layout: 'force',
-      data: data.nodes,
-      links: data.links,
-      categories: data.categories,
-      roam: true,
-      label: {
-        show: true,
-        fontSize: 18,
-        formatter: (name: any) => name.name
-      },
-      force: {
-        repulsion: 400
+  ];
+  const nodes: Array<any> = [{
+    id: gene,
+    name: gene,
+    category: 'Gene',
+    symbolSize: 50
+  }];
+  const links: Array<any> = [];
+
+  data.forEach((item: any) => {
+    links.push({
+      source: item.rsId,
+      target: gene
+    });
+    nodes.push({
+      id: item.rsId,
+      name: item.rsId,
+      category: 'Variant',
+      symbolSize: 25
+    });
+  });
+
+  const geneSnpGraphData: any = {
+    nodes,
+    links,
+    categories
+  };
+
+  console.log(geneSnpGraphData);
+
+  return {
+    title: {
+      top: 'bottom',
+      left: 'right'
+    },
+    toolbox: toolboxSimple(),
+    tooltip: {},
+    legend: [
+      {
+        // selectedMode: 'single',
+        data: geneSnpGraphData.categories.map((a: any) => a.name)
       }
-    }
-  ]
-});
+    ],
+    grid: {
+      top: '10%',
+      left: '10%',
+      right: '10%',
+      bottom: '10%',
+      containLabel: true
+    },
+    series: [
+      {
+        name: '',
+        type: 'graph',
+        layout: 'force',
+        data: geneSnpGraphData.nodes,
+        links: geneSnpGraphData.links,
+        categories: geneSnpGraphData.categories,
+        roam: true,
+        label: {
+          show: true,
+          fontSize: 18,
+          formatter: (name: any) => name.name
+        },
+        force: {
+          repulsion: 400
+        }
+      }
+    ]
+  };
+};
 
 // noinspection JSUnusedGlobalSymbols
 export const geneTraitCountOption = (data: any) => ({

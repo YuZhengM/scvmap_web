@@ -1,12 +1,10 @@
 <template>
   <div id="tf_detail">
     <SingleCard :title="{ icon: 'fas fa-list', content: 'TF Overview' }" ref="singleCard1">
-
       <ArrayTable :table-data="tfTableData" v-show="isShow && !isShowEcharts" ref="tfTable"/>
       <div v-show="!isShow && isShowEcharts">
         <Echarts :resize-value="graphResize" ref="echarts1"/>
       </div>
-
       <LeftRight class="overview" v-show="isShow && isShowEcharts">
         <template #left>
           <ArrayTable :table-data="tfTableData" v-show="isShow" ref="tfTable"/>
@@ -15,10 +13,9 @@
           <Echarts :resize-value="graphResize" ref="echarts2"/>
         </template>
       </LeftRight>
-
     </SingleCard>
     <br/>
-    <SingleCard :title="{ icon: 'fas fa-list', content: 'Traits associated with the TF' }" ref="singleCard2">
+    <SingleCard :title="{ icon: 'fas fa-list', content: 'TF-relevant traits or diseases' }" ref="singleCard2">
       <BaseSelect title="Genome:" :select-data="genomeData" width="20%" is-line :change-event="genomeChange" ref="genome"/>
       <BaseTable :table-data="tfTraitData" :is-service-paging="false" :before-column-number="0" :table-description="tfTraitTableDescription" ref="tfTrait">
         <template #default>
