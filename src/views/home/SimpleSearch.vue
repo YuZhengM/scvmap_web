@@ -41,14 +41,14 @@ export default defineComponent({
     const router = useRouter();
 
     const data = reactive({
-      placeholder: 'Please input  e.g. trait_id_1'
+      placeholder: 'Please input  e.g. trait_id_894  (Default to all)'
     });
 
     const titleChangeEvent = (item: any) => {
       if (item === 'trait') {
-        data.placeholder = 'Please input  e.g. trait_id_1';
+        data.placeholder = 'Please input  e.g. trait_id_894  (Default to all)';
       } else if (item === 'sample') {
-        data.placeholder = 'Please input  e.g. sample_id_1';
+        data.placeholder = 'Please input  e.g. sample_id_1  (Default to all)';
       } else if (item === 'gene') {
         data.placeholder = 'Please input  e.g. RCC2';
       } else if (item === 'tf') {
@@ -79,7 +79,7 @@ export default defineComponent({
             paramValue = 'rs57142672';
             break;
           default:
-            paramValue = 'trait_id_1';
+            paramValue = 'trait_id_894';
             break;
         }
         ElNotification({ title: 'Search', message: `The default value is ${paramValue}!`, type: 'info' });

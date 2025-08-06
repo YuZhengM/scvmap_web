@@ -35,7 +35,7 @@ export default defineComponent({
       tableDescription: [] as Array<any>
     });
     // 请求后台数据
-    const listSampleInformation = (page: Page) => {
+    const listSampleInformation = async (page: Page) => {
       table.value.startLoading();
       return HomeApi.listInfoByContent(String(route.query.title), String(route.query.value), page).then((res: any) => {
         table.value.endLoading();

@@ -234,7 +234,7 @@ export default defineComponent({
       magmaGeneAnnoDownloadUrl: '' as string | undefined
     });
 
-    const getCellTypeData = () => {
+    const getCellTypeData = async () => {
       ArrayUtil.clear(data.cellTypeData);
       return DetailApi.listSampleCellType(props.sampleId, data.id).then((res: any) => {
         (res as Array<any>).forEach((item: any) => {
@@ -282,10 +282,9 @@ export default defineComponent({
 
     const listDifferenceGeneInformation = (page: Page) => DetailApi.listDifferenceGeneBySampleId(props.sampleId, cellType.value.select, page);
 
-    const differenceGeneCallback = () => {
-      listMagmaGeneByTraitId().then(() => {
-        getGraphData();
-      });
+    const differenceGeneCallback = async () => {
+      await listMagmaGeneByTraitId();
+      getGraphData();
     };
 
     const differenceGeneDownload = () => `${STATIC_DOWNLOAD_PATH}/difference/difference_gene/${props.sampleId}_difference_gene_data.txt`;
@@ -366,21 +365,21 @@ export default defineComponent({
     });
 
     // 监控
-    watch(() => ({ value1: props.sampleId, value2: props.traitId }), () => {
+    watch(() => ({ value1: props.sampleId, value2: props.traitId }), async () => {
       if (Base.noNull(props.sampleId) && Base.noNull(props.traitId) && Base.noNull(cellType.value)) {
         getSampleInfo();
-        getCellTypeData().then(() => {
-          if (!data.differenceGeneIsMounted) {
-            data.differenceGeneIsMounted = true;
-          } else {
-            differenceGeneTable.value.dataUpdate();
-          }
-        });
+        await getCellTypeData();
+        if (!data.differenceGeneIsMounted) {
+          data.differenceGeneIsMounted = true;
+        } else {
+          differenceGeneTable.value.dataUpdate();
+        }
       }
     }, {
       immediate: true,
       deep: true
     });
+
     return {
       ...toRefs(data),
       loading,

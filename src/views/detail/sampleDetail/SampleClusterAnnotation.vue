@@ -137,13 +137,13 @@ export default defineComponent({
       traitIdUrl: linkTraitDetail('')
     });
 
-    const getOverview = () => DetailApi.getSampleInfo(props.sampleId).then((res: any) => {
+    const getOverview = async () => DetailApi.getSampleInfo(props.sampleId).then((res: any) => {
       data.sampleLabel = res.label;
       data.genome = res.genome;
       data.sampleCellCount = res.cellCount;
     });
 
-    const listTrait = () => {
+    const listTrait = async () => {
       // 清空
       clusterAnno.value.startLoading();
       geneInfoAnno.value.startLoading();
@@ -168,11 +168,10 @@ export default defineComponent({
       data.cellCountValue = cellCount.value.select;
     };
 
-    const methodEvent = () => {
+    const methodEvent = async () => {
       data.methodValue = method.value.select;
-      listTrait().then(() => {
-        traitTable.value.selectionToggleChange([data.traitTableData[0]]);
-      });
+      await listTrait();
+      traitTable.value.selectionToggleChange([data.traitTableData[0]]);
     };
 
     const trsDownload = () => `${STATIC_DOWNLOAD_PATH}/trs/${data.sampleLabel}/${data.sampleLabel}__${data.genome}__${data.traitLabel}.bed__mat_info.rda`;
@@ -201,16 +200,14 @@ export default defineComponent({
       }
     };
 
-    onMounted(() => {
+    onMounted(async () => {
       method.value.select = DETAIL_METHOD_DATA[0].value;
       data.methodValue = method.value.select;
-      getOverview().then(() => {
-        cellCount.value.select = getCellCountValue(data.sampleCellCount);
-        data.cellCountValue = cellCount.value.select;
-        listTrait().then(() => {
-          traitTable.value.selectionToggleChange([data.traitTableData[0]]);
-        });
-      });
+      await getOverview();
+      cellCount.value.select = getCellCountValue(data.sampleCellCount);
+      data.cellCountValue = cellCount.value.select;
+      await listTrait();
+      traitTable.value.selectionToggleChange([data.traitTableData[0]]);
     });
     return {
       ...toRefs(data),

@@ -194,12 +194,11 @@ export default defineComponent({
     const traitFileDownload = () => `${STATIC_DOWNLOAD_PATH}/variant/trait/${data.traitLabel}.txt`;
     const traitVariantInfoDownload = () => `${STATIC_DOWNLOAD_PATH}/variant/${data.genome}/${data.traitLabel}.bed`;
 
-    onMounted(() => {
-      getOverview().then(() => {
-        genome.value.select = data.genome;
-        data.variantInfoIsMounted = true;
-        getChrResize();
-      });
+    onMounted(async () => {
+      await getOverview();
+      genome.value.select = data.genome;
+      data.variantInfoIsMounted = true;
+      getChrResize();
     });
     return {
       ...toRefs(data),

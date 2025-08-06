@@ -177,7 +177,7 @@ export default defineComponent({
       linkHomerDetailUrl: '' as string | undefined
     });
 
-    const getCellTypeData = () => {
+    const getCellTypeData = async () => {
       ArrayUtil.clear(data.cellTypeData);
       return DetailApi.listSampleCellType(props.sampleId, data.id).then((res: any) => {
         (res as Array<any>).forEach((item: any) => {
@@ -213,7 +213,7 @@ export default defineComponent({
       });
     };
 
-    const listHomerTfByTraitId = () => {
+    const listHomerTfByTraitId = async () => {
       traitTfTable.value.startLoading();
       return DetailApi.listHomerTfByTraitId(props.traitId, data.sample.genome).then((res: any) => {
         traitTfTable.value.endLoading();
@@ -221,7 +221,7 @@ export default defineComponent({
       });
     };
 
-    const listDifferenceTfBySampleId = () => {
+    const listDifferenceTfBySampleId = async () => {
       differenceTfTable.value.startLoading();
       return DetailApi.listDifferenceTfBySampleId(props.sampleId, cellType.value.select).then((res: any) => {
         differenceTfTable.value.endLoading();
@@ -292,21 +292,19 @@ export default defineComponent({
     });
 
     // 监控
-    watch(() => ({ value1: props.sampleId, value2: props.traitId }), () => {
+    watch(() => ({ value1: props.sampleId, value2: props.traitId }), async () => {
       if (Base.noNull(props.sampleId) && Base.noNull(props.traitId) && Base.noNull(cellType.value)) {
         getSampleInfo();
-        getCellTypeData().then(() => {
-          listDifferenceTfBySampleId().then(() => {
-            listHomerTfByTraitId().then(() => {
-              getGraphData();
-            });
-          });
-        });
+        await getCellTypeData();
+        await listDifferenceTfBySampleId();
+        await listHomerTfByTraitId();
+        getGraphData();
       }
     }, {
       immediate: true,
       deep: true
     });
+
     return {
       ...toRefs(data),
       loading,

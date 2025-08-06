@@ -143,7 +143,7 @@ export default defineComponent({
       sampleIdUrl: linkSampleDetail('')
     });
 
-    const listSample = () => {
+    const listSample = async () => {
       // 清空
       geneInfoAnno.value.startLoading();
       tfInfoAnno.value.startLoading();
@@ -175,24 +175,22 @@ export default defineComponent({
       data.cellCountValue = cellCount.value.select;
     };
 
-    const getSampleInfo = () => DetailApi.getSampleInfo(data.sampleId).then((res: any) => {
+    const getSampleInfo = async () => DetailApi.getSampleInfo(data.sampleId).then((res: any) => {
       data.sampleCellCount = res.cellCount;
       data.sampleLabel = res.label;
       data.genome = res.genome;
     });
 
-    const setSampleId = () => {
-      listSample().then(() => {
-        if (data.isOverlap) {
-          Time.delay(() => {
-            sampleTable.value.selectionToggleChange([data.sampleTableData[0]]);
-            getSampleInfo().then(() => {
-              cellCount.value.select = getCellCountValue(data.sampleCellCount);
-              data.cellCountValue = cellCount.value.select;
-            });
-          }, 300);
-        }
-      });
+    const setSampleId = async () => {
+      await listSample();
+      if (data.isOverlap) {
+        Time.delay(async () => {
+          sampleTable.value.selectionToggleChange([data.sampleTableData[0]]);
+          await getSampleInfo();
+          cellCount.value.select = getCellCountValue(data.sampleCellCount);
+          data.cellCountValue = cellCount.value.select;
+        }, 300);
+      }
     };
 
     const methodEvent = () => {
@@ -213,7 +211,7 @@ export default defineComponent({
       }
     };
 
-    const sampleSelectionChange = (val: any) => {
+    const sampleSelectionChange = async (val: any) => {
       if (val.length > 1) {
         data.sampleIsSelectChange = false;
         sampleTable.value.selectionToggleChange(val.slice(0, val.length - 1));
@@ -221,10 +219,9 @@ export default defineComponent({
       } else if (val.length === 1) {
         data.cellCountValue = 0;
         data.sampleId = val[0].sampleId;
-        getSampleInfo().then(() => {
-          cellCount.value.select = getCellCountValue(data.sampleCellCount);
-          data.cellCountValue = cellCount.value.select;
-        });
+        await getSampleInfo();
+        cellCount.value.select = getCellCountValue(data.sampleCellCount);
+        data.cellCountValue = cellCount.value.select;
         data.tissueType = val[0].tissueType;
         data.sampleIdUrl = linkSampleDetail(data.sampleId);
       }
