@@ -1,6 +1,6 @@
 # Welcome to SCVdb Database Development Front-end!
 
-> SCVdb: https://${IP}/scvdb/
+> SCVdb: https://bio.liclab.net/scvdb/
 
 > SCVdb tutorial: https://scvdb-tutorial.readthedocs.io/en/latest/index.html
 
