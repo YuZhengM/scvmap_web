@@ -6,8 +6,8 @@
           <div class="col-4 title slideInLeft-enter">
             <el-image :preview-src-list="[logUrl]" :src="logUrl" :initial-index="0" fit="cover"/>
             <span class="title_font">
-              <span class="title_prefix">SCV</span>
-              <span class="title_suffix">db</span>
+              <span class="title_prefix">scV</span>
+              <span class="title_suffix">MAP</span>
             </span>
           </div>
           <!-- 导航条 -->
@@ -18,13 +18,13 @@
       </template>
       <template #right>
         <div class="tools">
-          <a class="github" href="https://github.com/YuZhengM/scvdb-tutorial" target="_blank">
+          <a class="github" href="https://github.com/YuZhengM/scvmap-tutorial" target="_blank">
             <i class="fab fa-github-square"></i>
           </a>
-          <a class="globe" href="https://clustrmaps.com/site/1c6dv" target="_blank">
+          <a class="globe" href="https://clustrmaps.com/site/1c7in" target="_blank">
             <i class="fas fa-globe-americas"></i>
-            <a href='https://clustrmaps.com/site/1c6dv' title='Visit tracker' v-show="false">
-              <img src='//clustrmaps.com/map_v2.png?cl=ffffff&w=70&t=n&d=uBhdPbNtfUHxS71n7MyG3Ot20ZVijOiUdLDGyzgPjTo' alt="visit"/>
+            <a href='https://clustrmaps.com/site/1c7in' title='Visit tracker' v-show="false">
+              <img src='//www.clustrmaps.com/map_v2.png?d=Xj6CuwfZ06R0277UEPHiVlXVLKI7rGyPBNtFswspMC8&cl=ffffff' alt="visit"/>
             </a>
           </a>
 <!--          <a class="orcid" href="https://orcid.org/0009-0006-0777-4043" target="orcid.widget" rel="me noopener noreferrer">-->
@@ -74,7 +74,7 @@ export default defineComponent({
 
     onMounted(() => {
       // eslint-disable-next-line no-console
-      console.log('Welcome to SCVdb!');
+      console.log('Welcome to scVMAP!');
     });
 
     return {

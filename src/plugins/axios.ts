@@ -101,7 +101,7 @@ axios.defaults.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE
 
 const service = axios.create({
   // 联调
-  baseURL: process.env.NODE_ENV === 'production' ? '/scvdb_service' : '/api',
+  baseURL: process.env.NODE_ENV === 'production' ? '/scvmap_service' : '/api',
   headers: {
     get: {
       'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'

@@ -19,16 +19,16 @@ export const CONTACTS = [
 // 联系内容
 export const CONTACT_SELF_LINK = [
   {
-    title: 'SCVdb tutorial: ',
-    link: 'https://scvdb-tutorial.readthedocs.io/en/latest/index.html'
+    title: 'scVMAP tutorial: ',
+    link: 'https://scvmap.readthedocs.io/en/latest/'
   },
   {
-    title: 'SCVdb front-end: ',
-    link: 'https://github.com/YuZhengM/scvdb_web'
+    title: 'scVMAP front-end: ',
+    link: 'https://github.com/YuZhengM/scvmap_web'
   },
   {
-    title: 'SCVdb back-end: ',
-    link: 'https://github.com/YuZhengM/scvdb'
+    title: 'scVMAP back-end: ',
+    link: 'https://github.com/YuZhengM/scvmap'
   }
 ];
 

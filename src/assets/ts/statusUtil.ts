@@ -1,22 +1,22 @@
 // noinspection HttpUrlsUsage,SpellCheckingInspection
 
 // 项目名, 项目版本等
-export const PROJECT_NAME = 'SCVdb';
+export const PROJECT_NAME = 'scVMAP';
 export const PROJECT_VERSION = 'v1.0.0';
 
-export const PROJECT_URL = process.env.NODE_ENV === 'production' ? 'https://${IP}/scvdb_service/' : 'http://localhost:81/api/';
+export const PROJECT_URL = process.env.NODE_ENV === 'production' ? 'https://${IP}/scvmap_service/' : 'http://localhost:81/api/';
 const DOMAIN_NAME = 'https://${IP}/';
 
-export const PROJECT_WEB_URL = `${DOMAIN_NAME}scvdb/`;
+export const PROJECT_WEB_URL = `${DOMAIN_NAME}scvmap/`;
 // 静态资源路径
-export const STATIC_DOWNLOAD_PATH = `${DOMAIN_NAME}scvdb_static/download`;
-export const STATIC_HOMER_PATH = `${DOMAIN_NAME}scvdb_static/homer`;
-export const STATIC_MAGMA_PATH = `${DOMAIN_NAME}scvdb_static/magma`;
+export const STATIC_DOWNLOAD_PATH = `${DOMAIN_NAME}scvmap_static/download`;
+export const STATIC_HOMER_PATH = `${DOMAIN_NAME}scvmap_static/homer`;
+export const STATIC_MAGMA_PATH = `${DOMAIN_NAME}scvmap_static/magma`;
 // 文件操作路径
 export const FILE_UPLOAD_URL = `${PROJECT_URL}file/upload`;
 
 // 存储状态 key 值
-export const STORAGE_ACCEPT_ID = 'scvdb14253365422663655162212851';
+export const STORAGE_ACCEPT_ID = 'scvmap14253365422663655162212851';
 
 // 页面连接
 export const linkTraitDetail = (traitId: string) => `detail?traitId=${traitId}`;

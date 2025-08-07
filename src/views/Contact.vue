@@ -13,8 +13,8 @@
           </div>
           <el-divider></el-divider>
           <span>
-            We welcome researchers from all over the world to provide valuable advice for <strong>SCVdb</strong>,
-            and make <strong>SCVdb</strong> more and more perfect.
+            We welcome researchers from all over the world to provide valuable advice for <strong>scVMAP</strong>,
+            and make <strong>scVMAP</strong> more and more perfect.
           </span>
           <el-divider></el-divider>
           <div v-for="(item, i) in selfLinks" :key="i">

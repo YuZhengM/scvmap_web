@@ -1,23 +1,23 @@
 User-agent: *
 Disallow:
 
-# https://bio.liclab.net/scvdb_service/robots.txt
+# https://bio.liclab.net/scvmap_service/robots.txt
 User-agent: *
-Allow: /scvdb_service/test/
-Disallow: /scvdb_service/home/
-Disallow: /scvdb_service/data_browse/
-Disallow: /scvdb_service/search/
-Disallow: /scvdb_service/analysis/
-Disallow: /scvdb_service/download/
-Disallow: /scvdb_service/detail/
-Disallow: /scvdb_service/variant/
+Allow: /scvmap_service/test/
+Disallow: /scvmap_service/home/
+Disallow: /scvmap_service/data_browse/
+Disallow: /scvmap_service/search/
+Disallow: /scvmap_service/analysis/
+Disallow: /scvmap_service/download/
+Disallow: /scvmap_service/detail/
+Disallow: /scvmap_service/variant/
 
-# https://bio.liclab.net/scvdb_static/robots.txt
+# https://bio.liclab.net/scvmap_static/robots.txt
 User-agent: *
-Allow: /scvdb_static/download/
-Allow: /scvdb_static/homer/
-Allow: /scvdb_static/magma/
-Allow: /scvdb_static/trait_variant_overlap/
-Allow: /scvdb_static/trs/
-Disallow: /scvdb_static/python/
-Disallow: /scvdb_static/user/
+Allow: /scvmap_static/download/
+Allow: /scvmap_static/homer/
+Allow: /scvmap_static/magma/
+Allow: /scvmap_static/trait_variant_overlap/
+Allow: /scvmap_static/trs/
+Disallow: /scvmap_static/python/
+Disallow: /scvmap_static/user/

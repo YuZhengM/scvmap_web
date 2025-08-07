@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production' ? '/scvdb' : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/scvmap' : '/',
   configureWebpack: {
     performance: {
       hints: 'warning',
@@ -39,7 +39,7 @@ module.exports = {
     proxy: {
       '/api': {
         // 接口域名
-        target: process.env.NODE_ENV === 'production' ? 'https://${IP}/scvdb_service/' : 'http://localhost:${service_port}/scvdb_service/',
+        target: process.env.NODE_ENV === 'production' ? 'https://${IP}/scvmap_service/' : 'http://localhost:${service_port}/scvmap_service/',
         // 是否跨域
         changeOrigin: true,
         // 是否代理 websockets

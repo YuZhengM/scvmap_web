@@ -1,4 +1,4 @@
-# SCVdb
+# scVMAP
 
 ## Project setup
 
@@ -53,8 +53,8 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ### 2.2 The content added to the host `nginx.conf`
 
 ```shell
-location /scvdb {
-    proxy_pass http://localhost:${web_port}/scvdb;
+location /scvmap {
+    proxy_pass http://localhost:${web_port}/scvmap;
     index  index.html index.htm index.jsp;
     proxy_set_header X-Real-IP $remote_addr;    # 获取客户端真实IP
     proxy_set_header REMOTE-HOST $remote_addr;  # 获取客户端浏览器的主机名
@@ -62,16 +62,16 @@ location /scvdb {
     proxy_set_header Host $host:$server_port;
 }
 
-location /scvdb_static {
-    proxy_pass http://localhost:${web_port}/static;
+location /scvmap_static {
+    proxy_pass http://localhost:${web_port}/data;
     proxy_set_header X-Real-IP $remote_addr;    # 获取客户端真实IP
     proxy_set_header REMOTE-HOST $remote_addr;  # 获取客户端浏览器的主机名
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; # 获取代理者的真实ip
     proxy_set_header Host $host:$server_port;
 }
 
-location /scvdb_service/ {
-    proxy_pass http://localhost:${service_port}/scvdb_service/;
+location /scvmap_service/ {
+    proxy_pass http://localhost:${service_port}/scvmap_service/;
     index  index.html index.htm index.jsp;
     proxy_set_header X-Real-IP $remote_addr;    # 获取客户端真实IP
     proxy_set_header REMOTE-HOST $remote_addr;  # 获取客户端浏览器的主机名
@@ -79,10 +79,6 @@ location /scvdb_service/ {
     proxy_set_header Host $host:$server_port;
 }
 
-location /scvdb_api {
-    alias ${project_path}/data/API/V1.0.0;
-    autoindex on;
-}
 ```
 
 > If there are no other projects, you can overwrite `deploy/nginx.conf` to the remote server `Nginx` configuration.

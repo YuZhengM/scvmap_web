@@ -60,7 +60,7 @@ export const HEADER_MENUS: Array<NavBase> = [
   },
   {
     title: 'Help <i class="fa fa-arrow-up-right-from-square"></i>',
-    href: 'https://scvdb-tutorial.readthedocs.io/en/latest/index.html',
+    href: 'https://scvmap.readthedocs.io/en/latest/',
     isShow: false
   }
 ];
