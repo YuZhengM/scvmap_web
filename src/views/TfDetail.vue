@@ -1,6 +1,6 @@
 <template>
   <div id="tf_detail">
-    <SingleCard :title="{ icon: 'fas fa-list', content: 'TF Overview' }" ref="singleCard1">
+    <SingleCard :title="{ icon: 'fas fa-list', content: `Overview of TF ${tf}` }" ref="singleCard1">
       <ArrayTable :table-data="tfTableData" v-show="isShow && !isShowEcharts" ref="tfTable"/>
       <div v-show="!isShow && isShowEcharts">
         <Echarts :resize-value="graphResize" ref="echarts1"/>

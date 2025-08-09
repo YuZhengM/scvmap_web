@@ -66,7 +66,7 @@
       </LeftRight>
     </SingleCard>
     <BaseBr/>
-    <SingleCard :title='{ content: `Regulatory network related to ${traitId} to ${sampleId}` }' id="position_gene_network" ref="singleCard">
+    <SingleCard :title='{ content: `Gene regulatory network associated with ${traitId} and ${sampleId}` }' id="position_gene_network" ref="singleCard">
       <LeftRight>
         <template #left>
           <BaseSelect title="Cell type:" is-line width="40%" :change-event="cellTypeGraphChange" :select-data="cellTypeData" ref="cellTypeGraph"/>

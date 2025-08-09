@@ -79,7 +79,7 @@
         </BaseTable>
       </SingleCard>
       <br/>
-      <SingleCard :title="{ icon: 'fas fa-list', content: 'Regulation region' }" ref="singleCard3">
+      <SingleCard :title="{ icon: 'fas fa-list', content: 'Regulation regions' }" ref="singleCard3">
         <BaseTabs active="hg38" :tabs-data="genomeTabs">
           <template #hg19>
             <div v-show="isShowHg19">
