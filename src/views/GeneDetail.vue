@@ -149,7 +149,8 @@ import {
   DATA_BROWSE_SAMPLE_TABLE_DESCRIPTION1,
   GENE_DETAIL_GENE_INFO_TABLE_DESCRIPTION,
   GENE_DETAIL_GENE_TRAIT_TABLE_DESCRIPTION,
-  GENE_DETAIL_GENOME_TABS, geneSnpGraphOption,
+  GENE_DETAIL_GENOME_TABS,
+  geneSnpGraphOption,
   geneTraitCountOption,
   STATIC_MAGMA_PATH
 } from '@/assets/ts';
@@ -385,6 +386,16 @@ export default defineComponent({
           type: 'error'
         });
       }
+
+      if (route.query.gene && typeof route.query.gene === 'string' && route.query.gene.includes('?')) {
+        Jump.routerDefault(router, '/');
+        ElNotification({
+          title: 'Please check',
+          message: 'The input value is incorrect. Please re-enter it without invalid characters such as "?".',
+          type: 'error'
+        });
+      }
+
       data.gene = route.query.gene as string;
       genome.value.select = 'hg19';
       getGeneHg19Info();

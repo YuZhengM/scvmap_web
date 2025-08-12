@@ -11,7 +11,7 @@
         </BaseTooltip>
         <span class="number" v-text="list.number"></span>
       </div>
-      <!-- 分页数据显示 -->
+      <!-- Paging data display -->
       <Paging :change-page="changePage" :change-size="changeSize" v-if="isPaging" v-show="isShowPaging" :is-simple="true" :pager-count="5" ref="paging"/>
     </el-card>
   </div>
@@ -29,22 +29,22 @@ export default defineComponent({
   name: 'ListCard',
   components: { Paging, BaseTooltip },
   props: {
-    // 标题名称
+    // Title name
     title: {
       type: String,
       default: () => ('Title')
     },
-    // 所有数据
+    // All data
     listCard: {
       type: Array,
       default: () => ([] as Array<CardList>)
     },
-    // 执行标签的函数
+    // Execute the function of the label
     listCardClick: {
       type: Function,
       default: () => ([])
     },
-    // 是否带有分页
+    // Whether to include pagination
     isPaging: {
       type: Boolean,
       default: () => true
@@ -52,20 +52,20 @@ export default defineComponent({
   },
   setup(props) {
     const paging = ref();
-    // 设置响应数据
+    // Set the response data
     const data = reactive({
       isShowPaging: true,
       showData: [] as Array<CardList>,
       highlightLabel: {} as CardList
     });
     /**
-     * 更新数据
+     * Update data
      */
     const dataUpdate = () => {
       if (data.highlightLabel && data.highlightLabel.show) {
-        // 需要筛选出来, 保证其他属性更新
+        // Need to filter out, ensure that other attributes are updated
         const label: CardList = props.listCard ? (props.listCard.filter((item: any) => item.label === data.highlightLabel.label) as Array<CardList>)[0] : data.highlightLabel;
-        // 标签为 true
+        // Label is true
         label.show = true;
         data.showData = [label];
         data.isShowPaging = false;
@@ -73,35 +73,35 @@ export default defineComponent({
         data.isShowPaging = true;
         const { length } = props.listCard as Array<CardList>;
         paging.value.total = length;
-        // 清空 showData
+        // Clear showData
         ArrayUtil.clear(data.showData);
-        // 获取展示数据的开始和结束的范围
+        // Get the start and end range of the displayed data
         const start = (paging.value.currentPage - 1) * paging.value.pageSize;
         const end = start + paging.value.pageSize > paging.value.total ? paging.value.total : start + paging.value.pageSize;
-        // 添加显示数据
+        // Add display data
         for (let i = start; i < end; i++) {
           data.showData.push(props.listCard[i] as CardList);
         }
       }
     };
     onMounted(() => {
-      // 设置分页
+      // Set pagination
       if (props.isPaging) {
-        // 初始化每页行数
+        // Initialize the number of rows per page
         paging.value.pageSize = 5;
         dataUpdate();
       }
     });
-    // 改变页数
+    // Change the page
     const changePage = () => {
       dataUpdate();
     };
-    // 改变大小
+    // Change the size
     const changeSize = () => {
       dataUpdate();
     };
     const cardClick = (list: CardList) => {
-      // 高亮
+      // Highlight
       list.show = !list.show;
       data.highlightLabel = list.show ? list : {} as CardList;
       props.listCardClick(list).then(dataUpdate);

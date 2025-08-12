@@ -17,7 +17,7 @@ export default defineComponent({
       type: Array,
       default: () => [] as Array<ButtonBase>
     },
-    // 按钮类型 primary, success, info, warning, danger
+    // Button type: primary, success, info, warning, danger
     type: {
       type: String,
       default: () => 'primary'

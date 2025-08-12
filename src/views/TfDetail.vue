@@ -72,6 +72,7 @@ import ArrayTable from '@/components/table/ArrayTable.vue';
 import ArrayUtil from '@/service/util/base/array';
 import BaseDrawer from '@/components/drawer/BaseDrawer.vue';
 import Time from '@/service/util/base/time';
+import { ElNotification } from 'element-plus';
 
 export default defineComponent({
   name: 'TfDetail',
@@ -200,9 +201,14 @@ export default defineComponent({
     onMounted(() => {
       if (Base.isNull(route.query.tf)) {
         Jump.routerDefault(router, '/');
-        Message.warning(`${route.fullPath}: The path is not feasible!`);
+        ElNotification({
+          title: 'Please check',
+          message: `${route.fullPath}: The path is not feasible!`,
+          type: 'error'
+        });
       }
       const sourceTf = route.query.tf as string;
+      // This operation can be ignored
       data.tf = sourceTf.replaceAll('?', '-----');
       data.tf = data.tf.replaceAll('/', '_____');
       genome.value.select = 'hg19';

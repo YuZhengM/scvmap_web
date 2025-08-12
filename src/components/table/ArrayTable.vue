@@ -17,17 +17,17 @@ export default defineComponent({
   name: 'ArrayTable',
   components: { BaseLoading },
   props: {
-    // 传递的数据 类型为 Array<KeyValue>
+    // Passed data, type is Array<KeyValue>
     tableData: {
       type: Array,
       default: () => ([] as Array<KeyValue>)
     },
-    // 标题内容
+    // Title content
     title: {
       type: String,
       default: () => undefined
     },
-    // 对数
+    // Number of pairs
     columnPair: {
       type: Number,
       default: () => 1
@@ -38,7 +38,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    // 创建 table 下的 tr td
+    // Create `tr` and `td` elements under the table
     const addTh = (content: string) => `<th>${content}</th>`;
     const addTd = (content: string) => `<td>${content}</td>`;
     const addTr = (content: string) => `<tr>${content}</tr>`;
@@ -52,32 +52,32 @@ export default defineComponent({
     };
     const loading = ref();
     const tbody = ref();
-    // 形成表格
+    // Form the table
     const formatTable = () => {
       const { tableData, columnPair } = props;
       const data = tableData as Array<KeyValue>;
-      // 判断数据是否为空
+      // Check if the data is empty
       if (tableData?.length === 0) {
         tbody.value.innerHTML = trAddThTd();
         return;
       }
-      // 获取行数
+      // Get the number of rows
       let tbodyHtml = '';
       const dataSize: number = tableData?.length;
       const line: number = Math.ceil(dataSize / columnPair);
-      // 添加内容
+      // Add content
       for (let i = 0; i < line; i++) {
         const start: number = i * columnPair;
         const end: number = dataSize < (i + 1) * columnPair ? dataSize : (i + 1) * columnPair;
         const keyValues: Array<any> = [];
-        // 添加一行的内容
+        // Add content for one row
         for (let j = start; j < end; j++) {
           keyValues.push(String(data[j].key));
           keyValues.push(String(data[j].value));
         }
         tbodyHtml += trAddThTd(keyValues);
       }
-      // 复制到前端
+      // Copy to the front - end
       tbody.value.innerHTML = tbodyHtml;
     };
     const startLoading = () => {

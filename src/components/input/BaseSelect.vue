@@ -8,7 +8,7 @@
     </span>
     <el-select v-model="select" :placeholder="placeholder" @change="change" :style="isLine ? `display: inline-block;width: ${width};` : `display: block;width: ${width};`" :clearable="clearable">
       <el-option v-for="item in selectData" :key="item.value" :label="item.label" :value="item.value">
-        <!-- 此处不可用 class 指定, 由于这个是生成在 #app 兄弟结点中, 无法正常指定 -->
+        <!-- Cannot use class to specify here, because this is generated in the sibling node of #app and cannot be specified normally -->
         <span style="float: left">{{ item.label }}</span>
         &nbsp;
         <span style="float: right; color: #8492a6; font-size: 13px">{{ item.description }}</span>
@@ -65,7 +65,7 @@ export default defineComponent({
       select: '' as String | number
     });
     const change = (value: any) => props.changeEvent(value);
-    // 获取默认信息
+    // Get default information
     const defaultData = (props.selectData as Array<InputSelect>)?.filter((value: InputSelect) => value.default);
     onMounted(() => {
       // select

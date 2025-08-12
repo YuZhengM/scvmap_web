@@ -31,47 +31,45 @@
 <script lang="ts">
 import { defineComponent, reactive, ref, toRefs } from 'vue';
 import { UploadFilled } from '@element-plus/icons-vue';
-import type { UploadFile, UploadInstance, UploadProps, UploadRawFile } from 'element-plus';
-import { genFileId } from 'element-plus';
+import { ElNotification, UploadFile, UploadInstance, UploadProps, UploadRawFile, genFileId } from 'element-plus';
 import '@/assets/less/components/upload/FileUpload.less';
-import Message from '@/service/util/base/message';
 
 export default defineComponent({
   name: 'FileUpload',
   components: { UploadFilled },
   props: {
-    // 上传文件的连接
+    // File upload URL
     action: {
       type: String,
       required: true,
       default: () => ''
     },
-    // 支持的文件类型
+    // Supported file types
     fileType: {
       type: Array,
       default: () => undefined
     },
-    // 是否自动上传
+    // Whether to upload automatically
     autoUpload: {
       type: Boolean,
       default: () => true
     },
-    // 上传成功后的操作
+    // Operations after successful upload
     uploadSuccess: {
       type: Function,
       default: () => ({})
     },
-    // 文件移除的操作
+    // Operations when a file is removed
     fileRemove: {
       type: Function,
       default: () => ({})
     },
-    // 文件提示信息
+    // File prompt information
     tipText: {
       type: String,
       default: () => undefined
     },
-    // 文件上传的最大大小(单位 MB)
+    // Maximum file size for upload (in MB)
     maxFileSize: {
       type: Number,
       default: () => undefined
@@ -82,14 +80,18 @@ export default defineComponent({
     const data = reactive({
       fileList: []
     });
-    // 文件上传检查
+    // File upload check
     const fileCheck = (file: UploadRawFile): boolean => {
-      // 文件大小
+      // File size
       if (props.maxFileSize && file.size > props.maxFileSize * 1024 * 1024) {
-        Message.error(`The maximum value of file upload is ${props.maxFileSize}MB, please upload again!`);
+        ElNotification({
+          title: 'Please check',
+          message: `The maximum value of file upload is ${props.maxFileSize}MB, please upload again!`,
+          type: 'error'
+        });
         return false;
       }
-      // 文件类型
+      // File type
       if (props.fileType) {
         let isFalseType = true;
         const { length } = props.fileType;
@@ -100,16 +102,20 @@ export default defineComponent({
           }
         }
         if (isFalseType) {
-          Message.error(`The file only supports ${props.fileType} file type, please upload again!`);
+          ElNotification({
+            title: 'Please check',
+            message: `The file only supports ${props.fileType} file type, please upload again!`,
+            type: 'error'
+          });
         }
         return !isFalseType;
       }
       return true;
     };
-    // 上传之前的操作
+    // Operations before upload
     const beforeUpload: UploadProps['beforeUpload'] = (rawFile: UploadRawFile): boolean | undefined => {
       if (upload.value) {
-        // 检查文件不对不用清空文件列表, Promise 且被 reject 会帮忙清空
+        // If the file check fails, there's no need to clear the file list. A rejected Promise will handle it.
         return fileCheck(rawFile);
       }
     };
@@ -119,14 +125,14 @@ export default defineComponent({
         const file = files[0] as UploadRawFile;
         file.uid = genFileId();
         upload.value.handleStart(file);
-        // 这个移除保证删除之前替换的文件
+        // This removal ensures the previously replaced file is deleted.
         upload.value.handleRemove(file);
         upload.value.handleStart(file);
-        // 直接提交, 提交前自动检查执行 beforeUpload 函数
+        // Submit directly. The beforeUpload function will be automatically executed for pre-submission checks.
         upload.value.submit();
       }
     };
-    // 上传文件成功后的操作
+    // Operations after successful file upload
     const handlerSuccess: UploadProps['onSuccess'] = (response: any, uploadFile: UploadFile) => {
       props.uploadSuccess(response.data, uploadFile);
     };

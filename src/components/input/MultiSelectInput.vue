@@ -42,7 +42,7 @@ export default defineComponent({
       type: String,
       default: () => undefined
     },
-    // 这个数据的 value 属性是显示在页面上的
+    // The value property of this data is displayed on the page
     selectData: {
       type: Array,
       default: () => [] as Array<InputSelect>
@@ -120,7 +120,7 @@ export default defineComponent({
 
     onMounted(() => {
       data.record = data.start;
-      // 此处处理防止报错 el[SCOPE] is undefined
+      // Handle this to prevent the error "el[SCOPE] is undefined"
       isMounted.value = true;
     });
 

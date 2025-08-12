@@ -15,10 +15,10 @@ export default defineComponent({
   components: {},
   props: {
     /**
-     * ltr: 从左往右开
-     * rtl: 从右往左开
-     * ttb: 从上往下开
-     * btt: 从下往上开
+     * ltr: Open from left to right
+     * rtl: Open from right to left
+     * ttb: Open from top to bottom
+     * btt: Open from bottom to top
      */
     direction: {
       type: String,

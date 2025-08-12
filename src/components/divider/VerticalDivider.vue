@@ -10,7 +10,7 @@ import { defineComponent, reactive, toRefs } from 'vue';
 export default defineComponent({
   name: 'VerticalDivider',
   setup() {
-    // 设置响应数据
+    // Set up reactive data
     const data = reactive({});
     return {
       ...toRefs(data)

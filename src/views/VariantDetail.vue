@@ -31,7 +31,6 @@ import { defineComponent, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Base from '@/service/util/base/base';
 import Jump from '@/service/util/base/jump';
-import Message from '@/service/util/base/message';
 import '@/assets/less/views/Detail.less';
 import VariantDetailApi from '@/api/service/variantDetailApi';
 import SingleCard from '@/components/card/SingleCard.vue';
@@ -46,6 +45,7 @@ import {
 import Echarts from '@/components/echarts/Echarts.vue';
 import BaseSelect from '@/components/input/BaseSelect.vue';
 import BaseTooltip from '@/components/tooltip/BaseTooltip.vue';
+import { ElNotification } from 'element-plus';
 
 export default defineComponent({
   name: 'VariantDetail',
@@ -117,8 +117,22 @@ export default defineComponent({
     onMounted(() => {
       if (Base.isNull(route.query.variant)) {
         Jump.routerDefault(router, '/');
-        Message.warning(`${route.fullPath}: The path is not feasible!`);
+        ElNotification({
+          title: 'Please check',
+          message: `${route.fullPath}: The path is not feasible!`,
+          type: 'error'
+        });
       }
+
+      if (route.query.variant && typeof route.query.variant === 'string' && route.query.variant.includes('?')) {
+        Jump.routerDefault(router, '/');
+        ElNotification({
+          title: 'Please check',
+          message: 'The input value is incorrect. Please re-enter it without invalid characters such as "?".',
+          type: 'error'
+        });
+      }
+
       data.variant = route.query.variant as string;
       genome.value.select = 'hg19';
       getTraitInfo();

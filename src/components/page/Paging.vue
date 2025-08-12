@@ -21,32 +21,32 @@ import '@/assets/less/components/page/Paging.less';
 export default defineComponent({
   name: 'Paging',
   props: {
-    // 改变页数
+    // Change the current page
     changePage: {
       type: Function,
       default: () => ({})
     },
-    // 改变页数大小
+    // Change the page size
     changeSize: {
       type: Function,
       default: () => ({})
     },
-    // 是否为简单形式
+    // Whether to use simple mode
     isSimple: {
       type: Boolean,
       default: () => false
     },
-    // 最大页码按钮数
+    // Maximum number of page buttons
     pagerCount: {
       type: Number,
       default: () => 7
     },
-    // 下拉页数列表
+    // Dropdown list of page sizes
     pageSizes: {
       type: Array,
       default: () => [10, 25, 45, 50, 75, 100]
     },
-    // 显示的样式
+    // Display layout
     layout: {
       type: String,
       default: () => 'total, sizes, prev, pager, next, jumper'
@@ -54,21 +54,21 @@ export default defineComponent({
   },
   setup(props) {
     const data = reactive({
-      // 当前页数
+      // Current page number
       currentPage: 1,
-      // 每页的显示数量
+      // Number of items per page
       pageSize: props.pageSizes[0],
-      // 总数量
+      // Total number of items
       total: 100,
       simpleLayout: 'prev, pager, next'
     });
-    // 切换每页显示的行数
+    // Switch the number of rows displayed per page
     const handleSizeChange = (value: number) => {
-      // 赋值
+      // Assign value
       data.pageSize = value;
       props.changeSize(value);
     };
-    // 切换页数
+    // Switch the current page
     const handleCurrentChange = (value: number) => {
       data.currentPage = value;
       props.changePage(value);

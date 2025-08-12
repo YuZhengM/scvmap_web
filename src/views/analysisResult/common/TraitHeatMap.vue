@@ -40,10 +40,11 @@ export default defineComponent({
   setup(props) {
     const loading = ref();
     const heatMap = ref();
+
     const data = reactive({
       heatMapId: StringUtil.randomString(10)
     });
-    // 画热图
+
     const plotHeatMap = (dataInfo: any) => {
       // 需要先重新添加
       heatMap.value.innerHTML = `<canvas id="${data.heatMapId}" width="550" height="700"></canvas>`;
@@ -74,6 +75,7 @@ export default defineComponent({
         showVarDendrogram: 'false'
       });
     };
+
     const getSampleTraitsHeatmap = () => {
       if (loading.value) {
         loading.value.loading = true;
@@ -83,14 +85,15 @@ export default defineComponent({
         });
       }
     };
+
     onMounted(() => {
-      if (Base.noNull(props.method) && Base.noNull(props.strategy) && Base.noNull(props.traitIdList)) {
+      if (Base.noNull(props.method) && Base.noNull(props.strategy) && Base.noNull(props.traitIdList) && props.traitIdList.length > 1) {
         getSampleTraitsHeatmap();
       }
     });
-    // 监控
+
     watch(() => ({ value1: props.method, value2: props.strategy, value3: props.traitIdList }), () => {
-      if (Base.noNull(props.method) && Base.noNull(props.strategy) && Base.noNull(props.traitIdList)) {
+      if (Base.noNull(props.method) && Base.noNull(props.strategy) && Base.noNull(props.traitIdList) && props.traitIdList.length > 1) {
         getSampleTraitsHeatmap();
       }
     }, {

@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive, ref, toRefs } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import '@/assets/less/components/logo/FontLogo.less';
 
 export default defineComponent({
@@ -36,8 +36,6 @@ export default defineComponent({
   },
   setup(props) {
     const logo = ref();
-    // 设置响应数据
-    const data = reactive({});
     onMounted(() => {
       logo.value.style.width = `${props.width + 20}px`;
       logo.value.style.height = `${props.height + 20}px`;
@@ -45,7 +43,6 @@ export default defineComponent({
       logo.value.style.letterSpacing = `${props.letterSpacing}px`;
     });
     return {
-      ...toRefs(data),
       logo
     };
   }

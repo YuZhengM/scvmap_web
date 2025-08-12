@@ -29,12 +29,12 @@ export default defineComponent({
       type: Object,
       default: () => ({})
     },
-    // 渲染信息: canvas 或者 svg
+    // Rendering information: canvas or svg
     renderer: {
       type: String,
       default: () => ('svg')
     },
-    // 指定的相关结点
+    // Specified related nodes
     resizeValue: {
       type: Object,
       default: () => ({
@@ -42,12 +42,12 @@ export default defineComponent({
         height: 500
       })
     },
-    // 是否自动绘制图形
+    // Whether to draw the graph automatically
     automatic: {
       type: Boolean,
       default: () => true
     },
-    // 是否自动绘制图形
+    // Whether to draw clustered graph
     isCluster: {
       type: Boolean,
       default: () => false
@@ -70,13 +70,13 @@ export default defineComponent({
     }
   },
   setup(props) {
-    // 获取 ref 元素
+    // Get ref elements
     const loading = ref();
     const container = ref();
     const expandContainer = ref();
-    // 设置响应数据
+    // Set reactive data
     const data = reactive({
-      // 搜索的内容
+      // Random ID for ECharts instance
       echartsId: StringUtil.randomString(10) as string,
       expandEchartsId: StringUtil.randomString(10) as string,
       expandVisible: false,
@@ -87,9 +87,9 @@ export default defineComponent({
 
     let myChart: ECharts;
     let expandChart: ECharts;
-    // 重设宽高
+    // Reset width and height
     const resizeEcharts = (resize: Object | undefined) => {
-      // 保证容器存在
+      // Ensure the container exists
       if (container.value && resize) {
         myChart.resize(resize);
       }
@@ -104,7 +104,7 @@ export default defineComponent({
       });
     };
 
-    // 绘制图表
+    // Draw the chart
     const drawEcharts = (option: object) => {
       if (option && typeof option === 'object' && myChart) {
         data.option = option;
@@ -113,7 +113,7 @@ export default defineComponent({
       }
     };
 
-    // 绘制图表
+    // Draw the expanded chart
     const expandDrawEcharts = (option: object) => {
       if (expandContainer.value && option && typeof option === 'object' && expandChart) {
         expandChart.setOption(option as EChartsOption, true);
@@ -127,19 +127,19 @@ export default defineComponent({
     const startExpand = (option?: Object) => {
       // expandContainer.value.style.width = props.expandWidth;
       expandContainer.value.style.height = props.expandHeight;
-      // 转换类型为 RendererType
+      // Convert type to RendererType
       const renderer = props.renderer as RendererType;
-      // 基于准备好的 dom, 初始化 echarts 实例
+      // Initialize the ECharts instance based on the prepared DOM
       expandChart = echarts.init(expandContainer.value, undefined, { renderer });
       if (props.isCluster) {
-        // @ts-ignore ecStat.transform 这个在 ts 中报错, 忽略下一行一切错误
+        // @ts-ignore ecStat.transform reports an error in TypeScript, ignore all errors on the next line
         echarts.registerTransform(ecStat.transform.clustering);
       }
       if (option && Object.keys(option).length > 0) {
         expandDrawEcharts(option);
         return;
       }
-      // 绘制图表
+      // Draw the chart
       expandDrawEcharts(Object.keys(data.expandOption).length > 0 ? data.expandOption : data.option);
     };
 
@@ -149,27 +149,27 @@ export default defineComponent({
       }, 100);
     };
 
-    // 修改样式信息
+    // Modify style information
     onMounted(() => {
       data.option = props.option;
-      // 初始化长度和宽度
+      // Initialize width and height
       container.value.style.width = data.resize.width;
       container.value.style.height = data.resize.height;
-      // 转换类型为 RendererType
+      // Convert type to RendererType
       const renderer = props.renderer as RendererType;
-      // 基于准备好的 dom, 初始化 echarts 实例
+      // Initialize the ECharts instance based on the prepared DOM
       myChart = echarts.init(container.value, undefined, { renderer });
       if (props.isCluster) {
-        // @ts-ignore ecStat.transform 这个在 ts 中报错, 忽略下一行一切错误
+        // @ts-ignore ecStat.transform reports an error in TypeScript, ignore all errors on the next line
         echarts.registerTransform(ecStat.transform.clustering);
       }
-      // 绘制图表
+      // Draw the chart
       if (props.automatic) {
         drawEcharts(data.option);
       }
-      // 自动适应大小
+      // Auto-adjust size
       // window.onresize = () => {
-      //   // 保证容器存在
+      //   // Ensure the container exists
       //   setResize();
       // };
     });
@@ -179,7 +179,7 @@ export default defineComponent({
     const endLoading = () => {
       loading.value.loading = false;
     };
-    // 监控
+    // Watch for changes
     watch(() => props.option, (newValue) => {
       data.option = newValue;
       drawEcharts(data.option);
@@ -187,7 +187,7 @@ export default defineComponent({
       immediate: true,
       deep: true
     });
-    // 监控
+    // Watch for changes
     watch(() => props.expandOption, (newValue) => {
       data.expandOption = newValue;
       expandDrawEcharts(data.expandOption);
@@ -195,7 +195,7 @@ export default defineComponent({
       immediate: true,
       deep: true
     });
-    // 监控
+    // Watch for changes
     watch(() => props.resizeValue, (newValue) => {
       data.resize = newValue as any;
       drawEcharts(data.option);
@@ -217,20 +217,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style lang="less">
-.echarts_template {
-  position: relative;
-
-  .echarts_expand {
-    position: absolute;
-    display: block;
-    font-size: larger;
-    cursor: pointer;
-    margin-left: -20px;
-    z-index: 10;
-    left: 100%;
-  }
-}
-
-</style>

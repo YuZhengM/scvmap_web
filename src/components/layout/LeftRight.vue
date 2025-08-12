@@ -34,21 +34,21 @@ export default defineComponent({
     }
   },
   setup(props) {
-    // 获取 ref 元素
+    // Get ref elements
     const left = ref();
     const right = ref();
     const data = reactive({
       second: 0.5
     });
-    // 修改样式信息
+    // Modify style information
     onMounted(() => {
       left.value.style.width = `${String(props.leftWidth - props.padding)}%`;
       right.value.style.width = `${String(100 - props.padding - props.leftWidth)}%`;
     });
-    // 页面加载完获取左右高度
+    // Get the heights of the left and right elements after the page is loaded
     nextTick(() => {
       if (props.isEqualHeight && props.height === 0) {
-        // 当左边高度大于右边, 则将左边高度复制给右边
+        // If the height of the left element is greater than the right element, copy the left height to the right
         if (left.value.clientHeight > right.value.clientHeight) {
           right.value.style.height = `${left.value.clientHeight}px`;
         } else {

@@ -6,15 +6,15 @@
     </el-radio-group>
     <el-menu :default-active="active" class="el-menu-vertical-demo" :collapse="isCollapse">
       <div v-for="(menu, i) in menus" :key="i">
-        <!-- 判断是否有下一层 -->
+        <!-- Check if there is a next level -->
         <el-menu-item :index="menu.index" v-if="!menu.submenus" v-text="menu.title" @click="menuClick(menu)"/>
         <el-sub-menu :index="menu.index" v-if="menu.submenus">
           <template #title>
             <span v-text="menu.title"></span>
           </template>
-          <!-- 判断是否有下一层 -->
+          <!-- Check if there is a next level -->
           <div v-for="(submenu, j) in menu.submenus" :key="j">
-            <!-- 没有第三层, 下面为第二层 -->
+            <!-- No third level, the following is the second level -->
             <el-menu-item-group v-if="!submenu.submenus">
               <template #title>
                 <span v-text="submenu.title" v-if="submenu.title"></span>
@@ -23,7 +23,7 @@
                 <el-menu-item :index="name.index" v-text="name.title" @click="menuClick(menu)"/>
               </div>
             </el-menu-item-group>
-            <!-- 有第三层 -->
+            <!-- There is a third level -->
             <el-sub-menu :index="submenu.index" v-if="submenu.submenus">
               <template #title>
                 <span v-text="submenu.title"></span>
@@ -64,7 +64,7 @@ export default defineComponent({
       type: Array,
       default: () => ([]) as Array<NavLeft>
     },
-    // slider 的最大高度指定
+    // Specify the maximum height of the slider
     maxHeight: {
       type: Number,
       default: () => undefined
@@ -81,7 +81,7 @@ export default defineComponent({
       if (menu.link) {
         Jump.routerDefault(router, menu.link);
       }
-      // 这段代码不完整
+      // This code is incomplete
       if (props.maxHeight) {
         leftNav.value.style.maxHeight = props.maxHeight;
       }

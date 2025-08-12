@@ -20,6 +20,7 @@ import Message from '@/service/util/base/message';
 import '@/assets/less/views/Detail.less';
 import TraitOverview from '@/views/detail/traitDetail/TraitOverview.vue';
 import TraitClusterAnnotation from '@/views/detail/traitDetail/TraitClusterAnnotation.vue';
+import { ElNotification } from 'element-plus';
 
 export default defineComponent({
   name: 'TraitDetail',
@@ -36,7 +37,11 @@ export default defineComponent({
     onMounted(() => {
       if (Base.isNull(route.query.traitId)) {
         Jump.routerDefault(router, '/');
-        Message.warning(`${route.fullPath}: The path is not feasible!`);
+        ElNotification({
+          title: 'Please check',
+          message: `${route.fullPath}: The path is not feasible!`,
+          type: 'error'
+        });
       }
     });
     return {

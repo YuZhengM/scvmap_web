@@ -185,7 +185,28 @@ export default defineComponent({
       data.strategyValue = strategy.value.select;
     };
 
+    const checkTrait = (traitIdParam: any): string[] => {
+      // If the input parameter is a string, convert it to an array
+      const initialList = typeof traitIdParam === 'string' ? [traitIdParam] : Array.isArray(traitIdParam) ? traitIdParam : [];
+
+      const traitIdList: string[] = [...initialList];
+
+      // If the list contains fewer than 2 elements, add a default trait ID
+      if (traitIdList.length < 2) {
+        const traitTmp = initialList[0] !== 'trait_id_1' ? 'trait_id_1' : 'trait_id_2';
+        ElNotification({
+          title: 'Trait count',
+          message: `A heatmap display requires at least two trait elements, and "${traitTmp}" is added by default.`,
+          type: 'info'
+        });
+        traitIdList.push(traitTmp);
+      }
+
+      return traitIdList;
+    };
+
     const traitEvent = () => {
+      trait.value.input = checkTrait(trait.value.input);
       const traitIdList = trait.value.input.filter((item: string) => item.startsWith('trait_id'));
       const traitCodeList = trait.value.input.filter((item: string) => !item.startsWith('trait_id'));
       const traitIdList2 = data.traitData.filter((item: any) => traitCodeList.indexOf(item.label) > -1).map((item: any) => item.value);
@@ -206,7 +227,7 @@ export default defineComponent({
       strategy.value.select = ANALYSIS_STRATEGY_DATA[0].value as string;
       getSampleInfo();
       listTrait();
-      data.traitIdList = route.query.traitIdList as Array<string>;
+      data.traitIdList = checkTrait(route.query.traitIdList);
     });
     return {
       ...toRefs(data),

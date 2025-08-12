@@ -24,27 +24,23 @@ import Cookies from 'js-cookie';
 export default defineComponent({
   name: 'CookieNotification',
   props: {
-    icon: {
-      type: String,
-      default: () => ''
-    },
-    title: {
-      type: String,
-      default: () => 'Title 标题'
+    expires: {
+      type: Number,
+      default: () => 7
     }
   },
-  setup() {
+  setup(props) {
     const cookieAccepted = ref(false);
 
-    // 检查是否已经接受过 Cookie
+    // Check if the user has already accepted the cookie
     onMounted(() => {
       cookieAccepted.value = Cookies.get('cookie_accepted') === 'true';
     });
 
-    // 用户接受 Cookie
+    // User accepts the cookie
     const acceptCookie = () => {
-      // 设置 Cookie，有效期为 7 天
-      Cookies.set('cookie_accepted', 'true', { expires: 7 });
+      // Set the cookie, valid for 7 days
+      Cookies.set('cookie_accepted', 'true', { expires: props.expires });
       cookieAccepted.value = true;
     };
 
