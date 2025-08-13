@@ -50,7 +50,6 @@ import { defineComponent, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Base from '@/service/util/base/base';
 import Jump from '@/service/util/base/jump';
-import Message from '@/service/util/base/message';
 import '@/assets/less/views/Detail.less';
 import { KeyValue } from '@/service/model/data';
 import GeneTfDetailApi from '@/api/service/geneTfDetailApi';

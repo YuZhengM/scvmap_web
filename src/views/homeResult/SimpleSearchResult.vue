@@ -77,13 +77,8 @@ export default defineComponent({
         ElNotification({ title: 'Please check', message: `${route.fullPath}: The path is not feasible!`, type: 'error' });
       }
 
-      if (route.query.value && typeof route.query.value === 'string' && route.query.value.includes('?')) {
+      if (!Base.checkParam(route.query.value)) {
         Jump.routerDefault(router, '/');
-        ElNotification({
-          title: 'Please check',
-          message: 'The input value is incorrect. Please re-enter it without invalid characters such as "?".',
-          type: 'error'
-        });
       }
     });
     return {

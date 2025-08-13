@@ -75,9 +75,17 @@ export default defineComponent({
             tissueType.value.input = 'Brain';
             ElNotification({ title: 'Default parameter settings', message: 'Tissue type defaults to `all`!', type: 'info' });
           }
+
+          if (!Base.checkParam(tissueType.value.input)) {
+            return;
+          }
         } else if (Base.isNull(cellType.value.input)) {
           cellType.value.input = 'CD4+ T cells';
           ElNotification({ title: 'Default parameter settings', message: 'Cell type defaults to `CD4+ T cells`!', type: 'info' });
+
+          if (!Base.checkParam(cellType.value.input)) {
+            return;
+          }
         }
         Jump.routerQuery(router, '/search_sample', data.isTissueType ? {
           tissueType: tissueType.value.input

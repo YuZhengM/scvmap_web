@@ -53,6 +53,11 @@ export default defineComponent({
           gene.value.input = data.geneExample;
           ElNotification({ title: 'Default parameter settings', message: `Gene defaults to \`${data.geneExample}\`!`, type: 'info' });
         }
+
+        if (!Base.checkParam(gene.value.input)) {
+          return;
+        }
+
         Jump.routerQuery(router, '/gene_detail', {
           gene: gene.value.input
         });

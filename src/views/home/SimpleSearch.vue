@@ -33,6 +33,7 @@ import Jump from '@/service/util/base/jump';
 import Json from '@/service/util/base/json';
 import { useRouter } from 'vue-router';
 import { ElNotification } from 'element-plus';
+import Base from '@/service/util/base/base';
 
 export default defineComponent({
   name: 'SimpleSearch',
@@ -85,6 +86,10 @@ export default defineComponent({
         ElNotification({ title: 'Search', message: `The default value is ${paramValue}!`, type: 'info' });
       } else {
         paramValue = value;
+      }
+
+      if (!Base.checkParam(paramValue)) {
+        return;
       }
 
       if (title === 'trait' || title === 'sample') {

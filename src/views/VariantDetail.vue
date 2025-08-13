@@ -124,13 +124,8 @@ export default defineComponent({
         });
       }
 
-      if (route.query.variant && typeof route.query.variant === 'string' && route.query.variant.includes('?')) {
+      if (!Base.checkParam(route.query.variant)) {
         Jump.routerDefault(router, '/');
-        ElNotification({
-          title: 'Please check',
-          message: 'The input value is incorrect. Please re-enter it without invalid characters such as "?".',
-          type: 'error'
-        });
       }
 
       data.variant = route.query.variant as string;

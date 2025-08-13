@@ -58,30 +58,36 @@
 <script lang="ts">
 import { defineComponent, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import Base from '@/service/util/base/base';
-import Jump from '@/service/util/base/jump';
 import LeftRight from '@/components/layout/LeftRight.vue';
-import '@/assets/less/views/analysisResult/AnalysisMultiTrait.less';
 import BaseLoading from '@/components/loading/BaseLoading.vue';
-import DetailApi from '@/api/service/detailApi';
 import BaseDrawer from '@/components/drawer/BaseDrawer.vue';
-import { KeyValue } from '@/service/model/data';
-import { ANALYSIS_MULTI_TRAIT_BUTTON_POSITION_DATA, ANALYSIS_STRATEGY_DATA, DATA_ANALYSIS_TRAIT_TABLE_DESCRIPTION, DETAIL_METHOD_DATA, getSampleArrayTable } from '@/assets/ts';
 import TraitHeatMap from '@/views/analysisResult/common/TraitHeatMap.vue';
 import BaseSelect from '@/components/input/BaseSelect.vue';
 import BaseBr from '@/components/divider/BaseBr.vue';
 import MultiSelectInput from '@/components/input/MultiSelectInput.vue';
-import { InputSelect } from '@/service/model/components/input';
-import ArrayUtil from '@/service/util/base/array';
 import BaseTable from '@/components/table/BaseTable.vue';
 import ClusterAnnotationWithButton from '@/views/detail/common/ClusterAnnotationWithButton.vue';
 import { ElNotification } from 'element-plus';
 import SingleCard from '@/components/card/SingleCard.vue';
-import Time from '@/service/util/base/time';
-import AnalysisApi from '@/api/service/analysisApi';
 import GeneInfoAnnotation from '@/views/detail/common/GeneInfoAnnotation.vue';
 import TfInfoAnnotation from '@/views/detail/common/TfInfoAnnotation.vue';
 import PositionButton from '@/components/button/PositionButton.vue';
+import {
+  ANALYSIS_MULTI_TRAIT_BUTTON_POSITION_DATA,
+  ANALYSIS_STRATEGY_DATA,
+  DATA_ANALYSIS_TRAIT_TABLE_DESCRIPTION,
+  DETAIL_METHOD_DATA,
+  getSampleArrayTable
+} from '@/assets/ts';
+import '@/assets/less/views/analysisResult/AnalysisMultiTrait.less';
+import Base from '@/service/util/base/base';
+import Jump from '@/service/util/base/jump';
+import Time from '@/service/util/base/time';
+import DetailApi from '@/api/service/detailApi';
+import ArrayUtil from '@/service/util/base/array';
+import AnalysisApi from '@/api/service/analysisApi';
+import { KeyValue } from '@/service/model/data';
+import { InputSelect } from '@/service/model/components/input';
 
 export default defineComponent({
   name: 'AnalysisMultiTrait',
@@ -187,7 +193,7 @@ export default defineComponent({
 
     const checkTrait = (traitIdParam: any): string[] => {
       // If the input parameter is a string, convert it to an array
-      const initialList = typeof traitIdParam === 'string' ? [traitIdParam] : Array.isArray(traitIdParam) ? traitIdParam : [];
+      const initialList = typeof traitIdParam === 'string' ? [traitIdParam] : Base.isArray(traitIdParam) ? traitIdParam : [];
 
       const traitIdList: string[] = [...initialList];
 
@@ -212,6 +218,9 @@ export default defineComponent({
       const traitIdList2 = data.traitData.filter((item: any) => traitCodeList.indexOf(item.label) > -1).map((item: any) => item.value);
       data.traitIdList = [...traitIdList, ...traitIdList2];
       data.traitTableData = data.desTraitData.filter((item: any) => data.traitIdList.indexOf(item.traitId) > -1);
+      Time.delay(() => {
+        traitTable.value.selectionToggleChange([data.traitTableData[0]]);
+      });
     };
 
     onMounted(() => {
