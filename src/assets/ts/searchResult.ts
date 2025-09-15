@@ -7,6 +7,7 @@ import {
 
 export const SEARCH_TRAIT_TABLE_DESCRIPTION: Array<TableHead> = [
   { column: 'traitId', title: 'Trait ID', database: 'f_trait_id', type: 1, width: 120, href: (row: any) => linkTraitDetail(row.traitId) },
+  { column: 'traitName', title: 'Trait name', database: 'f_trait_name', type: 1, width: 120 },
   { column: 'sourceId', title: 'Source ID', type: 1, width: 120 },
   { column: 'sourceName', title: 'Source cohort', database: 'f_source_name', type: 1, width: 120 },
   { column: 'sourceGenome', title: 'Source genome', database: 'f_source_genome', type: 1, width: 120, content: 'Reference genome information of this trait or disease in the original data.' },
@@ -48,6 +49,7 @@ export const SEARCH_TRAIT_TABLE_DESCRIPTION: Array<TableHead> = [
 
 export const SEARCH_SAMPLE_TABLE_DESCRIPTION: Array<TableHead> = [
   { column: 'sampleId', title: 'Sample ID', database: 'f_sample_id', type: 1, href: (row: any) => linkSampleDetail(row.sampleId) },
+  { column: 'sampleName', title: 'Sample name', database: 'f_sample_name', type: 1 },
   { column: 'tissueType', title: 'Tissue type', database: 'f_tissue_type', type: 1 },
   { column: 'healthTypeDescription', title: 'Health type description', database: 'f_health_type_description', type: 1 },
   { column: 'cellTypeCount', title: 'Cell type count', database: 'f_cell_type_count', type: 2 },

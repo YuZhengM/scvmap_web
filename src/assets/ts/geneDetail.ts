@@ -111,7 +111,7 @@ export const geneGraphOption: any = (data: any) => ({
   tooltip: {},
   legend: [
     {
-      // selectedMode: 'single',
+      top: '5%',
       data: data.categories.map((a: any) => a.name)
     }
   ],
@@ -149,6 +149,100 @@ export const geneGraphOption: any = (data: any) => ({
         repulsion: 200,
         gravity: 0.5
       }
+    }
+  ]
+});
+
+export const overlapGeneGraphOption: any = (data: any) => ({
+  title: {
+    top: 'bottom',
+    left: 'right'
+  },
+  toolbox: toolboxSimple('top', 10),
+  tooltip: {},
+  legend: [
+    {
+      // selectedMode: 'single',
+      data: data.categories.map((a: any) => a.name)
+    }
+  ],
+  grid: {
+    top: '10%',
+    left: '10%',
+    right: '10%',
+    bottom: '10%',
+    containLabel: true
+  },
+  series: [
+    {
+      name: '',
+      type: 'graph',
+      layout: 'force',
+      data: data.nodes,
+      links: data.links,
+      categories: data.categories,
+      roam: true,
+      emphasis: {
+        focus: 'adjacency',
+        label: {
+          position: 'right',
+          show: true,
+          formatter: (name: any) => name.name
+        }
+      },
+      label: {
+        show: true,
+        fontSize: 18,
+        formatter: (name: any) => name.name
+      },
+      force: {
+        edgeLength: 10,
+        repulsion: 40,
+        gravity: 0.5
+      }
+    }
+  ]
+});
+
+export const overlapSnpCountBarOption: any = (data: any) => ({
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow'
+    }
+  },
+  toolbox: toolboxSimple('top', 10),
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '10%',
+    containLabel: true
+  },
+  xAxis: [
+    {
+      type: 'category',
+      data: data.xdata,
+      axisTick: {
+        alignWithLabel: true
+      },
+      datasetIndex: 0,
+      axisLabel: {
+        interval: 0,
+        rotate: 60
+      }
+    }
+  ],
+  yAxis: [
+    {
+      type: 'value'
+    }
+  ],
+  series: [
+    {
+      name: 'Count',
+      type: 'bar',
+      barWidth: '60%',
+      data: data.ydata
     }
   ]
 });
@@ -233,12 +327,12 @@ export const geneSnpGraphOption: any = (data: Array<any>, gene: string) => {
 
 // noinspection JSUnusedGlobalSymbols
 export const geneTraitCountOption = (data: any) => ({
-  title: echartsTitle('Trait count'),
+  title: echartsTitle('Trait count (MAGMA)'),
   tooltip: {
     trigger: 'item',
     formatter: (value: any) => `${value.name} <br/> ${value.seriesName}: ${value.value} <br/> percent: ${value.percent}%`
   },
-  toolbox: toolboxSimple(),
+  toolbox: toolboxSimple('top', 30),
   legend: {
     type: 'scroll',
     top: '10%',

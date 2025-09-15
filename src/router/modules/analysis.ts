@@ -4,6 +4,8 @@ import Footer from '@/views/common/Footer.vue';
 import AnalysisMultiTrait from '@/views/analysisResult/AnalysisMultiTrait.vue';
 import AnalysisGeneExplore from '@/views/analysisResult/AnalysisGeneExplore.vue';
 import AnalysisTfExplore from '@/views/analysisResult/AnalysisTfExplore.vue';
+import AnalysisCompareSc from '@/views/analysisResult/AnalysisCompareSc.vue';
+import AnalysisCompareTrait from '@/views/analysisResult/AnalysisCompareTrait.vue';
 
 const props = (active: number) => ({
   default: true,
@@ -53,6 +55,26 @@ const analysisResult = [
     name: 'AnalysisTfExplore',
     components: {
       default: AnalysisTfExplore,
+      header: Header,
+      footer: Footer
+    },
+    props: props(active)
+  },
+  {
+    path: '/analysis_compare_sc',
+    name: 'AnalysisCompareSc',
+    components: {
+      default: AnalysisCompareSc,
+      header: Header,
+      footer: Footer
+    },
+    props: props(active)
+  },
+  {
+    path: '/analysis_compare_trait',
+    name: 'AnalysisCompareTrait',
+    components: {
+      default: AnalysisCompareTrait,
       header: Header,
       footer: Footer
     },

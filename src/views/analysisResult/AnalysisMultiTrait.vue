@@ -79,7 +79,7 @@ import {
   DETAIL_METHOD_DATA,
   getSampleArrayTable
 } from '@/assets/ts';
-import '@/assets/less/views/analysisResult/AnalysisMultiTrait.less';
+import '@/assets/less/views/analysisResult/AnalysisResult.less';
 import Base from '@/service/util/base/base';
 import Jump from '@/service/util/base/jump';
 import Time from '@/service/util/base/time';

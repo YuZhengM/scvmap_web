@@ -7,7 +7,7 @@
         </el-link>
       </template>
       <template #default>
-        <LeftRight ref="leftRight">
+        <LeftRight :is-left-right="isLeftRight" ref="leftRight">
           <template #left>
             <table class="table table-hover table-striped table_sample_overview">
               <thead></thead>
@@ -71,6 +71,10 @@ export default defineComponent({
     sampleId: {
       type: String,
       default: () => ''
+    },
+    isLeftRight: {
+      type: Boolean,
+      default: () => true
     }
   },
   setup(props) {

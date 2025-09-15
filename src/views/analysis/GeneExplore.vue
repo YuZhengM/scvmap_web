@@ -14,12 +14,21 @@
           <BaseSelect title="Log<sub>2</sub>(Fold change):" clearable :is-line="true" width="62%" :select-data="Log2FoldChangeSelectData" ref="log2FoldChange"/>
         </div>
         <BaseBr/>
-        <!-- 最小和 p—value 限制 -->
-        <span class="title_strategy">Trait or disease:</span>
+        <span class="title_strategy">scATAC-seq and Trait or disease (Cicero):</span>
+        <div class="trait_info">
+          <BaseSelect title="Co-score:"
+                      clearable
+                      :is-line="true"
+                      width="62%"
+                      :select-data="coScoreSelectData"
+                      ref="coScore"/>
+        </div>
+        <span class="title_strategy">Trait or disease (MAGMA):</span>
         <div class="trait_info">
           <BaseInput title="Number of SNPs:" type="number" :min="0" :width="200" description="The minimum number of SNPs annotated onto a gene" is-line ref="min"/>
           <BaseSelect title="P value:" clearable :is-line="true" width="62%" :select-data="pValueTraitSelectData" ref="pValueTrait"/>
         </div>
+        <BaseBr/>
         <BaseBr/>
         <BaseButton :content="buttonContent" :button-click="buttonClick"/>
       </template>
@@ -32,10 +41,10 @@
             <span class="region">
               1) <strong>Genes</strong>: Users can input genes of interest in two ways. <br/>
               <span class="sub_region">
-                <el-icon><CaretRight /></el-icon> <strong>Paste your data</strong>: Enter the gene(s) with "\n" as the line break character.
+                <el-icon><CaretRight/></el-icon> <strong>Paste your data</strong>: Enter the gene(s) with "\n" as the line break character.
               </span>
               <span class="sub_region">
-                <el-icon><CaretRight /></el-icon> <strong>Upload a file</strong>: Submit a "txt" file containing a gene list separated by "\n".
+                <el-icon><CaretRight/></el-icon> <strong>Upload a file</strong>: Submit a "txt" file containing a gene list separated by "\n".
               </span>
             </span>
             <br/>
@@ -76,7 +85,7 @@ import {
   DIFFERENCE_GENE_ADJUSTED_P_VALUE_DATA,
   DIFFERENCE_GENE_P_VALUE_DATA,
   MAGMA_GENE_P_VALUE_DATA,
-  getExampleUrlHtml
+  getExampleUrlHtml, CICERO_CO_SCORE_DATA
 } from '@/assets/ts';
 import BaseInput from '@/components/input/BaseInput.vue';
 import FileApi from '@/api/service/fileApi';
@@ -114,6 +123,7 @@ export default defineComponent({
     const adjustedPValue = ref();
     const pValue = ref();
     const pValueTrait = ref();
+    const coScore = ref();
     const min = ref();
     const data = reactive({
       isUpload: false,
@@ -165,6 +175,7 @@ export default defineComponent({
        */
       minAngry: min.value.input,
       pvalueTrait: pValueTrait.value.select,
+      coScore: coScore.value.select,
       isFile
     });
     const buttonClick = (id: string) => {
@@ -203,6 +214,9 @@ export default defineComponent({
         if (Base.isNull(min.value.input)) {
           min.value.input = 1;
         }
+        if (Base.isNull(coScore.value.select)) {
+          coScore.value.select = CICERO_CO_SCORE_DATA[1].value;
+        }
         // 判断是否为输出内容
         if (data.isUpload) {
           content.emit('startLoading');
@@ -229,6 +243,7 @@ export default defineComponent({
         adjustedPValue.value.select = DIFFERENCE_GENE_ADJUSTED_P_VALUE_DATA[2].value;
         pValue.value.select = DIFFERENCE_GENE_P_VALUE_DATA[2].value;
         pValueTrait.value.select = MAGMA_GENE_P_VALUE_DATA[1].value;
+        coScore.value.select = CICERO_CO_SCORE_DATA[1].value;
         min.value.input = 1;
         if (!data.isUpload) {
           getExampleData();
@@ -244,6 +259,7 @@ export default defineComponent({
       adjustedPValue,
       pValue,
       pValueTrait,
+      coScore,
       min,
       uploadSuccess,
       fileChange,
@@ -254,6 +270,7 @@ export default defineComponent({
       AdjustedPValueSelectData: DIFFERENCE_GENE_ADJUSTED_P_VALUE_DATA,
       pValueSelectData: DIFFERENCE_GENE_P_VALUE_DATA,
       pValueTraitSelectData: MAGMA_GENE_P_VALUE_DATA,
+      coScoreSelectData: CICERO_CO_SCORE_DATA,
       buttonContent: ANALYSIS_BUTTON_CONTENT
     };
   }

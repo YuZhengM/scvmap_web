@@ -51,7 +51,7 @@ export const TOOLBOX = {
   height: 'auto'
 };
 
-export const toolboxSimple = (top: any = 'top', right: any = 50) => ({
+export const toolboxSimple = (top: any = 'top', right: any = 30) => ({
   show: true,
   orient: 'horizontal',
   itemSize: 15,

@@ -1,5 +1,5 @@
 <template>
-  <div class="left_right_template">
+  <div class="left_right_template" :style="isLeftRight ? 'flex-direction: row;' : 'flex-direction: column;'">
     <div class="left" ref="left">
       <slot name="left"></slot>
     </div>
@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, nextTick, onMounted, reactive, ref, toRefs } from 'vue';
+import { defineComponent, nextTick, onMounted, reactive, ref, toRefs, watch } from 'vue';
 import '@/assets/less/components/layout/LeftRight.less';
 
 export default defineComponent({
@@ -31,6 +31,10 @@ export default defineComponent({
     padding: {
       type: Number,
       default: () => 2.5
+    },
+    isLeftRight: {
+      type: Boolean,
+      default: () => true
     }
   },
   setup(props) {
@@ -42,8 +46,8 @@ export default defineComponent({
     });
     // Modify style information
     onMounted(() => {
-      left.value.style.width = `${String(props.leftWidth - props.padding)}%`;
-      right.value.style.width = `${String(100 - props.padding - props.leftWidth)}%`;
+      left.value.style.width = props.isLeftRight ? `${String(props.leftWidth - props.padding)}%` : `${String(100 - props.padding)}%`;
+      right.value.style.width = props.isLeftRight ? `${String(100 - props.padding - props.leftWidth)}%` : `${String(100 - props.padding)}%`;
     });
     // Get the heights of the left and right elements after the page is loaded
     nextTick(() => {
@@ -60,6 +64,7 @@ export default defineComponent({
         left.value.style.height = `${props.height}px`;
       }
     });
+
     return {
       ...toRefs(data),
       left,

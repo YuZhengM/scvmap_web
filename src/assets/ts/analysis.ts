@@ -6,7 +6,8 @@ import { toolboxSimple } from '@/service/util/echarts';
 export const ANALYSIS_COLLAPSE_DATA = [
   { name: 'multiTrait', icon: 'fas fa-magnifying-glass-chart', title: 'Analyzing variant-to-function mapping' },
   { name: 'gene', icon: 'fas fa-magnifying-glass-chart', title: 'Analyzing variant-to-function mapping with genes' },
-  { name: 'tf', icon: 'fas fa-magnifying-glass-chart', title: 'Analyzing variant-to-function mapping with TFs' }
+  { name: 'tf', icon: 'fas fa-magnifying-glass-chart', title: 'Analyzing variant-to-function mapping with TFs' },
+  { name: 'compare', icon: 'fas fa-magnifying-glass-chart', title: 'Comparative analysis between samples or traits' }
 ];
 
 export const ANALYSIS_BUTTON_CONTENT: Array<ButtonBase> = [
@@ -81,6 +82,18 @@ export const DIFFERENCE_GENE_ADJUSTED_P_VALUE_DATA: Array<InputSelect> = [
   { label: 'Adjusted p value ≤ 1.0E-250', value: 1.0E-250 },
   { label: 'Adjusted p value ≤ 1.0E-275', value: 1.0E-275 },
   { label: 'Adjusted p value ≤ 1.0E-300', value: 1.0E-300 }
+];
+
+export const CICERO_CO_SCORE_DATA: Array<InputSelect> = [
+  { label: 'All', value: 0 },
+  { label: 'score > 0.01', value: 0.01 },
+  { label: 'score > 0.05', value: 0.05 },
+  { label: 'score > 0.1', value: 0.1 },
+  { label: 'score > 0.2', value: 0.2 },
+  { label: 'score > 0.3', value: 0.3 },
+  { label: 'score > 0.4', value: 0.4 },
+  { label: 'score > 0.5', value: 0.5 },
+  { label: 'score > 0.6', value: 0.6 }
 ];
 
 export const DIFFERENCE_TF_ADJUSTED_P_VALUE_DATA: Array<InputSelect> = DIFFERENCE_GENE_ADJUSTED_P_VALUE_DATA;
@@ -170,12 +183,39 @@ export const ANALYSIS_LOG2_FOLD_CHANGE_SELECT_DATA: Array<InputSelect> = [
   { label: '|Log2(Fold change)| ≥ 10', value: 10 }
 ];
 
+export const ANALYSIS_MEAN_SELECT_DATA: Array<InputSelect> = [
+  { label: 'All', value: 0 },
+  { label: 'Mean ≥ 0.1', value: 0.1 },
+  { label: 'Mean ≥ 0.2', value: 0.2 },
+  { label: 'Mean ≥ 0.3', value: 0.3 },
+  { label: 'Mean ≥ 0.4', value: 0.4 },
+  { label: 'Mean ≥ 0.5', value: 0.5 },
+  { label: 'Mean ≥ 0.6', value: 0.6 },
+  { label: 'Mean ≥ 0.7', value: 0.7 },
+  { label: 'Mean ≥ 1', value: 1 },
+  { label: 'Mean ≥ 1.5', value: 1.5 },
+  { label: 'Mean ≥ 2', value: 2 },
+  { label: 'Mean ≥ 3', value: 3 },
+  { label: 'Mean ≥ 4', value: 4 },
+  { label: 'Mean ≥ 5', value: 5 },
+  { label: 'Mean ≥ 6', value: 6 },
+  { label: 'Mean ≥ 7', value: 7 },
+  { label: 'Mean ≥ 8', value: 8 },
+  { label: 'Mean ≥ 9', value: 9 },
+  { label: 'Mean ≥ 10', value: 10 }
+];
+
 export const ANALYSIS_GENE_SET_SELECT_DATA: Array<InputSelect> = [
   { label: 'GO (Biological process)', value: 'GO_Biological_Process_2023' },
   { label: 'GO (Cellular component)', value: 'GO_Cellular_Component_2023' },
   { label: 'GO (Molecular function)', value: 'GO_Molecular_Function_2023' },
   { label: 'KEGG', value: 'KEGG_2016' },
   { label: 'GWAS (Catalog)', value: 'GWAS_Catalog_2023' }
+];
+
+export const ANALYSIS_TF_STRATEGY_TABS = [
+  { name: 'snapatac2', title: 'SnapATAC2' },
+  { name: 'chromvar', title: 'chromVAR' }
 ];
 
 export const geneEnrichmentOption = (data: any) => ({

@@ -79,7 +79,7 @@ export default defineComponent({
       ]
     });
 
-    const listSample = () => {
+    const listSample = async () => {
       // 清空
       ArrayUtil.clear(data.sampleData);
       sampleLoading.value.loading = true;
@@ -139,10 +139,9 @@ export default defineComponent({
       }
     };
 
-    onMounted(() => {
-      listSample().then(() => {
-        listTrait();
-      });
+    onMounted(async () => {
+      await listSample();
+      listTrait();
     });
 
     return {

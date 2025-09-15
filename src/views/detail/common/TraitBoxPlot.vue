@@ -112,7 +112,7 @@ export default defineComponent({
         dataPlot.sort((a: any, b: any) => b.value[2] - a.value[2]);
         // echarts
         data.resize = {
-          width: loading.value.offsetWidth,
+          width: loading.value.$el.clientWidth - 50,
           height: 260
         };
         echarts.value.drawEcharts(traitBoxOption(dataPlot, props.label));

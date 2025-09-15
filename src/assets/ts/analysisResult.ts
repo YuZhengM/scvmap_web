@@ -131,6 +131,16 @@ export const DATA_ANALYSIS_DIFFERENCE_TF_TABLE_DESCRIPTION: Array<TableHead> = [
   { column: 'log2FoldChange', title: 'Log2(Fold change)', type: 2, information: (row: any) => Number(row.log2FoldChange).toFixed(3) }
 ];
 
+export const DATA_ANALYSIS_CHROMVAR_DIFFERENCE_TF_TABLE_DESCRIPTION: Array<TableHead> = [
+  { column: 'sampleId', title: 'Sample ID', width: 130, type: 1, href: (row: any) => linkSampleDetail(row.sampleId) },
+  { column: 'cellType', title: 'Cell type', type: 1 },
+  { column: 'tf', title: 'TF', type: 1, href: (row: any) => linkDetailTf(row.tf) },
+  { column: 'pvalue', title: 'P value', type: 2, information: (row: any) => Number(row.pvalue).toExponential(3) },
+  { column: 'pvalueAdjust', title: 'Adjusted P value', type: 2, information: (row: any) => Number(row.pvalueAdjust).toExponential(3) },
+  { column: 'mean1', title: 'Mean1', type: 2, information: (row: any) => Number(row.mean1).toFixed(3) },
+  { column: 'mean2', title: 'Mean2', type: 2, information: (row: any) => Number(row.mean1).toFixed(3) }
+];
+
 export const DATA_ANALYSIS_TRAIT_GENE_TABLE_DESCRIPTION: Array<TableHead> = [
   { column: 'traitId', title: 'Trait ID', width: 120, href: (row: any) => linkTraitDetail(row.traitId) },
   { column: 'gene', title: 'Gene', href: (row: any) => linkDetailGene(row.gene) },
@@ -140,6 +150,18 @@ export const DATA_ANALYSIS_TRAIT_GENE_TABLE_DESCRIPTION: Array<TableHead> = [
   { column: 'nsnps', title: 'SNP count', content: 'The number of SNPs not annotated to this gene based on previous SNP QC exclusion' },
   { column: 'zvalue', title: 'Z score', information: (row: any) => Number(row.zvalue).toFixed(3) },
   { column: 'pvalue', title: 'P value', information: (row: any) => Number(row.pvalue).toExponential(3) }
+];
+
+export const DATA_ANALYSIS_TRAIT_GENE_CICERO_TABLE_DESCRIPTION: Array<TableHead> = [
+  { column: 'traitId', title: 'Trait ID', width: 120, href: (row: any) => linkTraitDetail(row.traitId) },
+  { column: 'gene', title: 'Gene', href: (row: any) => linkDetailGene(row.gene) },
+  { column: 'score', title: 'Co-score' },
+  { column: 'rsId', title: 'rsID' },
+  { column: 'pp', title: 'PP', information: (row: any) => Number(row.pp).toFixed(3) },
+  { column: 'weight', title: 'Weight', content: 'The weight of the SNP-gene linkage in the trait.' },
+  { column: 'position', title: 'Position', content: 'Position of causal variant.' },
+  { column: 'traitPeak', title: 'Peak (trait)', content: 'Peak region overlapping with causal variant.' },
+  { column: 'genePeak', title: 'Peak (gene)', content: 'Peak region overlapping with gene promoter.' }
 ];
 
 export const DATA_ANALYSIS_TRAIT_TF_TABLE_DESCRIPTION: Array<TableHead> = [
@@ -160,6 +182,17 @@ export const DATA_ANALYSIS_MAGMA_VARIANT_INFO_TABLE_DESCRIPTION: Array<TableHead
 export const ANALYSIS_GENOME_DATA: Array<InputSelect> = [
   { label: 'hg19', value: 'hg19' },
   { label: 'hg38', value: 'hg38' }
+];
+
+export const ANALYSIS_TRAIT_GENE_METHOD_DATA: Array<InputSelect> = [
+  { label: 'Cicero', value: 'cicero' },
+  { label: 'MAGMA', value: 'magma' }
+];
+
+export const ANALYSIS_TRAIT_GENE_ALL_METHOD_DATA: Array<InputSelect> = [
+  { label: 'Cicero', value: 'cicero' },
+  { label: 'MAGMA', value: 'magma' },
+  { label: 'Overlap', value: 'overlap' }
 ];
 
 export const ANALYSIS_META_DATA_DATA: Array<InputSelect> = [
@@ -183,7 +216,7 @@ export const ANALYSIS_TOP_COUNT_DATA: Array<InputSelect> = [
   { label: '5500', value: 5500 },
   { label: '6000', value: 6000 },
   { label: '6500', value: 6500 },
-  { label: '6500', value: 6500 },
+  { label: '7000', value: 7000 },
   { label: '7500', value: 7500 },
   { label: '8000', value: 8000 },
   { label: '9000', value: 9000 },

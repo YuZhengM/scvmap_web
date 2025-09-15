@@ -56,7 +56,7 @@ import { defineComponent, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Base from '@/service/util/base/base';
 import Jump from '@/service/util/base/jump';
-import '@/assets/less/views/analysisResult/AnalysisMultiTrait.less';
+import '@/assets/less/views/analysisResult/AnalysisResult.less';
 import {
   ANALYSIS_META_DATA_DATA,
   DATA_ANALYSIS_SAMPLE_TABLE_DESCRIPTION,
@@ -122,7 +122,7 @@ export default defineComponent({
       pvalue: Number(route.query.pvalue),
       min: Number(route.query.minAngry),
       pvalueTrait: Number(route.query.pvalueTrait),
-      strategy: route.query.strategy,
+      coScore: route.query.coScore,
       isFile: Number(route.query.isFile)
     });
 
@@ -215,7 +215,7 @@ export default defineComponent({
     onMounted(() => {
       if ((Base.isNull(route.query.content) && Base.isNull(route.query.fileId))
           || Base.isNull(route.query.log2FoldChange) || Base.isNull(route.query.adjustedPValue) || Base.isNull(route.query.pvalue)
-          || Base.isNull(route.query.minAngry) || Base.isNull(route.query.pvalueTrait)) {
+          || Base.isNull(route.query.minAngry) || Base.isNull(route.query.pvalueTrait) || Base.isNull(route.query.coScore)) {
         Jump.routerDefault(router, '/');
         ElNotification({
           title: 'Please check',

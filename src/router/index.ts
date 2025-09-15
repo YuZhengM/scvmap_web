@@ -14,6 +14,10 @@ import TfDetail from '@/views/TfDetail.vue';
 import SimpleSearchResult from '@/views/homeResult/SimpleSearchResult.vue';
 import Download from '@/views/Download.vue';
 import VariantDetail from '@/views/VariantDetail.vue';
+import OnLine from '@/views/OnLine.vue';
+import OnLineInformation from '@/views/onLine/OnLineInformation.vue';
+import OnLineExec from '@/views/onLine/OnLineExec.vue';
+import OnLineResult from '@/views/onLine/OnLineResult.vue';
 
 const props = (active: number) => ({
   default: true,
@@ -81,6 +85,46 @@ const routes: Array<RouteRecordRaw> = [
       footer: Footer
     },
     props: props(6)
+  },
+  {
+    path: '/on_line',
+    name: 'OnLine',
+    components: {
+      default: OnLine,
+      header: Header,
+      footer: Footer
+    },
+    props: props(7)
+  },
+  {
+    path: '/on_line_information',
+    name: 'OnLineInformation',
+    components: {
+      default: OnLineInformation,
+      header: Header,
+      footer: Footer
+    },
+    props: props(7)
+  },
+  {
+    path: '/one_line_exec',
+    name: 'OnLineExec',
+    components: {
+      default: OnLineExec,
+      header: Header,
+      footer: Footer
+    },
+    props: props(7)
+  },
+  {
+    path: '/job_detail',
+    name: 'OnLineResult',
+    components: {
+      default: OnLineResult,
+      header: Header,
+      footer: Footer
+    },
+    props: props(7)
   },
   {
     path: '/detail',

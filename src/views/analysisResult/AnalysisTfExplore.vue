@@ -54,7 +54,7 @@ import { defineComponent, onMounted, reactive, ref, toRefs } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Base from '@/service/util/base/base';
 import Jump from '@/service/util/base/jump';
-import '@/assets/less/views/analysisResult/AnalysisMultiTrait.less';
+import '@/assets/less/views/analysisResult/AnalysisResult.less';
 import {
   ANALYSIS_META_DATA_DATA,
   ANALYSIS_TF_BUTTON_POSITION_DATA,

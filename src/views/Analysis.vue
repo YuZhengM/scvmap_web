@@ -15,6 +15,9 @@
         <template #tf>
           <TfExplore/>
         </template>
+        <template #compare>
+          <SampleComparative/>
+        </template>
       </BaseCollapse>
     </div>
   </div>
@@ -28,10 +31,11 @@ import '@/assets/less/views/Analysis.less';
 import MultiTrait from '@/views/analysis/MultiTrait.vue';
 import GeneExplore from '@/views/analysis/GeneExplore.vue';
 import TfExplore from '@/views/analysis/TfExplore.vue';
+import SampleComparative from '@/views/analysis/SampleComparative.vue';
 
 export default defineComponent({
   name: 'Analysis',
-  components: { TfExplore, GeneExplore, MultiTrait, BaseCollapse },
+  components: { SampleComparative, TfExplore, GeneExplore, MultiTrait, BaseCollapse },
   setup() {
     const loading = ref();
     const startLoading = () => {

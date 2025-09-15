@@ -3,6 +3,7 @@ import { getPubmedLink, linkGeo, linkSampleDetail, linkTraitDetail } from '@/ass
 
 export const DATA_BROWSE_TRAIT_TABLE_DESCRIPTION: Array<TableHead> = [
   { column: 'traitId', title: 'Trait ID', database: 'f_trait_id', type: 1, width: 120, href: (row: any) => linkTraitDetail(row.traitId) },
+  { column: 'traitName', title: 'Trait name', database: 'f_trait_name', type: 1, width: 120 },
   { column: 'sourceName', title: 'Source cohort', database: 'f_source_name', type: 1 },
   { column: 'type', title: 'Type', database: 'f_type', type: 1 },
   { column: 'traitAbbr', title: 'Trait abbreviation', database: 'f_trait_abbr', type: 1 },
@@ -13,6 +14,7 @@ export const DATA_BROWSE_TRAIT_TABLE_DESCRIPTION: Array<TableHead> = [
 
 export const DATA_BROWSE_SAMPLE_TABLE_DESCRIPTION1: Array<TableHead> = [
   { column: 'sampleId', title: 'Sample ID', href: (row: any) => linkSampleDetail(row.sampleId) },
+  { column: 'sampleName', title: 'Sample name' },
   { column: 'tissueType', title: 'Tissue type' },
   { column: 'healthTypeDescription', title: 'Health type description' },
   { column: 'cellCount', title: 'Cell count' },

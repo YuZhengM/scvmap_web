@@ -10,6 +10,7 @@ export * from '@/assets/ts/analysis';
 export * from '@/assets/ts/analysisResult';
 export * from '@/assets/ts/download';
 export * from '@/assets/ts/statusUtil';
+export * from '@/assets/ts/onLine';
 export * from '@/assets/ts/detail';
 export * from '@/assets/ts/geneDetail';
 export * from '@/assets/ts/variantDetail';
@@ -56,6 +57,12 @@ export const HEADER_MENUS: Array<NavBase> = [
     title: 'Contact',
     click: '/contact',
     href: `${process.env.BASE_URL}contact`,
+    isShow: false
+  },
+  {
+    title: 'On-line analysis',
+    click: '/on_line',
+    href: `${process.env.BASE_URL}on_line`,
     isShow: false
   },
   {

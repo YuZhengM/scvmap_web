@@ -208,7 +208,8 @@ export const getCellCountValue = (sampleCellCount: number) => {
 export const DETAIL_METHOD_DATA: Array<InputSelect> = [
   {
     label: 'SCAVENGE',
-    value: 'scavenge'
+    value: 'scavenge',
+    default: true
   },
   {
     label: 'g-chromVAR',
@@ -384,9 +385,9 @@ export const traitBoxOption = (data: any, yName = 'TRS') => ({
   },
   toolbox: toolboxSimple(),
   grid: {
-    left: '3%',
-    right: '9%',
-    bottom: '30%'
+    left: '5%',
+    right: '15%',
+    bottom: '35%'
   },
   xAxis: {
     type: 'category',
@@ -416,6 +417,7 @@ export const getSampleArrayTable = (tableData: Array<KeyValue>, res: any, isLink
   ArrayUtil.clear(tableData);
   // Sample overview
   tableData.push({ key: 'Sample ID:', value: isLink ? getSampleDetailLink(res.sampleId) : res.sampleId });
+  tableData.push({ key: 'Sample name:', value: res.sampleName });
   tableData.push({ key: 'Sample label:', value: res.label });
   tableData.push({ key: 'Tissue type:', value: res.tissueType });
   tableData.push({ key: 'Cell type count:', value: res.cellTypeCount });

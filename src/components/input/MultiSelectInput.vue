@@ -34,6 +34,7 @@
 import { defineComponent, onMounted, reactive, ref, toRefs } from 'vue';
 import { InputSelect } from '@/service/model/components/input';
 import '@/assets/less/components/input/MultiSelectInput.less';
+import Base from '@/service/util/base/base';
 
 export default defineComponent({
   name: 'MultiSelectInput',
@@ -79,6 +80,8 @@ export default defineComponent({
       input: [],
       showData: [] as Array<InputSelect>,
       allData: [] as Array<InputSelect>,
+      filterData: [] as Array<InputSelect>,
+      filterValue: '',
       start: 50,
       addCount: 50,
       record: 50
@@ -90,16 +93,16 @@ export default defineComponent({
     };
 
     const load = () => {
-      const { length } = data.allData;
+      const { length } = data.filterData;
       const end = data.record + data.addCount > length ? length : data.record + data.addCount;
       for (let i = data.record; i < end; i++) {
-        data.showData.push(data.allData[i] as InputSelect);
+        data.showData.push(data.filterData[i] as InputSelect);
       }
       data.record = end;
     };
 
     const setShowData = (dataInfo: Array<InputSelect>) => {
-      data.allData = dataInfo;
+      data.allData = Base.isNull(dataInfo) ? (prop.selectData as Array<InputSelect>) : dataInfo;
       const { length } = dataInfo;
       if (length <= data.start) {
         data.showData = dataInfo as Array<InputSelect>;
@@ -113,8 +116,10 @@ export default defineComponent({
     const createFilter = (queryString: string) => (data: any) => (data.description.toLowerCase().indexOf(queryString.toLowerCase()) >= 0);
 
     const filterMethod = (value: any) => {
+      data.filterValue = value;
       const results: Array<any> = value ? prop.selectData.filter(createFilter(value)) : prop.selectData;
       // call callback function to return suggestions
+      data.filterData = results;
       data.showData = data.start > 0 ? results?.slice(0, data.start) : results;
     };
 

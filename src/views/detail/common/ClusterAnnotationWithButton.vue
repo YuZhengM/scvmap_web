@@ -8,7 +8,7 @@
         <BaseSelect title="Method: " :select-data="methodData" :change-event="methodEvent" width="60%" is-line ref="method"/>
       </el-col>
     </el-row>
-    <ClusterAnnotation :sample-id="sampleId" :trait-id="traitId" :cell-count="cellCountValue" :method="methodValue"/>
+    <ClusterAnnotation :sample-id="sampleId" :trait-id="traitId" :cell-count="cellCountValue" :method="methodValue" :cluster-height="clusterHeight" :is-left-right="isLeftRight"/>
   </BaseLoading>
 </template>
 
@@ -43,6 +43,14 @@ export default defineComponent({
     traitId: {
       type: String,
       default: () => ''
+    },
+    clusterHeight: {
+      type: Number,
+      default: () => 580
+    },
+    isLeftRight: {
+      type: Boolean,
+      default: () => true
     }
   },
   setup(props) {

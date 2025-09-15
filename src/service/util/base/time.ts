@@ -33,7 +33,7 @@ class Time {
    * 2021-3-16 08:06:34
    * @param date
    */
-  public static getDate(date?: string | Date): DateElement {
+  public static getDateElement(date?: string | Date): DateElement {
     const nowDate = new Date();
     const newDate = typeof date === 'string' ? new Date(date) : Base.noNull(date) ? date : nowDate;
     // 这步骤可以去掉, 没有必要, 只是为了没有警告
@@ -49,6 +49,11 @@ class Time {
       month: newDate.getMonth() + 1,
       day: newDate.getDate()
     };
+  }
+
+  public static getDate(date: string) {
+    const newDate = new Date(date);
+    return `${newDate.getFullYear()}/${newDate.getMonth() + 1}/${newDate.getDate()} ${newDate.getHours()}:${newDate.getMinutes()}:${newDate.getSeconds()}`;
   }
 
   /**
