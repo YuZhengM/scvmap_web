@@ -5,7 +5,7 @@ import { linkGeo, linkSampleDetail, linkTraitDetail } from '@/assets/ts/statusUt
 export const DOWNLOAD_SAMPLE_DESCRIPTION: Array<TableHead> = [
   { column: 'sampleId', title: 'Sample ID', href: (row: any) => linkSampleDetail(row.sampleId) },
   { column: 'tissueType', title: 'Tissue type' },
-  { column: 'healthTypeDescription', title: 'Health type description' },
+  { column: 'healthTypeDescription', title: 'Disease type description' },
   { column: 'gseId', title: 'GSE ID', href: (row: any) => linkGeo(row.gseId) }
 ];
 

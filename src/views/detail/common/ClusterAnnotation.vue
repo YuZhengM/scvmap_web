@@ -13,7 +13,7 @@
       </template>
     </LeftRight>
     <el-divider></el-divider>
-    <TraitBoxPlot :box-data="boxData" :label="label" ref="boxPlot"/>
+    <TraitBoxPlot :box-data="boxData" :metadata="metadata" :label="label" ref="boxPlot"/>
   </BaseLoading>
 </template>
 
@@ -57,7 +57,15 @@ export default defineComponent({
     },
     method: {
       type: String,
-      default: () => ''
+      default: () => 'scavenge'
+    },
+    metadata: {
+      type: String,
+      default: () => 'cell_type'
+    },
+    fineMappingMethod: {
+      type: String,
+      default: () => 'finemap'
     },
     cellCount: {
       type: Number,
@@ -85,21 +93,23 @@ export default defineComponent({
       boxData: {} as any,
       label: '' as string
     });
+
     // 得到数据
     const getClusterValue = () => {
       if (clusterLoading.value) {
         clusterLoading.value.loading = true;
-        DetailApi.listClusterCoordinate(props.sampleId, props.cellCount).then((res: any) => {
+        DetailApi.listClusterCoordinate(props.sampleId, props.cellCount, props.metadata).then((res: any) => {
           clusterLoading.value.loading = false;
           Plotly.newPlot(data.clusterId, clusterForm(res, 5), sampleClusterLayoutMain(leftRight.value.getLeftLabel().offsetWidth * 0.98, props.clusterHeight), config);
         });
       }
     };
+
     const getTraitClusterData = () => {
       if (methodLoading.value) {
         methodLoading.value.loading = true;
         boxPlot.value.startLoading();
-        DetailApi.listTraitCluster(props.sampleId, props.method, props.traitId, props.cellCount).then((res: any) => {
+        DetailApi.listTraitCluster(props.sampleId, props.method, props.traitId, props.cellCount, props.metadata, props.fineMappingMethod).then((res: any) => {
           data.label = props.method === 'scavenge' ? 'TRS' : 'Z score';
           data.boxData = res.plotlyDataList[0] as any;
           methodLoading.value.loading = false;
@@ -110,7 +120,8 @@ export default defineComponent({
       }
     };
 
-    const checkValue = () => Base.noNull(props.sampleId) && Base.noNull(props.traitId) && Base.noNull(props.method) && props.cellCount > 0;
+    const checkValue = () => Base.noNull(props.sampleId) && Base.noNull(props.traitId) && Base.noNull(props.method)
+        && Base.noNull(props.metadata) && Base.noNull(props.fineMappingMethod) && props.cellCount > 0;
 
     const startLoading = () => {
       loading.value.loading = true;
@@ -129,12 +140,14 @@ export default defineComponent({
       }
     });
 
-    // 监控
+    // Monitor the sampleId, traitId, cellCount, metadata, method, and fineMappingMethod properties
     watch(() => ({
       value1: props.sampleId,
       value2: props.traitId,
       value3: props.cellCount,
-      value4: props.method
+      value4: props.metadata,
+      value5: props.method,
+      value6: props.fineMappingMethod
     }), () => {
       if (Base.noNull(props.sampleId) && props.cellCount > 0) {
         getClusterValue();

@@ -39,6 +39,7 @@
             </table>
           </template>
           <template #right>
+            <BaseTabs active="cell_type" :change="metadataChange" :tabs-data="metadataTabs"/>
             <Echarts :resize-value="cellTypeResizeValue" :expand-option="expandOption" ref="cellTypeEcharts"/>
           </template>
         </LeftRight>
@@ -58,10 +59,12 @@ import BaseLoading from '@/components/loading/BaseLoading.vue';
 import { cellTypeCountOption, getSampleArrayTable, STATIC_DOWNLOAD_PATH } from '@/assets/ts';
 import Echarts from '@/components/echarts/Echarts.vue';
 import Time from '@/service/util/base/time';
+import BaseTabs from '@/components/tabs/BaseTabs.vue';
 
 export default defineComponent({
   name: 'SampleOverview',
   components: {
+    BaseTabs,
     Echarts,
     BaseLoading,
     LeftRight,
@@ -85,10 +88,15 @@ export default defineComponent({
       overviewTableData: [] as Array<KeyValue>,
       expandOption: {},
       label: '',
+      metadataValue: 'cell_type',
+      metadataTabs: [{
+        name: 'cell_type',
+        title: 'Cell type'
+      }],
       cellTypeResizeValue: {},
       isShow: false
     });
-    // 得到数据
+    // Get the sample overview data
     const getOverview = () => {
       loading.value.loading = true;
       // sample ID
@@ -96,17 +104,44 @@ export default defineComponent({
         loading.value.loading = false;
         data.label = res.label;
         getSampleArrayTable(data.overviewTableData, res);
+
+        if (res.timeExist === 1) {
+          data.metadataTabs.push({ title: 'Age/day/time', name: 'time' });
+        }
+
+        if (res.sexExist === 1) {
+          data.metadataTabs.push({ title: 'Sex', name: 'sex' });
+        }
+
+        if (res.drugExist === 1) {
+          data.metadataTabs.push({ title: 'Drug resistance', name: 'drug' });
+        }
       });
     };
 
-    // 画聚类每个细胞类型数量配图
+    const getMetadataLabel = (metadata: string) => {
+      switch (metadata as string) {
+        case 'cell_type':
+          return 'Cell type';
+        case 'time':
+          return 'Age/day/time';
+        case 'sex':
+          return 'Sex';
+        case 'drug':
+          return 'Drug resistance';
+        default:
+          return 'Cell type';
+      }
+    };
+
+    // Plot the clustering graph for each cell type
     const getCellTypeCountPie = () => {
       cellTypeEcharts.value.startLoading();
-      DetailApi.getCellTypeCount(props.sampleId).then((res: any) => {
+      DetailApi.getCellTypeCount(props.sampleId, data.metadataValue).then((res: any) => {
         cellTypeEcharts.value.endLoading();
         // echarts
-        cellTypeEcharts.value.drawEcharts(cellTypeCountOption(res));
-        data.expandOption = cellTypeCountOption(res, true);
+        cellTypeEcharts.value.drawEcharts(cellTypeCountOption(res, false, `${getMetadataLabel(data.metadataValue)} count`));
+        data.expandOption = cellTypeCountOption(res, true, `${getMetadataLabel(data.metadataValue)} count`);
         data.cellTypeResizeValue = Time.awaitData(() => ({
           width: leftRight.value.getLeftLabel().offsetWidth,
           height: leftRight.value.getLeftLabel().offsetHeight
@@ -116,6 +151,11 @@ export default defineComponent({
     };
     const plotResize = () => {
       cellTypeEcharts.value.setResize();
+    };
+
+    const metadataChange = (tag: any) => {
+      data.metadataValue = tag.paneName;
+      getCellTypeCountPie();
     };
 
     const scatacDownload = () => `${STATIC_DOWNLOAD_PATH}/scatac/${data.label}_sc_atac_snapATAC2.h5ad`;
@@ -129,6 +169,7 @@ export default defineComponent({
       loading,
       leftRight,
       cellTypeEcharts,
+      metadataChange,
       plotResize,
       scatacDownload
     };

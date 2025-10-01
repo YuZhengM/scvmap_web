@@ -1,13 +1,13 @@
 <template>
   <div id="tf_detail">
     <SingleCard :title="{ icon: 'fas fa-list', content: `Overview of TF ${tf}` }" ref="singleCard1">
-      <ArrayTable :table-data="tfTableData" v-show="isShow && !isShowEcharts" ref="tfTable"/>
+      <ArrayTable :table-data="tfTableData" v-show="isShow && !isShowEcharts" ref="tfTable1"/>
       <div v-show="!isShow && isShowEcharts">
         <Echarts :resize-value="graphResize" ref="echarts1"/>
       </div>
       <LeftRight class="overview" v-show="isShow && isShowEcharts">
         <template #left>
-          <ArrayTable :table-data="tfTableData" v-show="isShow" ref="tfTable"/>
+          <ArrayTable :table-data="tfTableData" ref="tfTable2"/>
         </template>
         <template #right>
           <Echarts :resize-value="graphResize" ref="echarts2"/>
@@ -91,7 +91,8 @@ export default defineComponent({
     const singleCard1 = ref();
     const singleCard2 = ref();
     const singleCard3 = ref();
-    const tfTable = ref();
+    const tfTable1 = ref();
+    const tfTable2 = ref();
     const drawer = ref();
     const homerInfoTable = ref();
     const echarts1 = ref();
@@ -116,10 +117,12 @@ export default defineComponent({
     });
 
     const getTfInfo = () => {
-      tfTable.value.startLoading();
+      tfTable1.value.startLoading();
+      tfTable2.value.startLoading();
       ArrayUtil.clear(data.tfTraitData);
       GeneTfDetailApi.getTfInfo(data.tf).then((res: any) => {
-        tfTable.value.endLoading();
+        tfTable1.value.endLoading();
+        tfTable2.value.endLoading();
         if (Base.isNull(res)) {
           data.isShow = false;
         } else {
@@ -131,7 +134,8 @@ export default defineComponent({
             data.tfTableData.push({ key: 'Protein:', value: String(res.protein).replaceAll(';', '; ') });
           }
           data.tfTableData.push({ key: 'Entrez ID:', value: res.entrezId });
-          tfTable.value.formatTable();
+          tfTable1.value.formatTable();
+          tfTable2.value.formatTable();
         }
       });
     };
@@ -222,7 +226,8 @@ export default defineComponent({
       singleCard1,
       singleCard2,
       singleCard3,
-      tfTable,
+      tfTable1,
+      tfTable2,
       drawer,
       homerInfoTable,
       echarts1,

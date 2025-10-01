@@ -42,11 +42,16 @@
         </LeftRight>
       </SingleCard>
       <BaseBr/>
-      <SingleCard :title='{ content: `The "${traitId}"-relevant score in "${sampleId}" data` }' id="position_cell">
+      <SingleCard :title='{ content: `The "${traitLabel}"-relevant score in "${sampleLabel}" data` }' id="position_cell">
         <ClusterAnnotationWithButton :trait-id="traitId" :sample-id="sampleId" ref="clusterAnno"/>
       </SingleCard>
       <BaseBr/>
       <GeneInfoAnnotation :sample-id="sampleId" :trait-id="traitId" ref="geneInfoAnno"/>
+      <BaseBr/>
+      <ComprehensiveNetworkAnnotation :sample-id="sampleId" :trait-id="traitId"/>
+      <SingleCard :title='{ content: "Empty data" }' id="position_cell" v-show="isDataEmpty">
+        <div>There are no single-cell samples or trait data related to the input TFs.</div>
+      </SingleCard>
     </BaseLoading>
   </div>
 </template>
@@ -76,10 +81,12 @@ import ClusterAnnotationWithButton from '@/views/detail/common/ClusterAnnotation
 import SingleCard from '@/components/card/SingleCard.vue';
 import BaseSelect from '@/components/input/BaseSelect.vue';
 import PositionButton from '@/components/button/PositionButton.vue';
+import ComprehensiveNetworkAnnotation from '@/views/detail/common/ComprehensiveNetworkAnnotation.vue';
 
 export default defineComponent({
   name: 'AnalysisGeneExplore',
   components: {
+    ComprehensiveNetworkAnnotation,
     GeneInfoAnnotation,
     PositionButton,
     BaseSelect,
@@ -101,9 +108,12 @@ export default defineComponent({
     const geneInfoAnno = ref();
     const data = reactive({
       sampleId: '' as string,
+      sampleLabel: '' as string,
       traitId: '' as string,
+      traitLabel: '' as string,
       traitIdListAll: [] as any,
       isEn: true as boolean,
+      isDataEmpty: false as boolean,
       sample: {} as any,
       sampleTableData: [] as Array<any>,
       traitTableDataAll: [] as Array<any>,
@@ -165,11 +175,20 @@ export default defineComponent({
 
         data.sampleTableData = res.sampleList;
         data.traitTableDataAll = res.traitList;
-        data.traitIdListAll = [...new Set(data.traitTableDataAll.map((item: any) => item.traitId))];
-        data.sampleId = data.sampleTableData[0].sampleId;
-        Time.delay(() => {
-          sampleTable.value.selectionToggleChange([data.sampleTableData[0]]);
-        }, 600);
+        data.isDataEmpty = data.sampleTableData.length === 0 || data.traitTableDataAll.length === 0;
+
+        if (data.isDataEmpty) {
+          traitTable.value.endLoading();
+          clusterAnno.value.endLoading();
+          geneInfoAnno.value.endLoading();
+        } else {
+          data.traitIdListAll = [...new Set(data.traitTableDataAll.map((item: any) => item.traitId))];
+          data.sampleId = data.sampleTableData[0].sampleId;
+          data.sampleLabel = data.sampleTableData[0].label;
+          Time.delay(() => {
+            sampleTable.value.selectionToggleChange([data.sampleTableData[0]]);
+          }, 600);
+        }
       });
     };
 
@@ -183,14 +202,17 @@ export default defineComponent({
     };
 
     const sampleSelectionChange = (val: any) => {
-      if (val.length > 1) {
-        data.sampleIsSelectChange = false;
-        sampleTable.value.selectionToggleChange(val.slice(0, val.length - 1));
-        data.sampleIsSelectChange = true;
-      } else if (val.length === 1) {
-        data.sampleId = val[0].sampleId;
+      if (!data.isDataEmpty) {
+        if (val.length > 1) {
+          data.sampleIsSelectChange = false;
+          sampleTable.value.selectionToggleChange(val.slice(0, val.length - 1));
+          data.sampleIsSelectChange = true;
+        } else if (val.length === 1) {
+          data.sampleId = val[0].sampleId;
+          data.sampleLabel = val[0].label;
+        }
+        getEnrichedTraitIdList();
       }
-      getEnrichedTraitIdList();
     };
 
     const traitPageEvent = () => {
@@ -209,6 +231,7 @@ export default defineComponent({
         data.traitIsSelectChange = true;
       } else if (val.length === 1) {
         data.traitId = val[0].traitId;
+        data.traitLabel = val[0].traitCode;
       }
     };
 

@@ -7,18 +7,18 @@
         </el-link>
       </template>
       <template #default>
-        <LeftRight :is-left-right="isLeftRight" :left-width="50" :padding="0">
+        <LeftRight :is-left-right="isLeftRight" :left-width="metadata === 'cell_type' ? 50 : 100" :padding="0">
           <template #left>
             <BaseTabs active="heatmap" :tabs-data="[{ name: 'heatmap', title: 'Visualization' }, { name: 'table', title: 'Display' }]">
               <template #heatmap>
-                <DifferenceHeatMap :sample-id="sampleId" element="gene" top-description="Limit the number of genes.
+                <DifferenceHeatMap :sample-id="sampleId" :metadata="metadata" element="gene" top-description="Limit the number of genes.
                  For single-cell data differential gene analysis, select the top number based on the `abs(Score)` from the table above."/>
               </template>
               <template #table>
-                <BaseSelect title="Cell type:" is-line width="40%" :change-event="cellTypeChange" :select-data="cellTypeData" ref="cellType"/>
+                <BaseSelect :title="`${metadataLabel}:`" is-line width="40%" :change-event="cellTypeChange" :select-data="cellTypeData" ref="cellType"/>
                 <BaseTable :update-new-data="listDifferenceGeneInformation"
                            :is-mounted="differenceGeneIsMounted"
-                           :callback-function="differenceGeneCallback"
+                           :before-column-number="1"
                            search-title=""
                            :width="98"
                            :content-width="26"
@@ -29,70 +29,113 @@
                            layout="total, prev, pager, next"
                            :download-url="differenceGeneDownload()"
                            :table-description="differenceGeneTableDescription"
-                           ref="differenceGeneTable"/>
+                           ref="differenceGeneTable">
+                  <template #default>
+                    <el-table-column :label="metadataLabel" stripe align="center">
+                      <template #default="scope">
+                        {{ scope.row.cellType }}
+                      </template>
+                    </el-table-column>
+                  </template>
+                </BaseTable>
               </template>
             </BaseTabs>
           </template>
           <template #right>
-            <GeneEnrichment :sample-id="sampleId"/>
+            <GeneEnrichment :sample-id="sampleId" v-show="metadata === 'cell_type'"/>
           </template>
         </LeftRight>
       </template>
     </SingleCard>
     <BaseBr/>
-    <SingleCard :title="{ content: `${traitLabel}-relevant genes` }" id="position_magma_gene" ref="singleCard">
+    <SingleCard :title='{ content: `"${traitName}"-relevant genes` }' id="position_magma_gene" ref="singleCard">
       <template #head>
-        <BaseSelect class="trait_gene_strategy" title="Strategy:" is-line width="50%" :select-data="traitGeneMethodData" :change-event="traitGeneStrategyChange" ref="traitGeneStrategy"/>
         <el-button @click="traitGeneStrategyOverlapShow()"> View overlap</el-button>
       </template>
       <template #default>
-        <LeftRight :is-left-right="isLeftRight" v-show="!isTraitGeneCicero">
-          <template #left>
-            <BaseSelect title="Genome:" is-line width="20%" :select-data="genomeData" ref="genome" v-show="false"/>
-            <BaseTable :table-data="traitGeneTableData"
+        <BaseSelect class="relevant_gene_type" title="Type: " :select-data="relevantGeneTypeData" width="65%" :change-event="relevantGeneTypeEvent" is-line ref="relevantGeneType"/>
+        <BaseBr/>
+        <BaseTabs active="magma" :change="traitGeneStrategyChange" :tabs-data="[GeneStrategyData[0], GeneStrategyData[1]]" v-show="isRelevantGeneType">
+          <template #magma>
+            <LeftRight :is-left-right="isLeftRight">
+              <template #left>
+                <BaseSelect title="Genome:" is-line width="20%" :select-data="genomeData" ref="genome" v-show="false"/>
+                <BaseTable :table-data="traitGeneTableData"
+                           :is-service-paging="false"
+                           layout="total, prev, pager, next"
+                           :download-url="magmaGeneDownloadUrl"
+                           :before-column-number="0"
+                           :table-description="traitGeneTableDescription"
+                           ref="traitGeneTable">
+                  <template #default>
+                    <el-table-column label="Description" stripe align="center">
+                      <template #default="scope">
+                        <el-button @click="variantInfoShow(scope.row)"> View</el-button>
+                      </template>
+                    </el-table-column>
+                  </template>
+                </BaseTable>
+              </template>
+              <template #right>
+                <TraitGeneEnrichment :trait-id="traitId" :genome="sample.genome"/>
+              </template>
+            </LeftRight>
+          </template>
+          <template #cicero>
+            <BaseTable :table-data="traitGeneCiceroTableData"
                        :is-service-paging="false"
-                       layout="total, prev, pager, next"
-                       :download-url="magmaGeneDownloadUrl"
-                       :before-column-number="0"
-                       :table-description="traitGeneTableDescription"
-                       ref="traitGeneTable">
+                       :download-url="ciceroGeneDownloadUrl"
+                       :table-description="traitGeneCiceroTableDescription"
+                       ref="traitGeneCiceroTable"/>
+          </template>
+        </BaseTabs>
+        <BaseTabs active="mpra" :change="v2gAnnotationChange" :tabs-data="v2gAnnotationTabs" v-show="!isRelevantGeneType">
+          <template #eqtl>
+            <LeftRight :is-left-right="isLeftRight">
+              <template #left>
+                <BaseSelect title="Chr: " :select-data="traitChrData" width="45%" :change-event="traitChrEvent" is-line ref="traitChr"/>
+              </template>
+            </LeftRight>
+            <BaseTable :update-new-data="eqtlInformation"
+                       :is-mounted="differenceGeneIsMounted"
+                       :table-description="eqtlDescription" ref="eqtlTable"/>
+          </template>
+          <template #mpra>
+            <BaseTable :update-new-data="mpraInformation"
+                       :is-mounted="differenceGeneIsMounted"
+                       :table-description="mpraDescription">
               <template #default>
-                <el-table-column label="Description" stripe align="center">
+                <el-table-column label="Description" stripe align="center" width="150">
                   <template #default="scope">
-                    <el-button @click="variantInfoShow(scope.row)"> View</el-button>
+                    <BaseTooltip :content="scope.row.description" placement="left">
+                      <span>{{ scope.row.description.length > 15 ? `${scope.row.description.substring(0, 15)}...` : scope.row.description }}</span>
+                    </BaseTooltip>
+                  </template>
+                </el-table-column>
+                <el-table-column label="MPRA study" stripe align="center" width="150">
+                  <template #default="scope">
+                    <BaseTooltip :content="scope.row.mpraStudy" placement="left">
+                      <span>{{ scope.row.mpraStudy.length > 15 ? `${scope.row.mpraStudy.substring(0, 15)}...` : scope.row.mpraStudy }}</span>
+                    </BaseTooltip>
                   </template>
                 </el-table-column>
               </template>
             </BaseTable>
           </template>
-          <template #right>
-            <TraitGeneEnrichment :trait-id="traitId" :genome="sample.genome"/>
+          <template #interaction>
+            <BaseTable :update-new-data="interactionInformation"
+                       :is-mounted="differenceGeneIsMounted"
+                       :table-description="interactionDescription"/>
           </template>
-        </LeftRight>
-        <div v-show="isTraitGeneCicero">
-          <BaseTable :table-data="traitGeneCiceroTableData"
-                     :is-service-paging="false"
-                     :download-url="ciceroGeneDownloadUrl"
-                     :table-description="traitGeneCiceroTableDescription"
-                     ref="traitGeneCiceroTable"/>
-        </div>
+        </BaseTabs>
       </template>
     </SingleCard>
     <BaseBr/>
-    <SingleCard :title='{ content: `Gene regulatory network associated with ${traitLabel} and ${sampleLabel}` }' id="position_gene_network" ref="singleCard">
-      <template #head>
-        <BaseSelect class="network_trait_gene_strategy"
-                    title="Strategy:"
-                    is-line
-                    width="50%"
-                    :select-data="traitGeneMethodAllData"
-                    :change-event="networkTraitGeneStrategyChange"
-                    ref="networkTraitGeneStrategy"/>
-      </template>
+    <SingleCard :title='{ content: `Gene regulatory network associated with "${traitName}" and "${sampleLabel}"` }' id="position_gene_network" ref="singleCard">
       <template #default>
         <LeftRight :is-left-right="isLeftRight">
           <template #left>
-            <BaseSelect title="Cell type:" is-line width="40%" :change-event="cellTypeGraphChange" :select-data="cellTypeData" ref="cellTypeGraph"/>
+            <BaseSelect :title="`${metadataLabel}:`" is-line width="40%" :change-event="cellTypeGraphChange" :select-data="cellTypeData" ref="cellTypeGraph"/>
             <BaseBr/>
           </template>
           <template #right>
@@ -111,9 +154,10 @@
         <BaseBr/>
         <LeftRight :is-left-right="isLeftRight" ref="graphLeftRight">
           <template #left>
-            <span class="element_title_strategy">Gene ({{ networkCiceroValue === 'cicero' ? 'Cicero' : (networkCiceroValue === 'magma' ? 'MAGMA' : 'Overlap') }}):</span>
+            <span class="element_title_strategy">Gene ({{ networkTraitGeneStrategy === 'cicero' ? 'Cicero' : (networkTraitGeneStrategy === 'magma' ? 'MAGMA' : 'Overlap') }}):</span>
+            <BaseTabs active="magma" :change="networkTraitGeneStrategyChange" :tabs-data="GeneStrategyData"/>
             <div class="element_info">
-              <div v-show="networkCiceroValue === 'magma' || networkCiceroValue === 'overlap'">
+              <div v-show="networkTraitGeneStrategy === 'magma' || networkTraitGeneStrategy === 'overlap'">
                 <BaseInput class="trait_number"
                            title="Number of SNPs:"
                            type="number"
@@ -131,7 +175,7 @@
                           :change-event="cellTypeGraphChange"
                           :select-data="pValueTraitSelectData"
                           ref="pValueTrait"
-                          v-show="networkCiceroValue === 'magma' || networkCiceroValue === 'overlap'"/>
+                          v-show="networkTraitGeneStrategy === 'magma' || networkTraitGeneStrategy === 'overlap'"/>
               <BaseSelect title="Co-score:"
                           clearable
                           :is-line="true"
@@ -139,12 +183,14 @@
                           :change-event="cellTypeGraphChange"
                           :select-data="coScoreSelectData"
                           ref="coScoreTrait"
-                          v-show="networkCiceroValue === 'cicero' || networkCiceroValue === 'overlap'"/>
+                          v-show="networkTraitGeneStrategy === 'cicero' || networkTraitGeneStrategy === 'overlap'"/>
             </div>
           </template>
           <template #right>
             <span class="element_title_strategy">Gene (Difference):</span>
+            <BaseTabs active="sanpatac2" :tabs-data="[{ name: 'sanpatac2', title: 'SnapATAC2' }]"/>
             <div class="element_info">
+              <BaseSelect title="Score:" clearable :is-line="true" width="62%" :change-event="cellTypeGraphChange" :select-data="scoreSelectData" ref="score"/>
               <BaseSelect title="P value:" clearable :is-line="true" width="62%" :change-event="cellTypeGraphChange" :select-data="pValueSelectData" ref="pValue"/>
               <BaseSelect title="Adjusted p value:" clearable :is-line="true" width="62%" :change-event="cellTypeGraphChange" :select-data="AdjustedPValueSelectData" ref="adjustedPValue"/>
               <BaseSelect title="Log<sub>2</sub>(Fold change):" clearable :is-line="true" width="62%" :change-event="cellTypeGraphChange" :select-data="Log2FoldChangeSelectData" ref="log2FoldChange"/>
@@ -156,7 +202,7 @@
       </template>
     </SingleCard>
     <BaseDrawer title="Annotation on variant information enriched in MAGAM" size="50%" ref="drawer">
-      <SingleCard :title="{ content: `Information mapping of gene and variants in ${traitLabel}` }">
+      <SingleCard :title='{ content: `Information mapping of gene and variants in "${traitName}"` }'>
         <BaseTable :table-data="magmaVariantInfoTableData"
                    :is-service-paging="false"
                    :download-url="magmaGeneAnnoDownloadUrl"
@@ -191,12 +237,12 @@
 import { defineComponent, onMounted, reactive, ref, toRefs, watch } from 'vue';
 import DetailApi from '@/api/service/detailApi';
 import {
+  ANALYSIS_GENE_STRATEGY_TABS,
   ANALYSIS_GENOME_DATA,
   ANALYSIS_LOG2_FOLD_CHANGE_SELECT_DATA,
   ANALYSIS_TOP_COUNT_DATA,
   ANALYSIS_TRAIT_GENE_ALL_METHOD_DATA,
-  ANALYSIS_TRAIT_GENE_METHOD_DATA,
-  CICERO_CO_SCORE_DATA,
+  ANALYSIS_CICERO_CO_SCORE_DATA,
   DATA_ANALYSIS_DIFFERENCE_GENE_TABLE_DESCRIPTION,
   DATA_ANALYSIS_MAGMA_VARIANT_INFO_TABLE_DESCRIPTION,
   DATA_ANALYSIS_SAMPLE_TABLE_DESCRIPTION,
@@ -211,7 +257,11 @@ import {
   overlapGeneGraphOption,
   overlapSnpCountBarOption,
   STATIC_DOWNLOAD_PATH,
-  STATIC_MAGMA_PATH
+  STATIC_MAGMA_PATH,
+  ANALYSIS_GENE_SCORE_DATA,
+  ANALYSIS_RELEVANT_GENE_TYPE_DATA,
+  GENE_DETAIL_EQTL_TABLE_DESCRIPTION,
+  DETAIL_MPRA_TABLE_DESCRIPTION, ANALYSIS_V2G_ANNOTATION_TABS, ANALYSIS_INTERACTION_TABLE_DESCRIPTION
 } from '@/assets/ts';
 import StringUtil from '@/service/util/base/string';
 import Base from '@/service/util/base/base';
@@ -236,10 +286,12 @@ import BaseSwitch from '@/components/switch/BaseSwitch.vue';
 import DifferenceHeatMap from '@/views/detail/common/DifferenceHeatMap.vue';
 import BaseTabs from '@/components/tabs/BaseTabs.vue';
 import FileApi from '@/api/service/fileApi';
+import BaseTooltip from '@/components/tooltip/BaseTooltip.vue';
 
 export default defineComponent({
   name: 'GeneInfoAnnotation',
   components: {
+    BaseTooltip,
     BaseTabs,
     DifferenceHeatMap,
     BaseSwitch,
@@ -264,6 +316,10 @@ export default defineComponent({
       type: String,
       default: () => ''
     },
+    metadata: {
+      type: String,
+      default: () => 'cell_type'
+    },
     isLeftRight: {
       type: Boolean,
       default: () => true
@@ -274,10 +330,8 @@ export default defineComponent({
     const sampleTable = ref();
     const traitTable = ref();
     const differenceGeneTable = ref();
-    const traitGeneStrategy = ref();
     const traitGeneTable = ref();
     const traitGeneCiceroTable = ref();
-    const networkTraitGeneStrategy = ref();
     const overlapGeneGraphECharts = ref();
     const overlapSnpCountECharts = ref();
     const graphECharts = ref();
@@ -287,14 +341,18 @@ export default defineComponent({
     const cellType = ref();
     const cellTypeGraph = ref();
     const topCountGraph = ref();
+    const score = ref();
     const coScoreTrait = ref();
     const geneCoreSwitch = ref();
     const drawer = ref();
+    const traitChr = ref();
     const log2FoldChange = ref();
     const adjustedPValue = ref();
+    const relevantGeneType = ref();
     const pValue = ref();
     const pValueTrait = ref();
     const min = ref();
+    const eqtlTable = ref();
     const geneSnpGraphECharts = ref();
     const geneOverlap = ref();
     const geneOverlapLoading = ref();
@@ -307,13 +365,18 @@ export default defineComponent({
       sample: {} as any,
       sampleLabel: '',
       traitLabel: '',
+      metadataLabel: '',
+      isRelevantGeneType: true,
+      v2gAnnotationStrategy: 'eqtl',
+      traitGeneStrategy: 'magma',
+      networkTraitGeneStrategy: 'magma',
+      traitName: '',
       isOverlapSnpZero: false,
-      isTraitGeneCicero: true,
-      networkCiceroValue: 'cicero',
       isGeneCore: true,
       differenceGeneIsMounted: false,
       cellTypeData: [] as Array<any>,
       sampleTableData: [] as Array<any>,
+      traitChrData: [] as Array<any>,
       traitTableDataAll: [] as Array<any>,
       traitTableData: [] as Array<any>,
       differenceGeneTableData: [] as Array<any>,
@@ -328,9 +391,9 @@ export default defineComponent({
 
     const getCellTypeData = async () => {
       ArrayUtil.clear(data.cellTypeData);
-      return DetailApi.listSampleCellType(props.sampleId, data.id).then((res: any) => {
+      return DetailApi.listSampleCellTypeTimeSexDrug(props.sampleId, data.id, props.metadata).then((res: any) => {
         (res as Array<any>).forEach((item: any) => {
-          data.cellTypeData.push({ label: item.cellType, value: item.cellType });
+          data.cellTypeData.push({ label: item.field, value: item.field });
         });
         data.cellTypeData.push({ label: 'All', value: 'All' });
         cellType.value.select = data.cellTypeData[0].value;
@@ -338,18 +401,19 @@ export default defineComponent({
       });
     };
 
-    // 得到参数
+    // Get the parameters for the API request
     const getParams = () => ({
       log2FoldChange: log2FoldChange.value.select,
       adjustedPValue: adjustedPValue.value.select,
-      strategy: networkTraitGeneStrategy.value.select,
+      strategy: data.networkTraitGeneStrategy,
       coScore: coScoreTrait.value.select,
+      score: score.value.select,
       pvalue: pValue.value.select,
       min: min.value.input,
       pvalueTrait: pValueTrait.value.select
     });
 
-    // 画聚类每个细胞类型数量配图
+    // Plot the clustering graph for each cell type
     const getGraphData = () => {
       graphECharts.value.startLoading();
       AnalysisApi.getGeneGraphData({
@@ -357,6 +421,7 @@ export default defineComponent({
         traitId: props.traitId,
         cellType: cellTypeGraph.value.select,
         analysisGene: getParams(),
+        metadata: props.metadata,
         topCount: topCountGraph.value.select,
         isCore: data.isGeneCore
       }).then((res: any) => {
@@ -372,7 +437,7 @@ export default defineComponent({
 
     const listMagmaGeneByTraitId = () => {
       traitGeneTable.value.startLoading();
-      return DetailApi.listMagmaGeneByTraitId(props.traitId, data.sample.genome).then((res: any) => {
+      DetailApi.listMagmaGeneByTraitId(props.traitId, data.sample.genome).then((res: any) => {
         traitGeneTable.value.endLoading();
         data.traitGeneTableData = res;
       });
@@ -380,19 +445,16 @@ export default defineComponent({
 
     const listCiceroTraitGeneBySampleIdAndTraitId = () => {
       traitGeneCiceroTable.value.startLoading();
-      return DetailApi.listCiceroTraitGeneBySampleIdAndTraitId(props.sampleId, props.traitId).then((res: any) => {
+      DetailApi.listCiceroTraitGeneBySampleIdAndTraitId(props.sampleId, props.traitId).then((res: any) => {
         traitGeneCiceroTable.value.endLoading();
         data.traitGeneCiceroTableData = res;
       });
     };
 
-    const listDifferenceGeneInformation = (page: Page) => DetailApi.listDifferenceGeneBySampleId(props.sampleId, cellType.value.select, page);
-
-    const differenceGeneCallback = () => {
-      listCiceroTraitGeneBySampleIdAndTraitId();
-      listMagmaGeneByTraitId();
-      getGraphData();
-    };
+    const listDifferenceGeneInformation = (page: Page) => DetailApi.listDifferenceGeneBySampleId(props.sampleId, props.metadata, cellType.value.select, page);
+    const eqtlInformation = (page: Page) => DetailApi.listEqtlBytraitId(props.traitId, data.sample.genome, traitChr.value.select, page);
+    const mpraInformation = (page: Page) => DetailApi.listMpraByTraitId(props.traitId, data.sample.genome, page);
+    const interactionInformation = (page: Page) => DetailApi.listInteractionByTraitId(props.traitId, data.sample.genome, page);
 
     const differenceGeneDownload = () => `${STATIC_DOWNLOAD_PATH}/difference/difference_gene/${props.sampleId}_difference_gene_data.txt`;
     const differenceGeneH5adDownload = () => `${STATIC_DOWNLOAD_PATH}/difference/difference_gene_h5ad/${data.sampleLabel}_difference_gene.h5ad`;
@@ -421,28 +483,47 @@ export default defineComponent({
       getGraphData();
     };
 
-    const getSampleInfo = () => {
-      DetailApi.getSampleInfo(props.sampleId).then((res: any) => {
-        data.sample = res;
-        data.sampleLabel = res.label;
-      });
+    const getSampleInfo = async () => DetailApi.getSampleInfo(props.sampleId).then((res: any) => {
+      data.sample = res;
+      data.sampleLabel = res.label;
       DetailApi.getVariantTrait(props.traitId).then((res: any) => {
         data.traitLabel = res.traitCode;
+        data.traitName = res.traitName;
         magmaGeneDownload();
         magmaGeneAnnoDownload();
       });
-    };
+    });
+
+    const setTraitChrData = () => DetailApi.getTraitChrCount(props.traitId, data.sample.genome, 'finemap').then((res: any) => {
+      ArrayUtil.clear(data.traitChrData);
+      res.legend.forEach((item: any) => {
+        data.traitChrData.push({ label: item, value: item });
+      });
+      traitChr.value.select = data.traitChrData[0].value;
+    });
 
     const cellTypeGraphChange = () => {
       getGraphData();
     };
 
-    const traitGeneStrategyChange = () => {
-      data.isTraitGeneCicero = traitGeneStrategy.value.select === 'cicero';
+    const relevantGeneTypeEvent = () => {
+      data.isRelevantGeneType = relevantGeneType.value.select === 'relevant';
     };
 
-    const networkTraitGeneStrategyChange = () => {
-      data.networkCiceroValue = networkTraitGeneStrategy.value.select;
+    const traitChrEvent = () => {
+      eqtlTable.value.dataUpdate();
+    };
+
+    const traitGeneStrategyChange = (tag: any) => {
+      data.traitGeneStrategy = tag.paneName;
+    };
+
+    const v2gAnnotationChange = (tag: any) => {
+      data.v2gAnnotationStrategy = tag.paneName;
+    };
+
+    const networkTraitGeneStrategyChange = (tag: any) => {
+      data.networkTraitGeneStrategy = tag.paneName;
       getGraphData();
     };
 
@@ -464,11 +545,11 @@ export default defineComponent({
       }, 300);
     };
 
-    // 画热图
+    // Plot the gene overlap graph
     const plotGeneOverlap = (vennData: any) => {
-      // 需要先重新添加
+      // Need to re-add first
       geneOverlap.value.innerHTML = `<canvas id="${data.geneOverlapId}" width="500" height="400"></canvas>`;
-      // @ts-ignore CanvasXpress 这个在 ts 中报错, 忽略下一行一切错误
+      // @ts-ignore CanvasXpress causes errors in TypeScript, ignore all errors in the next line
       // eslint-disable-next-line no-undef,no-new
       new CanvasXpress(data.geneOverlapId, {
         venn: {
@@ -518,36 +599,78 @@ export default defineComponent({
 
     onMounted(async () => {
       geneCoreSwitch.value.value = true;
-      traitGeneStrategy.value.select = ANALYSIS_TRAIT_GENE_METHOD_DATA[0].value;
-      coScoreTrait.value.select = CICERO_CO_SCORE_DATA[0].value;
-      networkTraitGeneStrategy.value.select = ANALYSIS_TRAIT_GENE_METHOD_DATA[0].value;
-      topCountGraph.value.select = 2000;
-      log2FoldChange.value.select = ANALYSIS_LOG2_FOLD_CHANGE_SELECT_DATA[1].value;
-      adjustedPValue.value.select = DIFFERENCE_GENE_ADJUSTED_P_VALUE_DATA[1].value;
-      pValue.value.select = DIFFERENCE_GENE_P_VALUE_DATA[1].value;
-      pValueTrait.value.select = MAGMA_GENE_P_VALUE_DATA[1].value;
+      score.value.select = ANALYSIS_GENE_SCORE_DATA[2].value;
+      coScoreTrait.value.select = ANALYSIS_CICERO_CO_SCORE_DATA[3].value;
+      topCountGraph.value.select = 1000;
+      log2FoldChange.value.select = ANALYSIS_LOG2_FOLD_CHANGE_SELECT_DATA[3].value;
+      adjustedPValue.value.select = DIFFERENCE_GENE_ADJUSTED_P_VALUE_DATA[6].value;
+      pValue.value.select = DIFFERENCE_GENE_P_VALUE_DATA[2].value;
+      pValueTrait.value.select = MAGMA_GENE_P_VALUE_DATA[2].value;
       min.value.input = 1;
-      if (Base.noNull(props.sampleId) && Base.noNull(props.traitId) && Base.noNull(cellType.value)) {
-        getSampleInfo();
+      if (Base.noNull(props.sampleId) && Base.noNull(props.traitId) && Base.noNull(props.metadata) && Base.noNull(cellType.value)) {
+        switch (props.metadata as string) {
+          case 'cell_type':
+            data.metadataLabel = 'Cell type';
+            break;
+          case 'time':
+            data.metadataLabel = 'Age/day/time';
+            break;
+          case 'sex':
+            data.metadataLabel = 'Sex';
+            break;
+          case 'drug':
+            data.metadataLabel = 'Drug';
+            break;
+          default:
+            break;
+        }
+
+        await getSampleInfo();
         await getCellTypeData();
+        await setTraitChrData();
+
         if (!data.differenceGeneIsMounted) {
           data.differenceGeneIsMounted = true;
         } else {
           differenceGeneTable.value.dataUpdate();
         }
+
+        listCiceroTraitGeneBySampleIdAndTraitId();
+        listMagmaGeneByTraitId();
+        getGraphData();
       }
     });
 
-    // 监控
-    watch(() => ({ value1: props.sampleId, value2: props.traitId }), async () => {
-      if (Base.noNull(props.sampleId) && Base.noNull(props.traitId) && Base.noNull(cellType.value)) {
-        getSampleInfo();
+    // Monitor the sampleId, traitId, and metadata properties
+    watch(() => ({ value1: props.sampleId, value2: props.traitId, value3: props.metadata }), async () => {
+      if (Base.noNull(props.sampleId) && Base.noNull(props.traitId) && Base.noNull(props.metadata) && Base.noNull(cellType.value)) {
+        switch (props.metadata as string) {
+          case 'cell_type':
+            data.metadataLabel = 'Cell type';
+            break;
+          case 'time':
+            data.metadataLabel = 'Age/day/time';
+            break;
+          case 'sex':
+            data.metadataLabel = 'Sex';
+            break;
+          case 'drug':
+            data.metadataLabel = 'Drug';
+            break;
+          default:
+            break;
+        }
+        await getSampleInfo();
         await getCellTypeData();
+        await setTraitChrData();
         if (!data.differenceGeneIsMounted) {
           data.differenceGeneIsMounted = true;
         } else {
           differenceGeneTable.value.dataUpdate();
         }
+        listCiceroTraitGeneBySampleIdAndTraitId();
+        listMagmaGeneByTraitId();
+        getGraphData();
       }
     }, {
       immediate: true,
@@ -560,24 +683,26 @@ export default defineComponent({
       sampleTable,
       traitTable,
       differenceGeneTable,
-      traitGeneStrategy,
       traitGeneTable,
+      score,
       coScoreTrait,
       traitGeneCiceroTable,
-      networkTraitGeneStrategy,
       overlapDrawer,
       overlapGeneGraphECharts,
       overlapSnpCountECharts,
       graphECharts,
       graphLeftRight,
       genome,
+      traitChr,
       cellType,
+      eqtlTable,
       cellTypeGraph,
       topCountGraph,
       geneCoreSwitch,
       drawer,
       log2FoldChange,
       adjustedPValue,
+      relevantGeneType,
       pValue,
       pValueTrait,
       min,
@@ -589,7 +714,10 @@ export default defineComponent({
       differenceGeneH5adDownload,
       cellTypeChange,
       cellTypeGraphChange,
+      relevantGeneTypeEvent,
+      traitChrEvent,
       traitGeneStrategyChange,
+      v2gAnnotationChange,
       networkTraitGeneStrategyChange,
       topCountGraphChange,
       variantInfoShow,
@@ -597,22 +725,30 @@ export default defineComponent({
       startLoading,
       endLoading,
       listDifferenceGeneInformation,
-      differenceGeneCallback,
+      eqtlInformation,
+      mpraInformation,
+      interactionInformation,
       geneCoreChange,
+      GeneStrategyData: ANALYSIS_GENE_STRATEGY_TABS,
       Log2FoldChangeSelectData: ANALYSIS_LOG2_FOLD_CHANGE_SELECT_DATA,
       AdjustedPValueSelectData: DIFFERENCE_GENE_ADJUSTED_P_VALUE_DATA,
       pValueSelectData: DIFFERENCE_GENE_P_VALUE_DATA,
-      coScoreSelectData: CICERO_CO_SCORE_DATA,
+      scoreSelectData: ANALYSIS_GENE_SCORE_DATA,
+      coScoreSelectData: ANALYSIS_CICERO_CO_SCORE_DATA,
       pValueTraitSelectData: MAGMA_GENE_P_VALUE_DATA,
       differenceGeneTableDescription: DATA_ANALYSIS_DIFFERENCE_GENE_TABLE_DESCRIPTION,
       magmaVariantInfoTableDescription: DATA_ANALYSIS_MAGMA_VARIANT_INFO_TABLE_DESCRIPTION,
       traitGeneTableDescription: DATA_ANALYSIS_TRAIT_GENE_TABLE_DESCRIPTION,
       traitGeneCiceroTableDescription: DATA_ANALYSIS_TRAIT_GENE_CICERO_TABLE_DESCRIPTION,
+      interactionDescription: ANALYSIS_INTERACTION_TABLE_DESCRIPTION,
       genomeData: ANALYSIS_GENOME_DATA,
-      traitGeneMethodData: ANALYSIS_TRAIT_GENE_METHOD_DATA,
+      relevantGeneTypeData: ANALYSIS_RELEVANT_GENE_TYPE_DATA,
       traitGeneMethodAllData: ANALYSIS_TRAIT_GENE_ALL_METHOD_DATA,
+      v2gAnnotationTabs: ANALYSIS_V2G_ANNOTATION_TABS,
       topCountData: ANALYSIS_TOP_COUNT_DATA,
       sampleTableDescription: DATA_ANALYSIS_SAMPLE_TABLE_DESCRIPTION,
+      eqtlDescription: GENE_DETAIL_EQTL_TABLE_DESCRIPTION,
+      mpraDescription: DETAIL_MPRA_TABLE_DESCRIPTION,
       tableDescription: DATA_ANALYSIS_TRAIT_TABLE_DESCRIPTION
     };
   }

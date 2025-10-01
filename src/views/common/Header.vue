@@ -10,7 +10,6 @@
               <span class="title_suffix">MAP</span>
             </span>
           </div>
-          <!-- 导航条 -->
           <div class="col-8 slideInRight-enter">
             <BaseNav :active="active" :menus="menus"/>
           </div>
@@ -18,7 +17,7 @@
       </template>
       <template #right>
         <div class="tools">
-          <a class="github" href="https://github.com/YuZhengM/scvmap-tutorial" target="_blank">
+          <a class="github" href="https://github.com/YuZhengM/scvmap_reproducibility" target="_blank">
             <i class="fab fa-github-square"></i>
           </a>
           <a class="globe" href="https://clustrmaps.com/site/1c7in" target="_blank">
@@ -55,20 +54,20 @@ export default defineComponent({
   },
   components: { LeftRight, BaseNav },
   setup() {
-    // 获取路由
+    // Get route
     const route = useRoute();
     const all = ref();
     const github = ref();
-    // 获取刷新函数信息
+    // Get refresh function information
     const onRefresh = inject<Function>('reload');
     const reload = () => onRefresh && onRefresh();
 
     const data = reactive({
       logUrl: logo
     });
-    // 获取登录信息
+    // Get URL
     watch(() => route.fullPath, () => {
-      // 这个执行函数 isRouterAlive 变量决定刷新区域
+      // The execution function isRouterAlive variable determines the refresh area
       reload();
     });
 

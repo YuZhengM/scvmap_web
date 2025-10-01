@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive, toRefs } from 'vue';
+import { defineComponent, onMounted, reactive, toRefs, watch } from 'vue';
 import '@/assets/less/components/button/BaseButton.less';
 import { ButtonBase } from '@/service/model/components/button';
 import Json from '@/service/util/base/json';
@@ -33,11 +33,14 @@ export default defineComponent({
   },
   setup(props) {
     const data = reactive({
+      infoContent: [] as Array<ButtonBase>,
       info: [] as Array<ButtonBase>
     });
-    onMounted(() => {
-      if (props.content) {
-        props.content.forEach((item: any) => {
+
+    const setContent = () => {
+      if (data.infoContent) {
+        data.info = [];
+        data.infoContent.forEach((item: any) => {
           let style = '';
           if (item.width) {
             style += `width: ${item.width}px;`;
@@ -52,7 +55,21 @@ export default defineComponent({
           data.info.push(item);
         });
       }
+    };
+
+    onMounted(() => {
+      data.infoContent = props.content as Array<ButtonBase>;
+      setContent();
     });
+
+    watch(() => props.content, (newValue: any) => {
+      data.infoContent = newValue;
+      setContent();
+    }, {
+      immediate: true,
+      deep: true
+    });
+
     return {
       ...toRefs(data)
     };

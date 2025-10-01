@@ -47,7 +47,7 @@ export default defineComponent({
   name: 'Contact',
   components: { SisterProject, BaseBr, BaseImage, LeftRight },
   setup() {
-    // 设置响应数据
+    // Set up reactive data
     const data = reactive({
       contacts: CONTACTS,
       selfLinks: CONTACT_SELF_LINK

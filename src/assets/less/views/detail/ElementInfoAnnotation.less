@@ -1,7 +1,7 @@
 @import "../../Index";
 @import "../Detail";
 
-#gene_info_annotation {
+#gene_info_annotation, #tf_info_annotation, #comprehensive_network_annotation {
   .element_title_strategy {
     font-size: 17px;
     font-weight: bold;
@@ -13,7 +13,7 @@
     flex-direction: column;
     padding: 5px 24px;
     background-color: #eee;
-    height: 116px;
+    height: 155px;
 
     .trait_number {
       display: inline-block;
@@ -42,4 +42,11 @@
     float: right;
   }
 
+  .relevant_gene_type {
+    font-weight: bold;
+    font-size: 23px;
+    background-color: @common_one_background_color;
+    margin: 0 10%;
+    padding: 10px 20px;
+  }
 }

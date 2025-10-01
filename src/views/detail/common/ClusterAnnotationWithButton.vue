@@ -1,14 +1,24 @@
 <template>
   <BaseLoading id="cluster_annotation_with_button" ref="loading">
     <el-row :gutter="24">
-      <el-col :span="12">
-        <BaseSelect title="Cell count: " :select-data="cellCountData" :change-event="cellCountEvent" width="50%" is-line ref="cellCount"/>
+      <el-col :span="8">
+        <BaseSelect title="Metadata: " :select-data="metadataData" width="50%" :change-event="metadataEvent" is-line ref="metadata" v-show="metadataData.length > 1"/>
+        <div v-show="metadataData.length === 1" class="metadata">Metadata: Cell type</div>
       </el-col>
-      <el-col :span="12">
-        <BaseSelect title="Method: " :select-data="methodData" :change-event="methodEvent" width="60%" is-line ref="method"/>
+      <el-col :span="8">
+        <BaseSelect title="Cell count: " :select-data="cellCountData" :change-event="cellCountEvent" width="40%" is-line ref="cellCount"/>
+      </el-col>
+      <el-col :span="8">
+        <BaseSelect title="Method: " :select-data="methodData" :change-event="methodEvent" width="50%" is-line ref="method"/>
       </el-col>
     </el-row>
-    <ClusterAnnotation :sample-id="sampleId" :trait-id="traitId" :cell-count="cellCountValue" :method="methodValue" :cluster-height="clusterHeight" :is-left-right="isLeftRight"/>
+    <ClusterAnnotation :sample-id="sampleId"
+                       :trait-id="traitId"
+                       :cell-count="cellCountValue"
+                       :method="methodValue"
+                       :metadata="metadataValue"
+                       :cluster-height="clusterHeight"
+                       :is-left-right="isLeftRight"/>
   </BaseLoading>
 </template>
 
@@ -59,6 +69,7 @@ export default defineComponent({
     const method = ref();
     const clusterLoading = ref();
     const methodLoading = ref();
+    const metadata = ref();
     const data = reactive({
       clusterId: StringUtil.randomString(10),
       traitClusterId: StringUtil.randomString(10),
@@ -68,6 +79,12 @@ export default defineComponent({
       methodValue: '',
       sampleLabel: '',
       cellCountValue: 0,
+      metadataData: [{
+        label: 'Cell type',
+        value: 'cell_type',
+        default: true
+      }] as Array<InputSelect>,
+      metadataValue: 'cell_type',
       traitIdUrl: linkTraitDetail('')
     });
 
@@ -75,11 +92,26 @@ export default defineComponent({
       data.sampleLabel = res.label;
       cellCount.value.select = getCellCountValue(res.cellCount);
       data.cellCountValue = cellCount.value.select;
+
+      if (res.timeExist === 1) {
+        data.metadataData.push({ label: 'Age/day/time', value: 'time' });
+      }
+      if (res.sexExist === 1) {
+        data.metadataData.push({ label: 'Sex', value: 'sex' });
+      }
+      if (res.drugExist === 1) {
+        data.metadataData.push({ label: 'Drug resistance', value: 'drug' });
+      }
     });
+
+    const metadataEvent = async () => {
+      data.metadataValue = metadata.value.select;
+    };
 
     const cellCountEvent = () => {
       data.cellCountValue = cellCount.value.select;
     };
+
     const methodEvent = () => {
       data.methodValue = method.value.select;
     };
@@ -95,9 +127,10 @@ export default defineComponent({
     onMounted(() => {
       method.value.select = DETAIL_METHOD_DATA[0].value;
       data.methodValue = method.value.select;
+      data.metadataValue = data.metadataData[0].value as string;
     });
 
-    // 监控
+    // Monitor the sampleId property
     watch(() => (props.sampleId), () => {
       if (Base.noNull(props.sampleId)) {
         data.cellCountValue = 0;
@@ -114,7 +147,9 @@ export default defineComponent({
       method,
       clusterLoading,
       methodLoading,
+      metadata,
       cellCountEvent,
+      metadataEvent,
       methodEvent,
       startLoading,
       endLoading,

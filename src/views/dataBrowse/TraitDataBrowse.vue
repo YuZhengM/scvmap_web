@@ -7,9 +7,10 @@
           <ListCard title="Type" :list-card="typeList" :list-card-click="typeClick" ref="type"/>
           <ListCard title="Category (ICD-10)" :list-card="categoryList" :list-card-click="categoryClick" ref="category"/>
           <ListCard title="Subcategory (ICD-10)" :list-card="subcategoryList" :list-card-click="subcategoryClick" ref="subcategory"/>
-          <ListCard title="Source cohort" :list-card="cohortList" :list-card-click="cohortClick" ref="cohort"/>
+          <ListCard title="Source cohort" :list-card="cohortList" :list-card-click="cohortClick" ref="cohort" v-show="method === 'finemap'"/>
         </template>
         <template #right>
+          <BaseTabs active="finemap" :tabs-data="[{ name: 'finemap', title: 'FINEMAP' }, { name: 'susie', title: 'SuSiE' }]" :change="methodChange"/>
           <br/>
           <BaseTable :update-new-data="tableInformation"
                      :callback-function="callBackFunction"
@@ -34,10 +35,11 @@ import ListCard from '@/components/card/ListCard.vue';
 import { CardList } from '@/service/model/components/card';
 import ArrayUtil from '@/service/util/base/array';
 import { Page } from '@/service/model/reponse/request';
+import BaseTabs from '@/components/tabs/BaseTabs.vue';
 
 export default defineComponent({
   name: 'TraitDataBrowse',
-  components: { ListCard, LeftRight, BaseLoading, BaseTable },
+  components: { BaseTabs, ListCard, LeftRight, BaseLoading, BaseTable },
   setup() {
     const loading = ref();
     const type = ref();
@@ -45,7 +47,7 @@ export default defineComponent({
     const subcategory = ref();
     const cohort = ref();
     const table = ref();
-    // 设置响应数据
+    // Set reactive data
     const data = reactive({
       typeList: [] as Array<CardList>,
       categoryList: [] as Array<CardList>,
@@ -55,19 +57,20 @@ export default defineComponent({
       categoryValue: '',
       subcategoryValue: '',
       cohortValue: '',
-      tableDescription: DATA_BROWSE_TRAIT_TABLE_DESCRIPTION
+      method: 'finemap'
     });
     const params = (page: Page) => ({
       type: data.typeValue,
       category: data.categoryValue,
       subcategory: data.subcategoryValue,
       cohort: data.cohortValue,
+      method: data.method,
       page
     });
-    // 添加字段数量
+    // Add field numbers to the list
     const addFieldNumber = (nowData: Array<CardList>, newData: Array<any>, name?: CardList) => {
       // const oldData = ArrayUtil.deepCopy(nowData) as Array<CardList>;
-      // 清空
+      // Clear the list
       ArrayUtil.clear(nowData);
       newData.forEach((item: any) => {
         nowData.push({
@@ -77,25 +80,25 @@ export default defineComponent({
         });
       });
     };
-    // 处理结果值
+    // Handle the result data
     const handlerResultData = (res: any, label?: string, name?: CardList) => {
-      // 获得数据内容
+      // Get the data content
       const { typeList, categoryList, subcategoryList, cohortList } = res;
-      // 重构数据
+      // Refactor the data
       addFieldNumber(data.typeList, typeList as Array<any>, label === 'type' ? name : undefined);
       addFieldNumber(data.categoryList, categoryList as Array<any>, label === 'category' ? name : undefined);
       addFieldNumber(data.subcategoryList, subcategoryList as Array<any>, label === 'subcategory' ? name : undefined);
       addFieldNumber(data.cohortList, cohortList as Array<any>, label === 'cohort' ? name : undefined);
     };
 
-    // 向后台请求数据
+    // Request data from the backend
     const getDataAndCount = (dataBrowseInfo: any, label?: string, name?: CardList) => {
-      // 加载动画
+      // Loading animation
       loading.value.loading = true;
-      // 获取数据
+      // Get the data
       return DataBrowseApi.getTraitBrowseData(dataBrowseInfo).then((res: any) => {
         loading.value.loading = false;
-        // 获得数据内容
+        // Get the data content
         handlerResultData(res, label, name);
         return res.dataBrowseDataList;
       });
@@ -125,6 +128,12 @@ export default defineComponent({
       data.cohortValue = name.show ? name.label : '';
       table.value.dataUpdate();
     };
+
+    const methodChange = (tag: any) => {
+      data.method = tag.paneName;
+      table.value.dataUpdate();
+    };
+
     const overviewDownload = (filename: string) => `${STATIC_DOWNLOAD_PATH}/overview/${filename}`;
 
     const tableInformation = (page: Page) => getDataAndCount(params(page));
@@ -145,9 +154,11 @@ export default defineComponent({
       categoryClick,
       subcategoryClick,
       cohortClick,
+      methodChange,
       tableInformation,
       callBackFunction,
-      overviewDownload
+      overviewDownload,
+      tableDescription: DATA_BROWSE_TRAIT_TABLE_DESCRIPTION
     };
   }
 });

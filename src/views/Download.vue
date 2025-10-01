@@ -5,8 +5,10 @@
         Download
       </h2>
       <el-divider></el-divider>
-      <SingleCard :title="{ icon: 'fas fa-circle-down', content: 'Download trait- or disease-relevant cell score (TRS) data for each sample' }" ref="singleCard1">
-        <BaseTable :table-data="sampleTableData" :is-service-paging="false" :download-url="overviewDownload('sample_info.txt')" :table-description="sampleDescription">
+      <SingleCard :title="{ icon: 'fas fa-circle-down', content: 'Download trait-relevant cell score (TRS) data for each sample' }" ref="singleCard1">
+        <BaseTable :table-data="sampleTableData" :is-service-paging="false"
+                   :download-url="[{'url': overviewDownload('sample_info_with_age_sex_drug.txt'), 'title': 'scATAC-seq overview download'}]"
+                   :table-description="sampleDescription">
           <template #default>
             <el-table-column label="scATAC-seq" stripe align="center">
               <template #default="scope">
@@ -15,17 +17,25 @@
                 </el-link>
               </template>
             </el-table-column>
-            <el-table-column label="g-chromVAR" stripe align="center">
+            <el-table-column label="g-chromVAR" stripe align="center" width="220">
               <template #default="scope">
-                <el-link :href="gChromVARDownload(scope.row)">
-                  <el-button size="small" type="primary"> h5ad &nbsp; <i class="fas fa-file-download"></i></el-button>
+                <el-link :href="gChromVARDownload(scope.row, '')">
+                  <el-button size="small" type="primary"> FINEMAP &nbsp; <i class="fas fa-file-download"></i></el-button>
+                </el-link>
+                &nbsp;
+                <el-link :href="gChromVARDownload(scope.row, '_susie')">
+                  <el-button size="small" type="primary"> SuSiE &nbsp; <i class="fas fa-file-download"></i></el-button>
                 </el-link>
               </template>
             </el-table-column>
-            <el-table-column label="SCAVENGE" stripe align="center">
+            <el-table-column label="SCAVENGE" stripe align="center" width="220">
               <template #default="scope">
-                <el-link :href="scavengeDownload(scope.row)">
-                  <el-button size="small" type="primary"> h5ad &nbsp; <i class="fas fa-file-download"></i></el-button>
+                <el-link :href="scavengeDownload(scope.row, '')">
+                  <el-button size="small" type="primary"> FINEMAP &nbsp; <i class="fas fa-file-download"></i></el-button>
+                </el-link>
+                &nbsp;
+                <el-link :href="scavengeDownload(scope.row, '_susie')">
+                  <el-button size="small" type="primary"> SuSiE &nbsp; <i class="fas fa-file-download"></i></el-button>
                 </el-link>
               </template>
             </el-table-column>
@@ -35,7 +45,10 @@
       <br/>
       <SingleCard :title="{ icon: 'fas fa-circle-down', content: `Download fine-mapping result data for each sample` }" ref="singleCard2">
         <BaseTable :update-new-data="listTraitInformation"
-                   :download-url="overviewDownload('trait_info.xlsx')"
+                   :download-urls="[
+                       {'url': overviewDownload('trait_info.xlsx'), 'title': 'FINEMAP overview download'},
+                       {'url': overviewDownload('trait_info_susie.xlsx'), 'title': 'SuSiE overview download'}
+                   ]"
                    :table-description="traitDescription">
           <template #default>
             <el-table-column label="Trait" stripe align="center" width="250">
@@ -47,19 +60,30 @@
             </el-table-column>
             <el-table-column label="Download" stripe align="center">
               <template #default="scope">
-                <el-link :href="fineMappingDownload(scope.row)">
-                  <el-button size="small" type="primary"> txt &nbsp; <i class="fas fa-file-download"></i></el-button>
+                <el-link :href="fineMappingDownload(scope.row, '')">
+                  <el-button size="small" type="primary"> FINEMAP &nbsp; <i class="fas fa-file-download"></i></el-button>
+                </el-link>
+                <el-link :href="fineMappingDownload(scope.row, '_susie')" v-if="Number(scope.row.traitId.split('_')[2]) <= 79">
+                  <el-button size="small" type="primary"> SuSiE &nbsp; <i class="fas fa-file-download"></i></el-button>
                 </el-link>
               </template>
             </el-table-column>
-            <el-table-column label="Download (LiftOver)" stripe align="center">
+            <el-table-column label="Download (LiftOver)" stripe align="center" width="300">
               <template #default="scope">
-                <el-link :href="fineMappingHg19Download(scope.row)">
-                  <el-button size="small" type="primary"> hg19 &nbsp; <i class="fas fa-file-download"></i></el-button>
+                <el-link :href="fineMappingHg19Download(scope.row, '')">
+                  <el-button size="small" type="primary"> FINEMAP (hg19) &nbsp; <i class="fas fa-file-download"></i></el-button>
                 </el-link>
-                &nbsp;
-                <el-link :href="fineMappingHg38Download(scope.row)">
-                  <el-button size="small" type="primary"> hg38 &nbsp; <i class="fas fa-file-download"></i></el-button>
+                <span v-if="Number(scope.row.traitId.split('_')[2]) <= 79">&nbsp;</span>
+                <el-link :href="fineMappingHg19Download(scope.row, '_susie')" v-if="Number(scope.row.traitId.split('_')[2]) <= 79">
+                  <el-button size="small" type="primary"> SuSiE (hg19) &nbsp; <i class="fas fa-file-download"></i></el-button>
+                </el-link>
+                <span v-if="!(Number(scope.row.traitId.split('_')[2]) <= 79)">&nbsp;</span>
+                <el-link :href="fineMappingHg38Download(scope.row, '')">
+                  <el-button size="small" type="primary"> FINEMAP (hg38) &nbsp; <i class="fas fa-file-download"></i></el-button>
+                </el-link>
+                <span v-if="Number(scope.row.traitId.split('_')[2]) <= 79">&nbsp;</span>
+                <el-link :href="fineMappingHg38Download(scope.row, '_susie')" v-if="Number(scope.row.traitId.split('_')[2]) <= 79">
+                  <el-button size="small" type="primary"> SuSiE (hg38) &nbsp; <i class="fas fa-file-download"></i></el-button>
                 </el-link>
               </template>
             </el-table-column>
@@ -304,7 +328,7 @@ export default defineComponent({
   setup() {
     const singleCard1 = ref();
     const singleCard2 = ref();
-    // 设置响应数据
+    // Set up reactive data
     const data = reactive({
       sampleTableData: [] as Array<any>,
       traitTableData: [] as Array<any>
@@ -322,11 +346,11 @@ export default defineComponent({
 
     const overviewDownload = (filename: string) => `${STATIC_DOWNLOAD_PATH}/overview/${filename}`;
     const scatacDownload = (row: any) => `${STATIC_DOWNLOAD_PATH}/scatac/${row.label}_sc_atac_snapATAC2.h5ad`;
-    const gChromVARDownload = (row: any) => `${STATIC_DOWNLOAD_PATH}/trs_big/${row.label}/${row.label}_trs_gchromvar.h5ad`;
-    const scavengeDownload = (row: any) => `${STATIC_DOWNLOAD_PATH}/trs_big/${row.label}/${row.label}_trs_scavenge.h5ad`;
-    const fineMappingDownload = (row: any) => `${STATIC_DOWNLOAD_PATH}/variant/trait/${row.traitCode}.txt`;
-    const fineMappingHg19Download = (row: any) => `${STATIC_DOWNLOAD_PATH}/variant/hg19/${row.traitCode}.bed`;
-    const fineMappingHg38Download = (row: any) => `${STATIC_DOWNLOAD_PATH}/variant/hg38/${row.traitCode}.bed`;
+    const gChromVARDownload = (row: any, method: string) => `${STATIC_DOWNLOAD_PATH}/trs_big${method}/${row.label}/${row.label}_trs_gchromvar.h5ad`;
+    const scavengeDownload = (row: any, method: string) => `${STATIC_DOWNLOAD_PATH}/trs_big${method}/${row.label}/${row.label}_trs_scavenge.h5ad`;
+    const fineMappingDownload = (row: any, method: string) => `${STATIC_DOWNLOAD_PATH}/variant${method}/trait/${row.traitCode}.txt`;
+    const fineMappingHg19Download = (row: any, method: string) => `${STATIC_DOWNLOAD_PATH}/variant${method}/hg19/${row.traitCode}.bed`;
+    const fineMappingHg38Download = (row: any, method: string) => `${STATIC_DOWNLOAD_PATH}/variant${method}/hg38/${row.traitCode}.bed`;
     const differentialTfDownload = () => `${STATIC_DOWNLOAD_PATH}/difference/difference_tf_data.txt`;
     const differentialGeneDownload = () => `${STATIC_DOWNLOAD_PATH}/difference/difference_gene_data.txt`;
     const geneEnrichmentDifferentialGenesDownload = () => `${STATIC_DOWNLOAD_PATH}/enrichment/gene_enrichment_table_data.tar.gz`;

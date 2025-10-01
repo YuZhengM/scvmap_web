@@ -49,7 +49,7 @@ export default defineComponent({
       tfExample: 'HIF1A'
     });
     const buttonClick = (id: String) => {
-      // 点击开始搜索
+      // Click the search button to start the search
       if (id === 'start') {
         if (Base.isNull(tf.value.input)) {
           tf.value.input = data.tfExample;
@@ -59,14 +59,14 @@ export default defineComponent({
           tf: tf.value.input
         });
       }
-      // 点击例子和重设
+      // Click the example or reset button
       tf.value.input = id === 'reset' ? '' : id === 'example' ? data.tfExample : '';
     };
     const getTfData = () => {
       ArrayUtil.clear(data.tfData);
       SearchApi.listTf().then((res: any) => {
         (res as Array<string>).forEach((item: string) => {
-          // 添加 SelectInput 数据
+          // Add SelectInput data
           data.tfData.push({ label: item, value: item, description: item });
         });
       });

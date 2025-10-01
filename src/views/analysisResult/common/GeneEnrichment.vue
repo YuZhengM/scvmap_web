@@ -65,11 +65,11 @@ export default defineComponent({
     });
     const listClusterValue = () => {
       if (Base.noNull(props.sampleId)) {
-        return DetailApi.listSampleCellType(props.sampleId, data.id).then((res: any) => {
+        return DetailApi.listSampleCellTypeTimeSexDrug(props.sampleId, data.id).then((res: any) => {
           ArrayUtil.clear(data.clusterData);
           if (Base.noNull(res)) {
             (res as Array<string>).forEach((item: any) => {
-              data.clusterData.push({ label: item.cellType, value: item.cellType });
+              data.clusterData.push({ label: item.field, value: item.field });
             });
             cluster.value.select = data.clusterData[0].value;
           }

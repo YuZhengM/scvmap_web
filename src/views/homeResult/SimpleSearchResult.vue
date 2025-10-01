@@ -34,7 +34,7 @@ export default defineComponent({
       filename: '' as string,
       tableDescription: [] as Array<any>
     });
-    // 请求后台数据
+    // Get the sample or trait information list from the backend
     const listSampleInformation = async (page: Page) => {
       table.value.startLoading();
       return HomeApi.listInfoByContent(String(route.query.title), String(route.query.value), page).then((res: any) => {

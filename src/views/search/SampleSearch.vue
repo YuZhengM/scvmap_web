@@ -68,7 +68,7 @@ export default defineComponent({
       echartsCellTypeOption: {}
     });
     const buttonClick = (id: String) => {
-      // 点击开始搜索
+      // Click the search button to start the search
       if (id === 'start') {
         if (data.isTissueType) {
           if (Base.isNull(tissueType.value.input)) {
@@ -104,13 +104,13 @@ export default defineComponent({
       }
     };
     const getCellTypeData = () => {
-      // 清空
+      // Clear the cell type data
       ArrayUtil.clear(data.cellTypeData);
-      // 请求性状数量信息
+      // Request the cell type number information
       SearchApi.listCellType().then((res: any) => {
         const echartsData: any[] = [];
         (res as Array<any>).forEach((item: any) => {
-          // 添加 SelectInput 数据
+          // Add SelectInput data
           data.cellTypeData.push({ label: item.field, value: item.field, description: item.number });
           echartsData.push({ name: item.field, value: item.number });
         });
@@ -119,13 +119,13 @@ export default defineComponent({
       });
     };
     const getTissueTypeData = () => {
-      // 清空
+      // Clear the tissue type data
       ArrayUtil.clear(data.tissueTypeData);
-      // 请求性状数量信息
+      // Request the tissue type number information
       SearchApi.listTissueType().then((res: any) => {
         const echartsData: any[] = [];
         (res as Array<any>).forEach((item: any) => {
-          // 添加 SelectInput 数据
+          // Add SelectInput data
           data.tissueTypeData.push({ label: item.field, value: item.field, description: item.number });
           echartsData.push({ name: item.field, value: item.number });
         });

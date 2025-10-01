@@ -64,7 +64,7 @@
                  ref="table"/>
     </SingleCard>
     <br/>
-    <SingleCard :title="{ icon: 'fas fa-list', content: 'Trait- or disease-relevant cell score' }" v-if="jobStatus !== 'none' && jobStatus === 'Finish'">
+    <SingleCard :title="{ icon: 'fas fa-list', content: 'trait-relevant cell score' }" v-if="jobStatus !== 'none' && jobStatus === 'Finish'">
       <div>
         <LeftRight>
           <template #left>
@@ -190,7 +190,7 @@ export default defineComponent({
       });
     };
 
-    // 得到数据
+    // Get the cluster coordinate data from the backend
     const getClusterValue = () => {
       OnLineApi.listClusterCoordinate(data.jobId, axis1.value.select, axis2.value.select, cellType.value.select).then((res: any) => {
         Plotly.newPlot(data.clusterId, clusterForm(res, 5), sampleClusterLayoutMain(580, 580), config);

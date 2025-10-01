@@ -40,11 +40,16 @@
         </LeftRight>
       </SingleCard>
       <BaseBr/>
-      <SingleCard :title='{ content: `The "${traitId}"-relevant score in "${sampleId}" data` }' id="position_cell">
+      <SingleCard :title='{ content: `The "${traitLabel}"-relevant score in "${sampleLabel}" data` }' id="position_cell" v-show="!isDataEmpty">
         <ClusterAnnotationWithButton :trait-id="traitId" :sample-id="sampleId" ref="clusterAnno"/>
       </SingleCard>
       <BaseBr/>
-      <TfInfoAnnotation :sample-id="sampleId" :trait-id="traitId" ref="tfInfoAnno"/>
+      <TfInfoAnnotation :sample-id="sampleId" :trait-id="traitId" ref="tfInfoAnno" v-show="!isDataEmpty"/>
+      <BaseBr/>
+      <ComprehensiveNetworkAnnotation :sample-id="sampleId" :trait-id="traitId" v-show="!isDataEmpty"/>
+      <SingleCard :title='{ content: "Empty data" }' id="position_cell" v-show="isDataEmpty">
+        <div>There are no single-cell samples or trait data related to the input TFs.</div>
+      </SingleCard>
     </BaseLoading>
   </div>
 </template>
@@ -74,10 +79,12 @@ import SingleCard from '@/components/card/SingleCard.vue';
 import BaseSelect from '@/components/input/BaseSelect.vue';
 import PositionButton from '@/components/button/PositionButton.vue';
 import TfInfoAnnotation from '@/views/detail/common/TfInfoAnnotation.vue';
+import ComprehensiveNetworkAnnotation from '@/views/detail/common/ComprehensiveNetworkAnnotation.vue';
 
 export default defineComponent({
   name: 'AnalysisTfExplore',
   components: {
+    ComprehensiveNetworkAnnotation,
     TfInfoAnnotation,
     PositionButton,
     BaseSelect,
@@ -99,10 +106,12 @@ export default defineComponent({
     const tfInfoAnno = ref();
     const data = reactive({
       sampleId: '' as string,
+      sampleLabel: '' as string,
       traitId: '' as string,
       traitLabel: '' as string,
       traitIdListAll: [] as any,
       isEn: true as boolean,
+      isDataEmpty: false as boolean,
       sampleIsSelectChange: true as boolean,
       traitIsSelectChange: true as boolean,
       sample: {} as any,
@@ -114,15 +123,20 @@ export default defineComponent({
       traitTfTableData: [] as Array<any>
     });
 
-    // 得到参数
+    // Get query parameters from the URL
     const getParams = () => ({
-      content: route.query.content,
-      fileId: route.query.fileId,
       log2FoldChange: Number(route.query.log2FoldChange),
       adjustedPValue: Number(route.query.adjustedPValue),
       pvalue: Number(route.query.pvalue),
       qvalueTrait: Number(route.query.qvalueTrait),
       pvalueTrait: Number(route.query.pvalueTrait),
+      mean: Number(route.query.chromvarMean),
+      coScore: Number(route.query.coScore),
+      meanScore: Number(route.query.meanScore),
+      scStrategy: route.query.scStrategy,
+      traitStrategy: route.query.traitStrategy,
+      content: route.query.content,
+      fileId: route.query.fileId,
       strategy: route.query.strategy,
       isFile: Number(route.query.isFile)
     });
@@ -140,7 +154,7 @@ export default defineComponent({
           traitTable.value.selectionToggleChange([data.traitTableData[0]]);
           data.traitId = data.traitTableData[0].traitId;
           data.traitLabel = data.traitTableData[0].traitCode;
-        }, 600);
+        }, 1000);
       });
     };
 
@@ -167,12 +181,21 @@ export default defineComponent({
 
         data.sampleTableData = res.sampleList;
         data.traitTableDataAll = res.traitList;
-        data.traitIdListAll = [...new Set(data.traitTableDataAll.map((item: any) => item.traitId))];
-        data.sampleId = data.sampleTableData[0].sampleId;
-        Time.delay(() => {
-          sampleTable.value.selectionToggleChange([data.sampleTableData[0]]);
-          getEnrichedTraitIdList();
-        }, 600);
+        data.isDataEmpty = data.sampleTableData.length === 0 || data.traitTableDataAll.length === 0;
+
+        if (data.isDataEmpty) {
+          traitTable.value.endLoading();
+          clusterAnno.value.endLoading();
+          tfInfoAnno.value.endLoading();
+        } else {
+          data.traitIdListAll = [...new Set(data.traitTableDataAll.map((item: any) => item.traitId))];
+          data.sampleId = data.sampleTableData[0].sampleId;
+          data.sampleLabel = data.sampleTableData[0].label;
+          Time.delay(() => {
+            sampleTable.value.selectionToggleChange([data.sampleTableData[0]]);
+            // getEnrichedTraitIdList();
+          }, 600);
+        }
       });
     };
 
@@ -186,14 +209,17 @@ export default defineComponent({
     };
 
     const sampleSelectionChange = (val: any) => {
-      if (val.length > 1) {
-        data.sampleIsSelectChange = false;
-        sampleTable.value.selectionToggleChange(val.slice(0, val.length - 1));
-        data.sampleIsSelectChange = true;
-      } else if (val.length === 1) {
-        data.sampleId = val[0].sampleId;
+      if (!data.isDataEmpty) {
+        if (val.length > 1) {
+          data.sampleIsSelectChange = false;
+          sampleTable.value.selectionToggleChange(val.slice(0, val.length - 1));
+          data.sampleIsSelectChange = true;
+        } else if (val.length === 1) {
+          data.sampleId = val[0].sampleId;
+          data.sampleLabel = val[0].label;
+        }
+        getEnrichedTraitIdList();
       }
-      getEnrichedTraitIdList();
     };
 
     const traitPageEvent = () => {
@@ -212,13 +238,13 @@ export default defineComponent({
         data.traitIsSelectChange = true;
       } else if (val.length === 1) {
         data.traitId = val[0].traitId;
+        data.traitLabel = val[0].traitCode;
       }
     };
 
     onMounted(() => {
       if ((Base.isNull(route.query.content) && Base.isNull(route.query.fileId))
-          || Base.isNull(route.query.log2FoldChange) || Base.isNull(route.query.adjustedPValue)
-          || Base.isNull(route.query.pvalueTrait) || Base.isNull(route.query.qvalueTrait) || Base.isNull(route.query.pvalue)) {
+          || Base.isNull(route.query.log2FoldChange) || Base.isNull(route.query.adjustedPValue) || Base.isNull(route.query.pvalue)) {
         Jump.routerDefault(router, '/');
         ElNotification({
           title: 'Please check',

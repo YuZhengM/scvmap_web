@@ -19,6 +19,10 @@ export const CONTACTS = [
 // 联系内容
 export const CONTACT_SELF_LINK = [
   {
+    title: 'scVMAP reproducibility: ',
+    link: 'https://github.com/YuZhengM/scvmap_reproducibility'
+  },
+  {
     title: 'scVMAP tutorial: ',
     link: 'https://scvmap.readthedocs.io/en/latest/'
   },

@@ -7,6 +7,9 @@
         </el-link>
       </template>
       <template #default>
+        <BaseTabs active="finemap" :tabs-data="[{ name: 'finemap', title: 'FINEMAP' }, { name: 'susie', title: 'SuSiE' }]"
+                  :change="fineMappingMethodChange" v-show="isHaveSusie"/>
+        <BaseBr/>
         <LeftRight :is-left-right="isLeftRight" ref="leftRight">
           <template #left>
             <table class="table table-hover table-striped">
@@ -75,7 +78,7 @@ import { KeyValue } from '@/service/model/data';
 import ArrayUtil from '@/service/util/base/array';
 import LeftRight from '@/components/layout/LeftRight.vue';
 import BaseLoading from '@/components/loading/BaseLoading.vue';
-import { ANALYSIS_GENOME_DATA, chrCountOption, DETAIL_TRAIT_INFORMATION_TABLE_DESCRIPTION, getPubmedLink, STATIC_DOWNLOAD_PATH } from '@/assets/ts';
+import { ANALYSIS_FINE_MAPPING_METHOD_DATA, ANALYSIS_GENOME_DATA, chrCountOption, DETAIL_TRAIT_INFORMATION_TABLE_DESCRIPTION, getPubmedLink, STATIC_DOWNLOAD_PATH } from '@/assets/ts';
 import Echarts from '@/components/echarts/Echarts.vue';
 import BaseDrawer from '@/components/drawer/BaseDrawer.vue';
 import BaseTabs from '@/components/tabs/BaseTabs.vue';
@@ -132,14 +135,16 @@ export default defineComponent({
         }
       ] as Array<TabsBase>,
       variantInfoIsMounted: false,
+      isHaveSusie: false,
       genome: '',
+      fineMappingMethodValue: '',
       traitLabel: ''
     });
-    // 得到数据
+    // Get the trait overview data
     const getOverview = async () => {
       loading.value.loading = true;
       // sample ID
-      const res: any = await DetailApi.getVariantTrait(props.traitId);
+      const res: any = await DetailApi.getVariantTrait(props.traitId, data.fineMappingMethodValue);
       loading.value.loading = false;
       ArrayUtil.clear(data.overviewTableData);
       const { source } = res;
@@ -148,6 +153,7 @@ export default defineComponent({
       const liftOverGenome = genome === 'hg38' ? 'hg19' : 'hg38';
       // Sample overview
       data.overviewTableData.push({ key: 'Trait ID', value: res.traitId });
+      data.overviewTableData.push({ key: 'Trait name', value: res.traitName });
       data.overviewTableData.push({ key: 'Trait label', value: res.traitCode });
       data.traitLabel = res.traitCode;
       data.overviewTableData.push({ key: 'Genome', value: genome, description: 'The original reference genome for collecting data.' });
@@ -174,24 +180,31 @@ export default defineComponent({
       data.sourceTableData.push({ key: 'Source PMID:', value: source.pmid === '-' ? '-' : getPubmedLink(source.pmid) });
     };
 
-    const listVariantInformation = (page: Page) => DetailApi.listTraitInfo(props.traitId, genome.value.select, page);
+    const listVariantInformation = (page: Page) => DetailApi.listTraitInfo(props.traitId, genome.value.select, data.fineMappingMethodValue, page);
 
     const sourceIdClick = () => {
       drawer.value.drawer = true;
     };
-    // 画聚类每个细胞类型数量配图
+
+    // Plot the chromosome count graph for the trait
     const getChrResize = () => {
       chrEcharts.value.startLoading();
-      DetailApi.getTraitChrCount(props.traitId, genome.value.select).then((res: any) => {
+      DetailApi.getTraitChrCount(props.traitId, genome.value.select, data.fineMappingMethodValue).then((res: any) => {
         chrEcharts.value.endLoading();
-        // echarts
         chrEcharts.value.drawEcharts(chrCountOption(res));
-        chrEcharts.value.setResize();
       });
     };
+
     const genomeChange = () => {
       data.genome = genome.value.select;
       variantInfoTable.value.dataUpdate();
+      getChrResize();
+    };
+
+    const fineMappingMethodChange = (tag: any) => {
+      data.fineMappingMethodValue = tag.paneName;
+      variantInfoTable.value.dataUpdate();
+      getOverview();
       getChrResize();
     };
 
@@ -199,6 +212,8 @@ export default defineComponent({
     const traitVariantInfoDownload = () => `${STATIC_DOWNLOAD_PATH}/variant/${data.genome}/${data.traitLabel}.bed`;
 
     onMounted(async () => {
+      data.fineMappingMethodValue = ANALYSIS_FINE_MAPPING_METHOD_DATA[0].value as string;
+      data.isHaveSusie = Number(props.traitId.split('_')[2]) <= 79;
       await getOverview();
       genome.value.select = data.genome;
       data.variantInfoIsMounted = true;
@@ -214,10 +229,12 @@ export default defineComponent({
       variantInfoTable,
       sourceIdClick,
       genomeChange,
+      fineMappingMethodChange,
       traitFileDownload,
       traitVariantInfoDownload,
       listVariantInformation,
       genomeData: ANALYSIS_GENOME_DATA,
+      fineMappingMethodData: ANALYSIS_FINE_MAPPING_METHOD_DATA,
       tableDescription: DETAIL_TRAIT_INFORMATION_TABLE_DESCRIPTION
     };
   }

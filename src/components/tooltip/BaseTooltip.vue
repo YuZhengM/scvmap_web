@@ -50,4 +50,8 @@ export default defineComponent({
 
 }
 
+div.is-dark {
+  max-width: 300px;
+}
+
 </style>

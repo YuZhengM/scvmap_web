@@ -28,7 +28,7 @@ export default defineComponent({
       params: {},
       tableData: [] as Array<any>
     });
-    // 请求后台数据
+    // Request the background data
     const listSampleInformation = (page: Page) => SearchApi.listSampleBySearchSample({
       ...data.params,
       page

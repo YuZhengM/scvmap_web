@@ -39,7 +39,7 @@
         </div>
       </BaseCard>
       <BaseBr/>
-      <BaseCard icon="fas fa-list" title="Statistics of trait- or disease-relevant cell score (TRS) data">
+      <BaseCard icon="fas fa-list" title="Statistics of trait-relevant cell score (TRS) data">
         <ArrayTable :table-data="trsCount" :is_striped="false" :column-pair="2" v-show="!isVisualization"/>
         <div v-show="isVisualization">
           <br/>
@@ -134,26 +134,26 @@ export default defineComponent({
 
       pairECharts.value.drawEcharts(echartsPairPieOption([
         {
-          title: 'Trait/disease-sample pair count',
+          title: 'trait-sample pair count',
           data: [
-            { value: 1923600, name: 'SCAVENGE' },
-            { value: 1925318, name: 'g-chromVAR' }
+            { value: 1937588, name: 'SCAVENGE' },
+            { value: 1939308, name: 'g-chromVAR' }
           ],
           color: ['#114587', '#158711']
         },
         {
-          title: 'Trait/disease-cell type pair count',
+          title: 'trait-cell type pair count',
           data: [
-            { value: 13060769, name: 'SCAVENGE' },
-            { value: 13071526, name: 'g-chromVAR' }
+            { value: 13152640, name: 'SCAVENGE' },
+            { value: 13163419, name: 'g-chromVAR' }
           ],
           color: ['#111787', '#878111']
         },
         {
-          title: 'Trait/disease-cell pair count',
+          title: 'trait-cell pair count',
           data: [
-            { value: 15950206407, name: 'SCAVENGE' },
-            { value: 15961309910, name: 'g-chromVAR' }
+            { value: 16053257050, name: 'SCAVENGE' },
+            { value: 16064377248, name: 'g-chromVAR' }
           ],
           color: ['#601187', '#87114c']
         }
@@ -167,7 +167,7 @@ export default defineComponent({
           { value: 30, name: 'SAS' },
           { value: 53, name: 'AFR' },
           { value: 79, name: 'AMR' },
-          { value: 210, name: 'EAS' },
+          { value: 289, name: 'EAS' },
           { value: 5108, name: 'EUR' },
           { value: 10325, name: 'UKB' }
         ],
@@ -176,14 +176,14 @@ export default defineComponent({
           '#9225a3', '#9fa325',
           '#d86514', '#13c513'
         ],
-        text: '15805'
+        text: '15884'
       }));
 
       genomePieECharts.value.drawEcharts(echartsPieOption({
         title: 'The number of all variants',
         data: [
-          { value: 21679322, name: 'hg19' },
-          { value: 21676961, name: 'hg38' }
+          { value: 22243178, name: 'hg19' },
+          { value: 22240611, name: 'hg38' }
         ],
         color: ['#439c2b', '#256fa3'],
         show: true

@@ -28,7 +28,7 @@ export default defineComponent({
       params: {},
       tableData: [] as Array<any>
     });
-    // 请求后台数据
+    // Request background data
     const listTraitInformation = (page: Page) => SearchApi.listTraitBySearchTrait({
       ...data.params,
       page

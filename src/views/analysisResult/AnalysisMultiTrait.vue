@@ -32,13 +32,15 @@
         </template>
       </LeftRight>
       <BaseBr/>
-      <SingleCard :title='{ content: `The "${traitId}"-relevant score in "${sampleId}" data` }' id="position_cell" ref="singleCard">
+      <SingleCard :title='{ content: `The "${traitName}"-relevant score in "${sampleLabel}" data` }' id="position_cell" ref="singleCard">
         <ClusterAnnotationWithButton :trait-id="traitId" :sample-id="sampleId" ref="clusterAnno"/>
       </SingleCard>
       <BaseBr/>
       <GeneInfoAnnotation :sample-id="sampleId" :trait-id="traitId" ref="geneInfoAnno"/>
       <BaseBr/>
       <TfInfoAnnotation :sample-id="sampleId" :trait-id="traitId" ref="tfInfoAnno"/>
+      <BaseBr/>
+      <ComprehensiveNetworkAnnotation :sample-id="sampleId" :trait-id="traitId"/>
       <BaseDrawer title="Sample Information" size="35%" ref="drawer">
         <table class=" table table-hover table-striped">
           <thead></thead>
@@ -88,10 +90,12 @@ import ArrayUtil from '@/service/util/base/array';
 import AnalysisApi from '@/api/service/analysisApi';
 import { KeyValue } from '@/service/model/data';
 import { InputSelect } from '@/service/model/components/input';
+import ComprehensiveNetworkAnnotation from '@/views/detail/common/ComprehensiveNetworkAnnotation.vue';
 
 export default defineComponent({
   name: 'AnalysisMultiTrait',
   components: {
+    ComprehensiveNetworkAnnotation,
     PositionButton,
     TfInfoAnnotation,
     GeneInfoAnnotation,
@@ -122,7 +126,9 @@ export default defineComponent({
     const drawer = ref();
     const data = reactive({
       traitId: '' as string,
+      traitName: '' as string,
       sampleId: route.query.sampleId as string,
+      sampleLabel: '' as string,
       traitTableData: [] as Array<any>,
       tableData: [] as Array<KeyValue>,
       traitIdList: [] as Array<string>,
@@ -138,6 +144,7 @@ export default defineComponent({
       loading.value.loading = true;
       DetailApi.getSampleInfo(data.sampleId).then((res: any) => {
         data.sample = res;
+        data.sampleLabel = res.label;
         getSampleArrayTable(data.tableData, res, true);
       });
     };
@@ -149,6 +156,7 @@ export default defineComponent({
         data.isSelectChange = true;
       } else if (val.length === 1) {
         data.traitId = val[0].traitId;
+        data.traitName = val[0].trait;
       }
     };
 

@@ -21,7 +21,7 @@ export default defineComponent({
     const data = reactive({
       tableData: [] as Array<any>
     });
-    // 请求后台数据
+    // Get the user sample information list from the backend
     const listUserSampleInformation = (page: Page) => OnLineApi.listUserJob(page);
     return {
       ...toRefs(data),

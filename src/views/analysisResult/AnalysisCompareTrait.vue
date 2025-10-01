@@ -41,6 +41,15 @@
         <TfInfoAnnotation :sample-id="sampleId" :trait-id="traitId2" :is-left-right="false"/>
       </template>
     </LeftRight>
+    <br/>
+    <LeftRight :padding="0">
+      <template #left>
+        <ComprehensiveNetworkAnnotation :sample-id="sampleId" :trait-id="traitId1" :is-left-right="false"/>
+      </template>
+      <template #right>
+        <ComprehensiveNetworkAnnotation :sample-id="sampleId" :trait-id="traitId2" :is-left-right="false"/>
+      </template>
+    </LeftRight>
   </div>
 </template>
 
@@ -62,10 +71,12 @@ import PositionButton from '@/components/button/PositionButton.vue';
 import SingleCard from '@/components/card/SingleCard.vue';
 import TfInfoAnnotation from '@/views/detail/common/TfInfoAnnotation.vue';
 import TraitOverview from '@/views/detail/traitDetail/TraitOverview.vue';
+import ComprehensiveNetworkAnnotation from '@/views/detail/common/ComprehensiveNetworkAnnotation.vue';
 
 export default defineComponent({
   name: 'AnalysisCompareSc',
   components: {
+    ComprehensiveNetworkAnnotation,
     TraitOverview,
     TfInfoAnnotation,
     SingleCard,

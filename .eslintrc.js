@@ -12,41 +12,41 @@ module.exports = {
     ecmaVersion: 2020
   },
   /**
-   * 0 或 'off': 关闭规则.
-   * 1 或 'warn': 打开规则, 并且作为一个警告, 字体颜色为黄色 (并不会导致检查不通过).
-   * 2 或 'error': 打开规则, 并且作为一个错误, 色体颜色为红色 (退出码为 1, 检查不通过).
+   * 0 or 'off': Turn off the rule.
+   * 1 or 'warn': Turn on the rule as a warning with yellow text color (does not cause the check to fail).
+   * 2 or 'error': Turn on the rule as an error with red text color (exit code is 1, check fails).
    */
   rules: {
     // allow console output during development
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    // 设置注释一行内最多字符为 200 个, 忽略 URL
+    // Set the maximum number of characters per comment line to 200, ignore URLs
     'max-len': ['error', {
       comments: 200,
       ignoreUrls: true,
       code: 200
     }],
-    // 设置对象中最后一个元素后面是否进行加逗号, 从不加
+    // Set the rule for dangling commas in objects, arrays, and imports/exports to never
     'comma-dangle': ['error', 'never'],
-    // 大括号引用的内容, 超过 8 进行换行
+    // Set the rule for curly braces in objects and arrays to always have newlines if they span more than 8 lines
     'object-curly-newline': ['error', {
       minProperties: 8,
       consistent: true
     }],
-    // 允许 i++ 形式
+    // Allow the use of i++ and i--
     'no-plusplus': 0,
-    // 函数行为参数
+    // Allow reassigning function parameters
     'no-param-reassign': ['error', { props: false }],
-    // 由于枚举类型定义一直会被识别为变量内部重复
+    // Since enum type definitions are always recognized as duplicate variables internally, turn off this rule
     'no-shadow': 0,
-    // 在用 element ui 中 form 下 rule 检验会出现延迟返回
+    // In Element UI, form validation rules may return late, so turn off this rule
     'consistent-return': 0,
-    // 可以嵌套三目运算
+    // Nested ternary operators are allowed
     'no-nested-ternary': 0,
-    // 由于需要上传 Git 环境, 故拉取或者切换分支会出现换行符 (LF) Linux 和 Windows (CRLF) 环境不一致问题, 关闭
+    // Since Git environments have different linebreak styles (LF vs. CRLF), turn off this rule
     'linebreak-style': [0, process.env.NODE_ENV === 'production' ? 'unix' : 'windows'],
-    // 下面带有 @typescript-eslint 的全部关闭规则
+    // Below are all rules with @typescript-eslint prefix, turn them off
     '@typescript-eslint/ban-types': 0,
     '@typescript-eslint/ban-ts-comment': 0,
     '@typescript-eslint/no-var-requires': 0,

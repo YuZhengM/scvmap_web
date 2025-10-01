@@ -85,7 +85,7 @@ import {
   DIFFERENCE_GENE_ADJUSTED_P_VALUE_DATA,
   DIFFERENCE_GENE_P_VALUE_DATA,
   MAGMA_GENE_P_VALUE_DATA,
-  getExampleUrlHtml, CICERO_CO_SCORE_DATA
+  getExampleUrlHtml, ANALYSIS_CICERO_CO_SCORE_DATA
 } from '@/assets/ts';
 import BaseInput from '@/components/input/BaseInput.vue';
 import FileApi from '@/api/service/fileApi';
@@ -215,7 +215,7 @@ export default defineComponent({
           min.value.input = 1;
         }
         if (Base.isNull(coScore.value.select)) {
-          coScore.value.select = CICERO_CO_SCORE_DATA[1].value;
+          coScore.value.select = ANALYSIS_CICERO_CO_SCORE_DATA[1].value;
         }
         // 判断是否为输出内容
         if (data.isUpload) {
@@ -243,7 +243,7 @@ export default defineComponent({
         adjustedPValue.value.select = DIFFERENCE_GENE_ADJUSTED_P_VALUE_DATA[2].value;
         pValue.value.select = DIFFERENCE_GENE_P_VALUE_DATA[2].value;
         pValueTrait.value.select = MAGMA_GENE_P_VALUE_DATA[1].value;
-        coScore.value.select = CICERO_CO_SCORE_DATA[1].value;
+        coScore.value.select = ANALYSIS_CICERO_CO_SCORE_DATA[1].value;
         min.value.input = 1;
         if (!data.isUpload) {
           getExampleData();
@@ -270,7 +270,7 @@ export default defineComponent({
       AdjustedPValueSelectData: DIFFERENCE_GENE_ADJUSTED_P_VALUE_DATA,
       pValueSelectData: DIFFERENCE_GENE_P_VALUE_DATA,
       pValueTraitSelectData: MAGMA_GENE_P_VALUE_DATA,
-      coScoreSelectData: CICERO_CO_SCORE_DATA,
+      coScoreSelectData: ANALYSIS_CICERO_CO_SCORE_DATA,
       buttonContent: ANALYSIS_BUTTON_CONTENT
     };
   }

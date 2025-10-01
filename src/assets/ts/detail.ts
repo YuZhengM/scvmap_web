@@ -6,7 +6,7 @@ import { KeyValue } from '@/service/model/data';
 import { echartsTitle, PIE_LABEL, toolboxSimple } from '@/service/util/echarts';
 import { ButtonBase } from '@/service/model/components/button';
 
-export const DETAIL_BUTTON_POSITION_DATA: Array<ButtonBase> = [
+export const DETAIL_BUTTON_POSITION_TRS_DATA: Array<ButtonBase> = [
   {
     id: 'position_overview',
     title: 'Overview'
@@ -26,7 +26,34 @@ export const DETAIL_BUTTON_POSITION_DATA: Array<ButtonBase> = [
   {
     id: 'position_gene_network',
     title: 'Gene hub network'
+  }
+];
+
+export const DETAIL_BUTTON_POSITION_TIME_SEX_DRUG_DATA: Array<ButtonBase> = [
+  {
+    id: 'position_overview',
+    title: 'Overview'
   },
+  {
+    id: 'position_cell',
+    title: 'TRS'
+  },
+  {
+    id: 'position_difference_gene',
+    title: 'Differential genes'
+  },
+  {
+    id: 'position_magma_gene',
+    title: 'Trait-relevant genes'
+  },
+  {
+    id: 'position_gene_network',
+    title: 'Gene hub network'
+  }
+];
+
+export const DETAIL_BUTTON_POSITION_DATA: Array<ButtonBase> = [
+  ...DETAIL_BUTTON_POSITION_TIME_SEX_DRUG_DATA,
   {
     id: 'position_difference_tf',
     title: 'Differential TFs'
@@ -38,6 +65,10 @@ export const DETAIL_BUTTON_POSITION_DATA: Array<ButtonBase> = [
   {
     id: 'position_tf_network',
     title: 'TF hub network'
+  },
+  {
+    id: 'position_comprehensive_network',
+    title: 'Integrated network'
   }
 ];
 
@@ -294,8 +325,8 @@ export const enrichedTraitCountCountOption = (data: any, labelShow = true) => ({
 });
 
 // noinspection JSUnusedGlobalSymbols
-export const cellTypeCountOption = (data: any, isExpand = false) => ({
-  title: echartsTitle('Cell type count'),
+export const cellTypeCountOption = (data: any, isExpand = false, title = 'Cell type count') => ({
+  title: echartsTitle(title),
   tooltip: {
     trigger: 'item',
     formatter: (value: any) => `${value.name} <br/> ${value.seriesName}: ${value.value} <br/> percent: ${value.percent}%`
@@ -351,7 +382,7 @@ export const chrCountOption = (data: any) => ({
     trigger: 'item',
     formatter: (value: any) => `${value.name} <br/> ${value.seriesName}: ${value.value} <br/> percent: ${value.percent}%`
   },
-  toolbox: toolboxSimple(),
+  toolbox: toolboxSimple('top', 50),
   legend: {
     orient: 'vertical',
     left: 'left',
@@ -375,8 +406,8 @@ export const chrCountOption = (data: any) => ({
 });
 
 // noinspection JSUnusedGlobalSymbols
-export const traitBoxOption = (data: any, yName = 'TRS') => ({
-  title: echartsTitle('Trait- or disease-relevant cell score'),
+export const traitBoxOption = (data: any, xName = 'Cell types', yName = 'TRS') => ({
+  title: echartsTitle('trait-relevant cell score'),
   tooltip: {
     trigger: 'axis',
     axisPointer: {
@@ -391,7 +422,7 @@ export const traitBoxOption = (data: any, yName = 'TRS') => ({
   },
   xAxis: {
     type: 'category',
-    name: 'Cell types',
+    name: xName,
     data: data.map((item: any) => item.name),
     datasetIndex: 0,
     axisLabel: {
@@ -422,13 +453,16 @@ export const getSampleArrayTable = (tableData: Array<KeyValue>, res: any, isLink
   tableData.push({ key: 'Tissue type:', value: res.tissueType });
   tableData.push({ key: 'Cell type count:', value: res.cellTypeCount });
   tableData.push({ key: 'Cell count:', value: res.cellCount });
+  tableData.push({ key: 'Age/day/time annotation:', value: res.timeExist === 1 ? 'Include' : 'Not include' });
+  tableData.push({ key: 'Sex annotation:', value: res.sexExist === 1 ? 'Include' : 'Not include' });
+  tableData.push({ key: 'Drug resistance annotation:', value: res.drugExist === 1 ? 'Include' : 'Not include' });
   tableData.push({ key: 'GSE ID:', value: getGeoLink(res.gseId) });
   tableData.push({ key: 'GEO ID:', value: res.geoId.split(',').map((item: string) => getGeoLink(item)).join(', ') });
   tableData.push({ key: 'PMID:', value: res.pmid.split(',').map((item: string) => getPubmedLink(item)).join(', ') });
   // tableData.push({ key: 'Species:', value: res.species });
   tableData.push({ key: 'Genome:', value: res.genome });
   tableData.push({ key: 'Health type:', value: res.healthType });
-  tableData.push({ key: 'Health type description:', value: res.healthTypeDescription });
+  tableData.push({ key: 'Disease type description:', value: res.healthTypeDescription });
   tableData.push({ key: 'Source:', value: res.sourceUrl ? `<a href="${res.sourceUrl}" target="_blank">${res.source}</a>` : res.source });
   tableData.push({ key: 'Sequencing type:', value: res.sequencingType });
   tableData.push({ key: 'Description:', value: res.description });
@@ -449,7 +483,24 @@ export const DATA_DETAIL_SAMPLE_TABLE_DESCRIPTION: Array<TableHead> = [
   { column: 'tissueType', title: 'Tissue type', database: 'f_tissue_type', type: 1 }
 ];
 
+export const DETAIL_MPRA_TABLE_DESCRIPTION: Array<TableHead> = [
+  { column: 'chr', title: 'Chr', database: 'f_chr', type: 1 },
+  { column: 'position', title: 'Position', database: 'f_position', type: 1 },
+  { column: 'ref', title: 'Ref', database: 'f_ref', type: 1 },
+  { column: 'alt', title: 'Alt', database: 'f_alt', type: 1 },
+  // { column: 'genome', title: 'Genome', database: 'f_genome', type: 1 },
+  { column: 'rsId', title: 'rsID', database: 'f_rs_id', type: 1, href: (row: any) => linkDetailVariant(row.rsId) },
+  { column: 'disease', title: 'Disease', database: 'f_disease', type: 1 },
+  { column: 'cellLine', title: 'Cell line', database: 'f_cell_line', type: 1 },
+  { column: 'log2FoldChange', title: 'Log2(Fold change)', database: 'f_log2_fold_change', type: 1 },
+  // { column: 'pValue', title: 'P value', database: 'f_p_value', type: 1 },
+  { column: 'fdr', title: 'fdr', database: 'FDR', type: 1 }
+  // { column: 'description', title: 'Description', database: 'f_description', type: 1 },
+  // { column: 'mpraStudy', title: 'MPRA study', database: 'f_mpra_study', type: 1 }
+];
+
 export const DETAIL_ELEMENT_HEAT_MAP_TOP_COUNT_DATA: Array<InputSelect> = [
+  { label: '2', value: 2 },
   { label: '5', value: 5 },
   { label: '10', value: 10 },
   { label: '20', value: 20 },

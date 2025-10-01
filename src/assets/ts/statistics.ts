@@ -43,7 +43,7 @@ export const FINE_MAPPING_RESULTS: Array<KeyValue> = [
   },
   {
     key: 'Number of EAS',
-    value: '210'
+    value: '289'
   },
   {
     key: 'Number of EUR',
@@ -59,34 +59,34 @@ export const FINE_MAPPING_RESULTS: Array<KeyValue> = [
   },
   {
     key: 'Number of fine-mapping results',
-    value: '15,805'
+    value: '15,884'
   }
 ];
 
 export const STATISTICS_TRS: Array<KeyValue> = [
   {
-    key: 'Number of trait/disease-sample pairs (SCAVENGE)',
-    value: '1,923,600'
+    key: 'Number of trait-sample pairs (SCAVENGE)',
+    value: '1,937,588'
   },
   {
-    key: 'Number of trait/disease-sample pairs (g-chromVAR)',
-    value: '1,925,318'
+    key: 'Number of trait-sample pairs (g-chromVAR)',
+    value: '1,939,308'
   },
   {
-    key: 'Number of trait/disease-cell type pairs (SCAVENGE)',
-    value: '13,060,769'
+    key: 'Number of trait-cell type pairs (SCAVENGE)',
+    value: '13,152,640'
   },
   {
-    key: 'Number of trait/disease-cell type pairs (g-chromVAR)',
-    value: '13,071,526'
+    key: 'Number of trait-cell type pairs (g-chromVAR)',
+    value: '13,163,419'
   },
   {
-    key: 'Number of trait/disease-cell pairs (SCAVENGE)',
-    value: '15,950,206,407'
+    key: 'Number of trait-cell pairs (SCAVENGE)',
+    value: '16,053,257,050'
   },
   {
-    key: 'Number of trait/disease-cell pairs (g-chromVAR)',
-    value: '15,961,309,910'
+    key: 'Number of trait-cell pairs (g-chromVAR)',
+    value: '16,064,377,248'
   }
 ];
 

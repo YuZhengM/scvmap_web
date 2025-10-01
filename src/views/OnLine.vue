@@ -32,7 +32,7 @@
                       :file-type="['rds']"
                       :upload-success="scUploadSuccess"
                       :file-remove="scFileRemove"
-                      :max-file-size="2048"
+                      :max-file-size="1024"
                       ref="scFileUpload"/>
         </template>
         <template #right>
@@ -84,18 +84,18 @@ export default defineComponent({
       geneData: [] as Array<InputSelect>,
       scFileId: '',
       variantFileId: '',
-      scFileTip: `rds files with a size less than 2G, ${getExampleUrlHtml(`${STATIC_DOWNLOAD_PATH}/example/GSE139369_ELM_sim_0.6_ATAC.rds`, 'Example of Upload File')}`,
+      scFileTip: `rds files with a size less than 1G, ${getExampleUrlHtml(`${STATIC_DOWNLOAD_PATH}/example/GSE139369_ELM_sim_0.6_ATAC.rds`, 'Example of Upload File')}`,
       variantFileTip: `txt/bed files with a size less than 100MB, ${getExampleUrlHtml(`${STATIC_DOWNLOAD_PATH}/variant/hg19/BBJ_Mono_55.bed`, 'Example of Upload File')}`
     });
 
-    // 文件上传成功后得到 fileId
+    // File upload success, get fileId
     const scUploadSuccess = (fileId: string) => {
       data.scFileId = fileId;
     };
     const variantUploadSuccess = (fileId: string) => {
       data.variantFileId = fileId;
     };
-    // 文件移除(删除远程 MongoDB 中 GridFS)
+    // File remove(delete GridFS in MongoDB)
     const scFileRemove = () => {
       if (Base.noNull(data.scFileId)) {
         FileApi.deleteFile(data.scFileId);

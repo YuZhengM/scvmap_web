@@ -27,7 +27,7 @@ export default defineComponent({
   components: { BaseTabs, TraitDataBrowse, SampleDataBrowse, BaseLoading },
   setup() {
     const loading = ref();
-    // 设置响应数据
+    // Set up reactive data
     const data = reactive({
       value: true as boolean,
       annotationTabs: [

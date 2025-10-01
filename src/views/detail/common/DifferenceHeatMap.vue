@@ -12,17 +12,24 @@
       <div class="textarea">
         <div class="title">
           <span>Add {{ element === 'gene' ? 'gene' : 'TF' }}s: </span>
-          <el-button @click="exampleClick" v-if="element === 'gene'"> Example </el-button>
-          <el-button @click="addGenesClick"> Plot </el-button>
-          <span class="heatmap_value"> {{ element === 'gene' ? 'Value: `Score` score in the `Display`.'
-              : 'Value: `-Log10(P-value)` score.' }}</span>
+          <el-button @click="exampleClick" v-if="element === 'gene'"> Example</el-button>
+          <el-button @click="addGenesClick"> Plot</el-button>
+          <span class="heatmap_value" v-show="element === 'tf'">
+            Value: `-Log10(P-value)` score.
+          </span>
+          <BaseSelect title="Value: "
+                      is-line width="41%"
+                      :change-event="valueLabelChange"
+                      :select-data="[{ label: 'Score', value: 'score', default: true }, { label: 'Log2(Fold change)', value: 'log2_fold_change' }]"
+                      ref="valueLabel" v-show="element === 'gene'"/>
         </div>
         <BaseInput type="textarea" :rows="2" :placeholder="placeholder" ref="geneTextarea"/>
       </div>
       <br/>
-      <div ref="heatMap">
-        <canvas :id="heatMapId" width="600" height="600"></canvas>
+      <div ref="heatMap" v-show="isShow">
+        <canvas :id="heatMapId" width="600" height="600"/>
       </div>
+      <div class="heatmap_value" v-show="!isShow">There is no differential gene data, and the data can be obtained by reducing the screening criteria.</div>
     </BaseLoading>
   </div>
 </template>
@@ -53,6 +60,10 @@ export default defineComponent({
       type: String,
       default: () => 'gene'
     },
+    metadata: {
+      type: String,
+      default: () => 'cell_type'
+    },
     topDescription: {
       type: String,
       default: () => 'Top count'
@@ -63,16 +74,18 @@ export default defineComponent({
     const heatMap = ref();
     const topCountGraph = ref();
     const log2FoldChange = ref();
+    const valueLabel = ref();
     const geneTextarea = ref();
     const data = reactive({
       heatMapId: StringUtil.randomString(10),
-      placeholder: `Please input the ${props.element}s  e.g. RCC2,APOE,LPP`
+      placeholder: `Please input the ${props.element}s  e.g. RCC2,APOE,LPP`,
+      isShow: true
     });
-    // 画热图
+    // Plot the heatmap
     const plotHeatMap = (dataInfo: any) => {
-      // 需要先重新添加
+      // Need to re-add first
       heatMap.value.innerHTML = `<canvas id="${data.heatMapId}" width="600" height="700"></canvas>`;
-      // @ts-ignore CanvasXpress 这个在 ts 中报错, 忽略下一行一切错误
+      // @ts-ignore CanvasXpress causes errors in TypeScript, ignore all errors in the next line
       // eslint-disable-next-line no-undef,no-new
       new CanvasXpress(data.heatMapId, {
         x: {
@@ -114,12 +127,19 @@ export default defineComponent({
         loading.value.loading = true;
         DetailApi.getDifferenceHeatmapBySampleId(props.element, {
           sampleId: props.sampleId,
+          metadata: props.metadata,
           topCount: topCountGraph.value.select,
           log2FoldChange: log2FoldChange.value.select,
-          names: geneTextarea.value.input
+          names: geneTextarea.value.input,
+          valueType: valueLabel.value.select
         }).then((res: any) => {
           loading.value.loading = false;
-          plotHeatMap(res);
+          if (Base.isNull(res.data)) {
+            data.isShow = false;
+          } else {
+            data.isShow = true;
+            plotHeatMap(res);
+          }
         });
       }
     };
@@ -135,14 +155,17 @@ export default defineComponent({
       getDifferenceHeatmap();
     };
 
+    const valueLabelChange = () => {
+      getDifferenceHeatmap();
+    };
+
     const addGenesClick = () => {
       getDifferenceHeatmap();
     };
 
     const exampleClick = () => {
       if (props.element === 'gene') {
-        geneTextarea.value.input = 'GLI1,GLI2,GLI3,GLI4,ASIP,SLC45A2,OCA2,PADI6,RCC2,RGS22,CASC15,LINC00111'
-            + ',ZBTB10,LY6E,IL6,CALCA,LINC01232,FKBPL,HIF1A';
+        geneTextarea.value.input = 'GLI1,GLI2,GLI3,GLI4,ASIP,SLC45A2,OCA2,PADI6,RCC2,CASC15,LINC00111,ZBTB10,LY6E,IL6,CALCA,FKBPL,HIF1A';
       }
     };
 
@@ -151,14 +174,14 @@ export default defineComponent({
       log2FoldChange.value.select = 0.6;
       data.placeholder = props.element === 'gene' ? 'Please input the genes  e.g. RCC2,APOE,LPP' : 'Please input the TFs  e.g. SPI1,GLI1,GLI2';
 
-      if (Base.noNull(props.sampleId)) {
+      if (Base.noNull(props.sampleId) && Base.noNull(props.metadata)) {
         getDifferenceHeatmap();
       }
     });
 
-    // 监控
-    watch(() => ({ value1: props.sampleId }), () => {
-      if (Base.noNull(props.sampleId)) {
+    // Monitor the sampleId and metadata properties
+    watch(() => ({ value1: props.sampleId, value2: props.metadata }), () => {
+      if (Base.noNull(props.sampleId) && Base.noNull(props.metadata)) {
         getDifferenceHeatmap();
       }
     }, {
@@ -171,9 +194,11 @@ export default defineComponent({
       heatMap,
       topCountGraph,
       log2FoldChange,
+      valueLabel,
       geneTextarea,
       topCountGraphChange,
       cellTypeGraphChange,
+      valueLabelChange,
       addGenesClick,
       exampleClick,
       topCountData: DETAIL_ELEMENT_HEAT_MAP_TOP_COUNT_DATA,

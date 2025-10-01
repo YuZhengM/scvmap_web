@@ -89,7 +89,7 @@ export default defineComponent({
       echartsCohortOption: {}
     });
     const buttonClick = (id: String) => {
-      // 点击开始搜索
+      // Click the search button to start the search
       if (id === 'start') {
         if (data.isCategory) {
           if (Base.isNull(category.value.input)) {
@@ -131,12 +131,12 @@ export default defineComponent({
     };
 
     const sourceDataHandler = (result: Array<any>) => {
-      // 清空
+      // Clear the source data
       ArrayUtil.clear(data.sourceData);
-      // 添加 All
+      // Add All
       const echartsData: any[] = [];
       result.forEach((item: any) => {
-        // 添加 SelectInput 数据
+        // Add SelectInput data
         data.sourceData.push({ label: item.id, value: item.id, description: `${item.name}(${item.source})` });
         echartsData.push({ name: item.name, value: item.filterCount });
       });
@@ -149,13 +149,13 @@ export default defineComponent({
     };
 
     const getData = () => {
-      // 清空
+      // Clear the category data
       ArrayUtil.clear(data.categoryData);
-      // 添加 All
+      // Add All
       SearchApi.listCategory().then((res: any) => {
         const echartsData: any[] = [];
         (res as Array<any>).forEach((item: any) => {
-          // 添加 SelectInput 数据
+          // Add SelectInput data
           data.categoryData.push({ label: item.field, value: item.field, description: item.number });
           echartsData.push({ name: item.field, value: item.number });
         });
@@ -168,11 +168,11 @@ export default defineComponent({
     const categoryClick = () => {
       data.isSubCategory = Base.noNull(category.value.input);
       if (data.isSubCategory) {
-        // 清空
+        // Clear the subcategory data
         ArrayUtil.clear(data.subcategoryData);
         subcategory.value.input = '';
         data.subcategoryData.push({ label: 'All', value: 'All' });
-        // 添加 All
+        // Add All
         SearchApi.listSubcategoryByCategory(category.value.input).then((res: any) => {
           (res as Array<any>).forEach((item: any) => {
             data.subcategoryData.push({ label: item.field, value: item.field, description: item.number });

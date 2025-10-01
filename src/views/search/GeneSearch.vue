@@ -47,7 +47,7 @@ export default defineComponent({
       geneExample: 'RCC2'
     });
     const buttonClick = (id: String) => {
-      // 点击开始搜索
+      // Click the search button to start the search
       if (id === 'start') {
         if (Base.isNull(gene.value.input)) {
           gene.value.input = data.geneExample;
@@ -62,14 +62,14 @@ export default defineComponent({
           gene: gene.value.input
         });
       }
-      // 点击例子和重设
+      // Click the example or reset button to set the gene input
       gene.value.input = id === 'reset' ? '' : id === 'example' ? data.geneExample : '';
     };
     const getGeneData = () => {
       ArrayUtil.clear(data.geneData);
       SearchApi.listGene().then((res: any) => {
         (res as Array<string>).forEach((item: string) => {
-          // 添加 SelectInput 数据
+          // Add SelectInput data
           data.geneData.push({ label: item, value: item, description: item });
         });
       });

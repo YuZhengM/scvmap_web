@@ -1,5 +1,5 @@
 <template>
-  <BaseLoading id="gene_info_annotation" ref="loading">
+  <BaseLoading id="tf_info_annotation" ref="loading">
     <SingleCard :title="{ content: `Differential TFs of cell types` }" id="position_difference_tf" ref="singleCard">
       <template #head>
         <el-link :href="differenceTfH5adDownload()">
@@ -40,34 +40,54 @@
       </template>
     </SingleCard>
     <BaseBr/>
-    <SingleCard :title="{ content: `${traitLabel}-relevant TFs` }" id="position_homer_tf" ref="singleCard">
+    <SingleCard :title='{ content: `"${traitName}"-relevant TFs` }' id="position_homer_tf" ref="singleCard">
       <template #head>
         <el-link :href="linkHomerDetailUrl" target="_blank" v-show="linkHomerDetailUrl">
           <el-button size="small" type="primary"><i class="fas fa-link"></i></el-button>
         </el-link>
       </template>
       <template #default>
-        <BaseSelect title="Genome:" is-line width="20%" :select-data="genomeData" ref="genome" v-show="false"/>
-        <BaseTable :table-data="traitTfTableData"
-                   :is-service-paging="false"
-                   :before-column-number="2"
-                   :download-url="homerTfDownloadUrl"
-                   :table-description="traitTfTableDescription"
-                   ref="traitTfTable">
-          <template #default>
-            <el-table-column label="Motif name" stripe align="center" width="250">
-              <template #default="scope">
-                <BaseTooltip placement="top" :content="scope.row.motifName">
-                  <span>{{ scope.row.motifName.length > 25 ? `${scope.row.motifName.substring(0, 25)}...` : scope.row.motifName }}</span>
-                </BaseTooltip>
+        <BaseTabs active="gimme" :tabs-data="TraitTfStrategyData">
+          <template #gimme>
+            <BaseTable :update-new-data="gimmeTraitTfTableInformation"
+                       :is-mounted="gimmeTraitTfIsMounted"
+                       :before-column-number="5"
+                       :table-description="gimmeTraitTfTableDescription"
+                       ref="gimmeTraitTfTable">
+              <template #default>
+                <el-table-column label="Motif set" stripe align="center">
+                  <template #default="scope">
+                    <BaseTooltip placement="top" :content="scope.row.motifSet">
+                      <span>{{ scope.row.motifSet.length > 10 ? `${scope.row.motifSet.substring(0, 10)}...` : scope.row.motifSet }}</span>
+                    </BaseTooltip>
+                  </template>
+                </el-table-column>
               </template>
-            </el-table-column>
+            </BaseTable>
           </template>
-        </BaseTable>
+          <template #homer>
+            <BaseTable :table-data="traitTfTableData"
+                       :is-service-paging="false"
+                       :before-column-number="2"
+                       :download-url="homerTfDownloadUrl"
+                       :table-description="traitTfTableDescription"
+                       ref="traitTfTable">
+              <template #default>
+                <el-table-column label="Motif name" stripe align="center" width="250">
+                  <template #default="scope">
+                    <BaseTooltip placement="top" :content="scope.row.motifName">
+                      <span>{{ scope.row.motifName.length > 25 ? `${scope.row.motifName.substring(0, 25)}...` : scope.row.motifName }}</span>
+                    </BaseTooltip>
+                  </template>
+                </el-table-column>
+              </template>
+            </BaseTable>
+          </template>
+        </BaseTabs>
       </template>
     </SingleCard>
     <BaseBr/>
-    <SingleCard :title='{ content: `TF regulatory network associated with ${traitLabel} and ${sampleLabel}` }' id="position_tf_network" ref="singleCard">
+    <SingleCard :title='{ content: `TF regulatory network associated with "${traitName}" and "${sampleLabel}"` }' id="position_tf_network" ref="singleCard">
       <LeftRight>
         <template #left>
           <BaseSelect title="Cell type:" is-line width="40%" :change-event="cellTypeGraphChange" :select-data="cellTypeData" ref="cellTypeGraph"/>
@@ -79,11 +99,22 @@
       <BaseBr/>
       <LeftRight :is-left-right="isLeftRight" ref="graphLeftRight">
         <template #left>
-          <span class="element_title_strategy">TF (HOMER):</span>
-          <div class="element_info">
-            <BaseSelect title="P value:" clearable :is-line="true" width="62%" :change-event="cellTypeGraphChange" :select-data="pValueTraitSelectData" ref="pValueTrait"/>
-            <BaseSelect title="Q value:" clearable :is-line="true" width="62%" :change-event="cellTypeGraphChange" :select-data="qValueTraitSelectData" ref="qValueTrait"/>
-          </div>
+          <span class="element_title_strategy">Trait-relevant TFs:</span>
+          <BaseTabs active="gimme" :change="graphTraitTfStrategyChange" :tabs-data="TraitTfStrategyData">
+            <template #gimme>
+              <div class="element_info">
+                <BaseSelect title="Co-score:" clearable :is-line="true" width="62%" :change-event="cellTypeGraphChange" :select-data="coScoreSelectData" ref="coScore"/>
+                <BaseSelect title="Mean score:" clearable :is-line="true" width="62%" :change-event="cellTypeGraphChange" :select-data="meanScoreSelectData" ref="meanScore"/>
+                <BaseSelect title="Count:" clearable :is-line="true" width="62%" :change-event="cellTypeGraphChange" :select-data="countSelectData" ref="count"/>
+              </div>
+            </template>
+            <template #homer>
+              <div class="element_info">
+                <BaseSelect title="P value:" clearable :is-line="true" width="62%" :change-event="cellTypeGraphChange" :select-data="pValueTraitSelectData" ref="pValueTrait"/>
+                <BaseSelect title="Q value:" clearable :is-line="true" width="62%" :change-event="cellTypeGraphChange" :select-data="qValueTraitSelectData" ref="qValueTrait"/>
+              </div>
+            </template>
+          </BaseTabs>
         </template>
         <template #right>
           <span class="element_title_strategy">TF (Difference):</span>
@@ -101,9 +132,7 @@
               <div class="element_info">
                 <BaseSelect title="P value:" clearable :is-line="true" width="62%" :change-event="cellTypeGraphChange" :select-data="pValueSelectData" ref="pValueChromvar"/>
                 <BaseSelect title="Adjusted p value:" clearable :is-line="true" width="62%" :change-event="cellTypeGraphChange" :select-data="AdjustedPValueSelectData" ref="adjustedPValueChromvar"/>
-                <BaseSelect title="Mean:"
-                            clearable :is-line="true" width="62%"
-                            :change-event="cellTypeGraphChange" :select-data="MeanSelectData" ref="mean"/>
+                <BaseSelect title="Mean:" clearable :is-line="true" width="62%" :change-event="cellTypeGraphChange" :select-data="MeanSelectData" ref="mean"/>
               </div>
             </template>
           </BaseTabs>
@@ -119,7 +148,6 @@
 import { defineComponent, onMounted, reactive, ref, toRefs, watch } from 'vue';
 import DetailApi from '@/api/service/detailApi';
 import {
-  ANALYSIS_GENOME_DATA,
   ANALYSIS_LOG2_FOLD_CHANGE_SELECT_DATA,
   DATA_ANALYSIS_DIFFERENCE_TF_TABLE_DESCRIPTION,
   DATA_ANALYSIS_SAMPLE_TABLE_DESCRIPTION,
@@ -133,7 +161,13 @@ import {
   STATIC_DOWNLOAD_PATH,
   STATIC_HOMER_PATH,
   ANALYSIS_TF_STRATEGY_TABS,
-  DATA_ANALYSIS_CHROMVAR_DIFFERENCE_TF_TABLE_DESCRIPTION, ANALYSIS_MEAN_SELECT_DATA
+  DATA_ANALYSIS_CHROMVAR_DIFFERENCE_TF_TABLE_DESCRIPTION,
+  ANALYSIS_MEAN_SELECT_DATA,
+  ANALYSIS_TRAIT_TF_STRATEGY_TABS,
+  DATA_ANALYSIS_GIMME_TRAIT_TF_TABLE_DESCRIPTION,
+  ANALYSIS_CICERO_CO_SCORE_DATA,
+  ANALYSIS_MEAN_SCORE_DATA,
+  ANALYSIS_TF_COUNT_DATA
 } from '@/assets/ts';
 import StringUtil from '@/service/util/base/string';
 import Base from '@/service/util/base/base';
@@ -153,6 +187,7 @@ import DifferenceHeatMap from '@/views/detail/common/DifferenceHeatMap.vue';
 import BaseTooltip from '@/components/tooltip/BaseTooltip.vue';
 import FileApi from '@/api/service/fileApi';
 import BaseTabs from '@/components/tabs/BaseTabs.vue';
+import { Page } from '@/service/model/reponse/request';
 
 export default defineComponent({
   name: 'TfInfoAnnotation',
@@ -178,6 +213,10 @@ export default defineComponent({
       type: String,
       default: () => ''
     },
+    metadata: {
+      type: String,
+      default: () => 'cell_type'
+    },
     isLeftRight: {
       type: Boolean,
       default: () => true
@@ -190,8 +229,8 @@ export default defineComponent({
     const differenceTfTable = ref();
     const chromvarDifferenceTfTable = ref();
     const traitTfTable = ref();
+    const gimmeTraitTfTable = ref();
     const graphECharts = ref();
-    const genome = ref();
     const cellType = ref();
     const cellTypeChromvar = ref();
     const tfCoreSwitch = ref();
@@ -204,6 +243,9 @@ export default defineComponent({
     const pValueChromvar = ref();
     const qValueTrait = ref();
     const pValueTrait = ref();
+    const coScore = ref();
+    const meanScore = ref();
+    const count = ref();
     const mean = ref();
 
     const data = reactive({
@@ -211,8 +253,11 @@ export default defineComponent({
       sample: {} as any,
       sampleLabel: '',
       traitLabel: '',
-      strategyValue: 'snapatac2',
-      isTfCore: false,
+      traitName: '',
+      scTfStrategyValue: 'snapatac2',
+      traitTfStrategyValue: 'gimme',
+      isTfCore: true,
+      gimmeTraitTfIsMounted: false,
       clusterId: StringUtil.randomString(10),
       cellTypeData: [] as Array<any>,
       sampleTfData: [] as Array<any>,
@@ -221,6 +266,7 @@ export default defineComponent({
       differenceTfTableData: [] as Array<any>,
       chromvarDifferenceTfTableData: [] as Array<any>,
       traitTfTableData: [] as Array<any>,
+      gimmeTraitTfTableData: [] as Array<any>,
       homerTfDownloadUrl: '' as string | undefined,
       linkHomerDetailUrl: '' as string | undefined,
       graphSize: { width: 1100, height: 800 }
@@ -228,9 +274,9 @@ export default defineComponent({
 
     const getCellTypeData = async () => {
       ArrayUtil.clear(data.cellTypeData);
-      return DetailApi.listSampleCellType(props.sampleId, data.id).then((res: any) => {
+      return DetailApi.listSampleCellTypeTimeSexDrug(props.sampleId, data.id).then((res: any) => {
         (res as Array<any>).forEach((item: any) => {
-          data.cellTypeData.push({ label: item.cellType, value: item.cellType });
+          data.cellTypeData.push({ label: item.field, value: item.field });
         });
         data.cellTypeData.push({ label: 'All', value: 'All' });
         cellType.value.select = data.cellTypeData[0].value;
@@ -241,15 +287,19 @@ export default defineComponent({
 
     const getParams = () => ({
       log2FoldChange: log2FoldChange.value.select,
-      adjustedPValue: data.strategyValue === 'snapatac2' ? adjustedPValue.value.select : adjustedPValueChromvar.value.select,
-      pvalue: data.strategyValue === 'snapatac2' ? pValue.value.select : pValueChromvar.value.select,
+      adjustedPValue: data.scTfStrategyValue === 'snapatac2' ? adjustedPValue.value.select : adjustedPValueChromvar.value.select,
+      pvalue: data.scTfStrategyValue === 'snapatac2' ? pValue.value.select : pValueChromvar.value.select,
       qvalueTrait: qValueTrait.value.select,
       pvalueTrait: pValueTrait.value.select,
       mean: mean.value.select,
-      strategy: data.strategyValue
+      coScore: coScore.value.select,
+      meanScore: meanScore.value.select,
+      count: count.value.select,
+      scStrategy: data.scTfStrategyValue,
+      traitStrategy: data.traitTfStrategyValue
     });
 
-    // 画聚类每个细胞类型数量配图
+    // Plot the clustering graph for each cell type
     const getGraphData = () => {
       graphECharts.value.startLoading();
       AnalysisApi.getTfGraphData({
@@ -276,6 +326,8 @@ export default defineComponent({
         data.traitTfTableData = res;
       });
     };
+
+    const gimmeTraitTfTableInformation = (page: Page) => DetailApi.listGimmeTfByTraitId(props.sampleId, props.traitId, page);
 
     const listDifferenceTfBySampleId = () => {
       differenceTfTable.value.startLoading();
@@ -323,24 +375,28 @@ export default defineComponent({
       getGraphData();
     };
 
-    const getSampleInfo = async () => {
-      DetailApi.getSampleInfo(props.sampleId).then((res: any) => {
-        data.sample = res;
-        data.sampleLabel = res.label;
-      });
+    const getSampleInfo = async () => DetailApi.getSampleInfo(props.sampleId).then((res: any) => {
+      data.sample = res;
+      data.sampleLabel = res.label;
       DetailApi.getVariantTrait(props.traitId).then((res: any) => {
         data.traitLabel = res.traitCode;
+        data.traitName = res.traitName;
         homerTfDownload();
         linkHomerDetail();
       });
-    };
+    });
 
     const cellTypeGraphChange = () => {
       getGraphData();
     };
 
+    const graphTraitTfStrategyChange = (tag: any) => {
+      data.traitTfStrategyValue = tag.paneName;
+      getGraphData();
+    };
+
     const graphTfStrategyChange = (tag: any) => {
-      data.strategyValue = tag.paneName;
+      data.scTfStrategyValue = tag.paneName;
       getGraphData();
     };
 
@@ -356,16 +412,17 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      tfCoreSwitch.value.value = false;
-      log2FoldChange.value.select = ANALYSIS_LOG2_FOLD_CHANGE_SELECT_DATA[1].value;
+      tfCoreSwitch.value.value = true;
+      log2FoldChange.value.select = ANALYSIS_LOG2_FOLD_CHANGE_SELECT_DATA[3].value;
       adjustedPValue.value.select = DIFFERENCE_TF_ADJUSTED_P_VALUE_DATA[1].value;
       adjustedPValueChromvar.value.select = DIFFERENCE_TF_ADJUSTED_P_VALUE_DATA[1].value;
       pValue.value.select = DIFFERENCE_TF_P_VALUE_DATA[1].value;
       pValueChromvar.value.select = DIFFERENCE_TF_P_VALUE_DATA[1].value;
       qValueTrait.value.select = HOMER_TF_P_VALUE_DATA[0].value;
       pValueTrait.value.select = HOMER_TF_Q_VALUE_DATA[0].value;
+      coScore.value.select = ANALYSIS_CICERO_CO_SCORE_DATA[4].value;
+      meanScore.value.select = ANALYSIS_MEAN_SCORE_DATA[6].value;
       mean.value.select = ANALYSIS_MEAN_SELECT_DATA[0].value;
-      data.strategyValue = 'snapatac2';
       if (Base.noNull(props.sampleId) && Base.noNull(props.traitId)) {
         await getSampleInfo();
         if (Base.noNull(cellType.value)) {
@@ -373,13 +430,18 @@ export default defineComponent({
           listDifferenceTfBySampleId();
           listChromvarDifferenceTfBySampleId();
           listHomerTfByTraitId();
+          if (!data.gimmeTraitTfIsMounted) {
+            data.gimmeTraitTfIsMounted = true;
+          } else {
+            gimmeTraitTfTable.value.dataUpdate();
+          }
           getGraphData();
         }
       }
     });
 
-    // 监控
-    watch(() => ({ value1: props.sampleId, value2: props.traitId }), async () => {
+    // Monitor the sampleId, traitId, and metadata properties
+    watch(() => ({ value1: props.sampleId, value2: props.traitId, value3: props.metadata }), async () => {
       if (Base.noNull(props.sampleId) && Base.noNull(props.traitId)) {
         await getSampleInfo();
         if (Base.noNull(cellType.value)) {
@@ -387,6 +449,11 @@ export default defineComponent({
           listDifferenceTfBySampleId();
           listChromvarDifferenceTfBySampleId();
           listHomerTfByTraitId();
+          if (!data.gimmeTraitTfIsMounted) {
+            data.gimmeTraitTfIsMounted = true;
+          } else {
+            gimmeTraitTfTable.value.dataUpdate();
+          }
           getGraphData();
         }
       }
@@ -403,8 +470,8 @@ export default defineComponent({
       differenceTfTable,
       chromvarDifferenceTfTable,
       traitTfTable,
+      gimmeTraitTfTable,
       graphECharts,
-      genome,
       cellType,
       cellTypeChromvar,
       tfCoreSwitch,
@@ -417,19 +484,25 @@ export default defineComponent({
       pValueChromvar,
       qValueTrait,
       pValueTrait,
+      coScore,
+      meanScore,
+      count,
       mean,
       differenceTfDownload,
       differenceTfH5adDownload,
       linkHomerDetail,
       cellTypeChange,
       cellTypeChromvarChange,
+      gimmeTraitTfTableInformation,
       tfCoreChange,
       cellTypeGraphChange,
+      graphTraitTfStrategyChange,
       graphTfStrategyChange,
       topCountGraphChange,
       startLoading,
       endLoading,
       TfStrategyData: ANALYSIS_TF_STRATEGY_TABS,
+      TraitTfStrategyData: ANALYSIS_TRAIT_TF_STRATEGY_TABS,
       Log2FoldChangeSelectData: ANALYSIS_LOG2_FOLD_CHANGE_SELECT_DATA,
       MeanSelectData: ANALYSIS_MEAN_SELECT_DATA,
       AdjustedPValueSelectData: DIFFERENCE_TF_ADJUSTED_P_VALUE_DATA,
@@ -439,7 +512,10 @@ export default defineComponent({
       differenceTfTableDescription: DATA_ANALYSIS_DIFFERENCE_TF_TABLE_DESCRIPTION,
       chromvarDifferenceTfTableDescription: DATA_ANALYSIS_CHROMVAR_DIFFERENCE_TF_TABLE_DESCRIPTION,
       traitTfTableDescription: DATA_ANALYSIS_TRAIT_TF_TABLE_DESCRIPTION,
-      genomeData: ANALYSIS_GENOME_DATA,
+      coScoreSelectData: ANALYSIS_CICERO_CO_SCORE_DATA,
+      meanScoreSelectData: ANALYSIS_MEAN_SCORE_DATA,
+      countSelectData: ANALYSIS_TF_COUNT_DATA,
+      gimmeTraitTfTableDescription: DATA_ANALYSIS_GIMME_TRAIT_TF_TABLE_DESCRIPTION,
       sampleTableDescription: DATA_ANALYSIS_SAMPLE_TABLE_DESCRIPTION,
       tableDescription: DATA_ANALYSIS_TRAIT_TABLE_DESCRIPTION
     };

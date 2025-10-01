@@ -21,10 +21,11 @@
           <el-button type="info" @click="RefreshClick" :style="`width: ${buttonSize[0]}px; height: ${buttonSize[1]}px;`">Refresh</el-button>
         </div>
       </div>
-      <div class="download" v-show="fileDownloadUrl !== '' && fileDownloadUrl !== undefined">
-        <el-link :href="fileDownloadUrl">
-          <el-button size="small" type="primary"> Download &nbsp; <i class="fas fa-file-download"></i></el-button>
+      <div class="download" v-show="fileDownloadUrls !== undefined && fileDownloadUrls.length > 0">
+        <el-link :href="item.url" v-for="(item, i) in fileDownloadUrls" :key="i">
+          <el-button size="small" type="primary"> {{ item.title }} &nbsp; <i class="fas fa-file-download"></i></el-button>
         </el-link>
+        &nbsp;
       </div>
     </div>
     <!-- Table data display -->
@@ -259,9 +260,9 @@ export default defineComponent({
       default: () => 'total, sizes, prev, pager, next, jumper'
     },
     // URL information for downloading the table
-    downloadUrl: {
-      type: String,
-      default: () => ''
+    downloadUrls: {
+      type: Array,
+      default: () => []
     }
   },
   setup(props) {
@@ -315,7 +316,7 @@ export default defineComponent({
         type: 1,
         symbol: 1
       } as Page,
-      fileDownloadUrl: '' as string
+      fileDownloadUrls: [] as any
     });
 
     /**
@@ -639,8 +640,8 @@ export default defineComponent({
     });
 
     // 监控
-    watch(() => props.downloadUrl, (newValue) => {
-      data.fileDownloadUrl = newValue;
+    watch(() => props.downloadUrls, (newValue) => {
+      data.fileDownloadUrls = newValue;
     }, {
       immediate: true,
       deep: true
@@ -693,7 +694,7 @@ export default defineComponent({
       }
     };
 
-    const dataDownload = () => props.downloadUrl;
+    const dataDownload = () => props.downloadUrls;
 
     return {
       ...toRefs(data),

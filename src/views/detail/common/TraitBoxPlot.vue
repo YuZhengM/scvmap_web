@@ -21,6 +21,10 @@ export default defineComponent({
       type: Object,
       default: () => ({})
     },
+    metadata: {
+      type: String,
+      default: () => ('')
+    },
     label: {
       type: String,
       default: () => ('')
@@ -40,6 +44,21 @@ export default defineComponent({
     const calculateAverage = (arr: number[]): number => {
       const sum = arr.reduce((prev, next) => prev + next, 0);
       return sum / arr.length;
+    };
+
+    const getMetadataLabel = (metadata: string) => {
+      switch (metadata as string) {
+        case 'cell_type':
+          return 'Cell type';
+        case 'time':
+          return 'Age/day/time';
+        case 'sex':
+          return 'Sex';
+        case 'drug':
+          return 'Drug resistance';
+        default:
+          return 'Cell type';
+      }
     };
 
     const showPlot = () => {
@@ -108,14 +127,14 @@ export default defineComponent({
             }
           });
         }
-        // 根据中位数降序排序
+        // Sort the dataPlot array based on the median value in descending order
         dataPlot.sort((a: any, b: any) => b.value[2] - a.value[2]);
         // echarts
         data.resize = {
           width: loading.value.$el.clientWidth - 50,
           height: 260
         };
-        echarts.value.drawEcharts(traitBoxOption(dataPlot, props.label));
+        echarts.value.drawEcharts(traitBoxOption(dataPlot, getMetadataLabel(props.metadata), props.label));
         echarts.value.setResize();
       }
     };
@@ -128,8 +147,8 @@ export default defineComponent({
     onMounted(() => {
       showPlot();
     });
-    // 监控
-    watch(() => ({ value1: props.label, value2: props.boxData }), () => {
+    // Monitor the label and boxData properties
+    watch(() => ({ value1: props.label, value2: props.metadata, value3: props.boxData }), () => {
       showPlot();
     }, {
       immediate: true,

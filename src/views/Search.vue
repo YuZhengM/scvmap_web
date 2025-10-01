@@ -46,9 +46,9 @@ export default defineComponent({
     const sample = ref();
     const gene = ref();
     const tf = ref();
-    // 手风琴切换事件
+    // Accordion switching event
     const change = (val: string) => {
-      // 切换到 tissue 的时候， 重新指定 echarts 宽和高
+      // Switch to trait, resize echarts width and height
       if (val === 'trait') {
         trait.value.resizeEcharts();
       } else if (val === 'sample') {

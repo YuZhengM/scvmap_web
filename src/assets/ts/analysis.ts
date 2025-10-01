@@ -63,7 +63,12 @@ export const DIFFERENCE_GENE_ADJUSTED_P_VALUE_DATA: Array<InputSelect> = [
   { label: 'Adjusted p value ≤ 0.05', value: 0.05 },
   { label: 'Adjusted p value ≤ 1.0E-2', value: 1.0E-2 },
   { label: 'Adjusted p value ≤ 1.0E-3', value: 1.0E-3 },
+  { label: 'Adjusted p value ≤ 1.0E-4', value: 1.0E-4 },
   { label: 'Adjusted p value ≤ 1.0E-5', value: 1.0E-5 },
+  { label: 'Adjusted p value ≤ 1.0E-6', value: 1.0E-6 },
+  { label: 'Adjusted p value ≤ 1.0E-7', value: 1.0E-7 },
+  { label: 'Adjusted p value ≤ 1.0E-8', value: 1.0E-8 },
+  { label: 'Adjusted p value ≤ 1.0E-9', value: 1.0E-9 },
   { label: 'Adjusted p value ≤ 1.0E-10', value: 1.0E-10 },
   { label: 'Adjusted p value ≤ 1.0E-20', value: 1.0E-20 },
   { label: 'Adjusted p value ≤ 1.0E-30', value: 1.0E-30 },
@@ -84,16 +89,84 @@ export const DIFFERENCE_GENE_ADJUSTED_P_VALUE_DATA: Array<InputSelect> = [
   { label: 'Adjusted p value ≤ 1.0E-300', value: 1.0E-300 }
 ];
 
-export const CICERO_CO_SCORE_DATA: Array<InputSelect> = [
+export const ANALYSIS_CICERO_CO_SCORE_DATA: Array<InputSelect> = [
   { label: 'All', value: 0 },
-  { label: 'score > 0.01', value: 0.01 },
-  { label: 'score > 0.05', value: 0.05 },
-  { label: 'score > 0.1', value: 0.1 },
-  { label: 'score > 0.2', value: 0.2 },
-  { label: 'score > 0.3', value: 0.3 },
-  { label: 'score > 0.4', value: 0.4 },
-  { label: 'score > 0.5', value: 0.5 },
-  { label: 'score > 0.6', value: 0.6 }
+  { label: 'Co-score ≥ 0.01', value: 0.01 },
+  { label: 'Co-score ≥ 0.05', value: 0.05 },
+  { label: 'Co-score ≥ 0.1', value: 0.1 },
+  { label: 'Co-score ≥ 0.2', value: 0.2 },
+  { label: 'Co-score ≥ 0.3', value: 0.3 },
+  { label: 'Co-score ≥ 0.4', value: 0.4 },
+  { label: 'Co-score ≥ 0.5', value: 0.5 },
+  { label: 'Co-score ≥ 0.6', value: 0.6 },
+  { label: 'Co-score ≥ 0.7', value: 0.7 },
+  { label: 'Co-score ≥ 0.8', value: 0.8 },
+  { label: 'Co-score ≥ 0.9', value: 0.9 },
+  { label: 'Co-score ≥ 1.0', value: 1.0 },
+  { label: 'Co-score ≥ 1.5', value: 1.5 },
+  { label: 'Co-score ≥ 2.0', value: 2.0 },
+  { label: 'Co-score ≥ 2.5', value: 2.5 },
+  { label: 'Co-score ≥ 3.0', value: 3.0 },
+  { label: 'Co-score ≥ 3.5', value: 3.5 },
+  { label: 'Co-score ≥ 4.0', value: 4.0 }
+];
+
+export const ANALYSIS_GENE_SCORE_DATA: Array<InputSelect> = [
+  { label: 'All', value: -2000 },
+  { label: 'Score ≥ 0', value: 0 },
+  { label: 'Score ≥ 3', value: 3 },
+  { label: 'Score ≥ 5', value: 5 },
+  { label: 'Score ≥ 8', value: 8 },
+  { label: 'Score ≥ 9', value: 9 },
+  { label: 'Score ≥ 10', value: 10 },
+  { label: 'Score ≥ 15', value: 15 },
+  { label: 'Score ≥ 18', value: 18 },
+  { label: 'Score ≥ 20', value: 20 },
+  { label: 'Score ≥ 25', value: 25 },
+  { label: 'Score ≥ 30', value: 30 },
+  { label: 'Score ≥ 35', value: 35 },
+  { label: 'Score ≥ 40', value: 40 },
+  { label: 'Score ≥ 45', value: 45 },
+  { label: 'Score ≥ 50', value: 50 },
+  { label: 'Score ≥ 55', value: 55 },
+  { label: 'Score ≥ 60', value: 60 },
+  { label: 'Score ≥ 65', value: 65 },
+  { label: 'Score ≥ 70', value: 70 },
+  { label: 'Score ≥ 75', value: 75 },
+  { label: 'Score ≥ 80', value: 80 }
+];
+
+export const ANALYSIS_MEAN_SCORE_DATA: Array<InputSelect> = [
+  { label: 'Mean score ≥ 6', value: 6 },
+  { label: 'Mean score ≥ 7', value: 7 },
+  { label: 'Mean score ≥ 8', value: 8 },
+  { label: 'Mean score ≥ 9', value: 9 },
+  { label: 'Mean score ≥ 10', value: 10 },
+  { label: 'Mean score ≥ 11', value: 11 },
+  { label: 'Mean score ≥ 12', value: 12 },
+  { label: 'Mean score ≥ 13', value: 13 },
+  { label: 'Mean score ≥ 14', value: 14 },
+  { label: 'Mean score ≥ 15', value: 15 },
+  { label: 'Mean score ≥ 16', value: 16 }
+];
+
+export const ANALYSIS_TF_COUNT_DATA: Array<InputSelect> = [
+  { label: 'Count ≥ 1', value: 1 },
+  { label: 'Count ≥ 2', value: 2, default: true },
+  { label: 'Count ≥ 3', value: 3 },
+  { label: 'Count ≥ 4', value: 4 },
+  { label: 'Count ≥ 5', value: 5 },
+  { label: 'Count ≥ 6', value: 6 },
+  { label: 'Count ≥ 7', value: 7 },
+  { label: 'Count ≥ 8', value: 8 },
+  { label: 'Count ≥ 9', value: 9 },
+  { label: 'Count ≥ 10', value: 10 },
+  { label: 'Count ≥ 11', value: 11 },
+  { label: 'Count ≥ 12', value: 12 },
+  { label: 'Count ≥ 13', value: 13 },
+  { label: 'Count ≥ 14', value: 14 },
+  { label: 'Count ≥ 15', value: 15 },
+  { label: 'Count ≥ 16', value: 16 }
 ];
 
 export const DIFFERENCE_TF_ADJUSTED_P_VALUE_DATA: Array<InputSelect> = DIFFERENCE_GENE_ADJUSTED_P_VALUE_DATA;
@@ -167,20 +240,24 @@ export const ANALYSIS_GENE_ENRICHMENT_P_VALUE_SELECT_DATA: Array<InputSelect> = 
 
 export const ANALYSIS_LOG2_FOLD_CHANGE_SELECT_DATA: Array<InputSelect> = [
   { label: 'All', value: 0 },
-  { label: '|Log2(Fold change)| ≥ 0.5', value: 0.5 },
-  { label: '|Log2(Fold change)| ≥ 0.6', value: 0.6 },
-  { label: '|Log2(Fold change)| ≥ 0.7', value: 0.7 },
-  { label: '|Log2(Fold change)| ≥ 1', value: 1 },
-  { label: '|Log2(Fold change)| ≥ 1.5', value: 1.5 },
-  { label: '|Log2(Fold change)| ≥ 2', value: 2 },
-  { label: '|Log2(Fold change)| ≥ 3', value: 3 },
-  { label: '|Log2(Fold change)| ≥ 4', value: 4 },
-  { label: '|Log2(Fold change)| ≥ 5', value: 5 },
-  { label: '|Log2(Fold change)| ≥ 6', value: 6 },
-  { label: '|Log2(Fold change)| ≥ 7', value: 7 },
-  { label: '|Log2(Fold change)| ≥ 8', value: 8 },
-  { label: '|Log2(Fold change)| ≥ 9', value: 9 },
-  { label: '|Log2(Fold change)| ≥ 10', value: 10 }
+  { label: 'Log2(Fold change) ≥ 0.3', value: 0.3 },
+  { label: 'Log2(Fold change) ≥ 0.4', value: 0.4 },
+  { label: 'Log2(Fold change) ≥ 0.5', value: 0.5 },
+  { label: 'Log2(Fold change) ≥ 0.6', value: 0.6 },
+  { label: 'Log2(Fold change) ≥ 0.7', value: 0.7 },
+  { label: 'Log2(Fold change) ≥ 0.8', value: 0.8 },
+  { label: 'Log2(Fold change) ≥ 0.9', value: 0.9 },
+  { label: 'Log2(Fold change) ≥ 1', value: 1 },
+  { label: 'Log2(Fold change) ≥ 1.5', value: 1.5 },
+  { label: 'Log2(Fold change) ≥ 2', value: 2 },
+  { label: 'Log2(Fold change) ≥ 3', value: 3 },
+  { label: 'Log2(Fold change) ≥ 4', value: 4 },
+  { label: 'Log2(Fold change) ≥ 5', value: 5 },
+  { label: 'Log2(Fold change) ≥ 6', value: 6 },
+  { label: 'Log2(Fold change) ≥ 7', value: 7 },
+  { label: 'Log2(Fold change) ≥ 8', value: 8 },
+  { label: 'Log2(Fold change) ≥ 9', value: 9 },
+  { label: 'Log2(Fold change) ≥ 10', value: 10 }
 ];
 
 export const ANALYSIS_MEAN_SELECT_DATA: Array<InputSelect> = [
@@ -216,6 +293,17 @@ export const ANALYSIS_GENE_SET_SELECT_DATA: Array<InputSelect> = [
 export const ANALYSIS_TF_STRATEGY_TABS = [
   { name: 'snapatac2', title: 'SnapATAC2' },
   { name: 'chromvar', title: 'chromVAR' }
+];
+
+export const ANALYSIS_TRAIT_TF_STRATEGY_TABS = [
+  { name: 'gimme', title: 'GimmeMotifs' },
+  { name: 'homer', title: 'HOMER' }
+];
+
+export const ANALYSIS_GENE_STRATEGY_TABS = [
+  { name: 'magma', title: 'MAGMA' },
+  { name: 'cicero', title: 'Cicero' },
+  { name: 'overlap', title: 'Overlap' }
 ];
 
 export const geneEnrichmentOption = (data: any) => ({

@@ -12,11 +12,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive, ref, toRefs } from 'vue';
+import { defineComponent, onMounted, reactive, ref, toRefs, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Base from '@/service/util/base/base';
 import Jump from '@/service/util/base/jump';
-import Message from '@/service/util/base/message';
 import '@/assets/less/views/Detail.less';
 import TraitOverview from '@/views/detail/traitDetail/TraitOverview.vue';
 import TraitClusterAnnotation from '@/views/detail/traitDetail/TraitClusterAnnotation.vue';
@@ -29,9 +28,12 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
     const overview = ref();
+    const clusterAnnotation = ref();
 
     const data = reactive({
-      traitId: route.query.traitId
+      traitId: route.query.traitId,
+      metadataValue: 'cell_type',
+      fineMappingMethodValue: 'finemap'
     });
 
     onMounted(() => {
@@ -44,9 +46,29 @@ export default defineComponent({
         });
       }
     });
+
+    watch(() => clusterAnnotation.value?.metadataValue, (newValue: any) => {
+      if (clusterAnnotation.value) {
+        data.metadataValue = newValue;
+      }
+    }, {
+      immediate: true,
+      deep: true
+    });
+
+    watch(() => clusterAnnotation.value?.fineMappingMethodValue, (newValue: any) => {
+      if (clusterAnnotation.value) {
+        data.fineMappingMethodValue = newValue;
+      }
+    }, {
+      immediate: true,
+      deep: true
+    });
+
     return {
       ...toRefs(data),
-      overview
+      overview,
+      clusterAnnotation
     };
   }
 });

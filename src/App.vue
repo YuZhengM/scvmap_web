@@ -13,7 +13,7 @@ import '@/assets/less/Index.less';
 export default defineComponent({
   name: 'App',
   setup() {
-    // 刷新路由设置
+    // Refresh routing settings
     const isRouterAlive = ref<boolean>(true);
     const reload = () => {
       isRouterAlive.value = false;
@@ -21,7 +21,7 @@ export default defineComponent({
         isRouterAlive.value = true;
       });
     };
-    // 传参
+    // pass `reload` parameter
     provide('reload', reload);
     return { isRouterAlive };
   }

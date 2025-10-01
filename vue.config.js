@@ -42,11 +42,11 @@ module.exports = {
         target: process.env.NODE_ENV === 'production' ? 'https://${IP}/scvmap_service/' : 'http://localhost:${service_port}/scvmap_service/',
         // 是否跨域
         changeOrigin: true,
-        // 是否代理 websockets
+        // Whether to proxy websockets
         ws: true,
-        // 是否 https 接口
+        // Whether the interface is HTTPS
         secure: process.env.NODE_ENV === 'production',
-        // 路径重置
+        // Path rewrite
         pathRewrite: {
           '^/api': ''
         }

@@ -80,7 +80,8 @@ export const variantGraphOption: any = (data: any) => ({
         edgeLength: 50,
         repulsion: 100,
         gravity: 0.8
-      }
+      },
+      draggable: true
     }
   ]
 });
@@ -123,7 +124,8 @@ export const variantGraphCircularOption: any = (data: any) => ({
       lineStyle: {
         color: 'source',
         curveness: 0.3
-      }
+      },
+      draggable: true
     }
   ]
 });

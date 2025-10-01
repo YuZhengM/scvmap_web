@@ -1,19 +1,27 @@
 <template>
   <BaseLoading id="trait_cluster_annotation" ref="loading">
     <div v-show="isOverlap">
-      <SingleCard :title="{ content: 'Trait- or disease-relevant cell score' }" id="position_cell" ref="singleCard">
+      <SingleCard :title="{ content: 'trait-relevant cell score' }" id="position_cell" ref="singleCard">
         <template #head>
           <el-link :href="trsDownload()">
             <el-button size="small" type="primary"> Download TRS &nbsp; <i class="fas fa-file-download"></i></el-button>
           </el-link>
+          <span class="kl_score" v-show="Number(traitId.split('_')[2]) <= 79"> TRS KL score: {{ klScore }} </span>
         </template>
         <template #default>
+          <BaseTabs active="finemap" :tabs-data="[{ name: 'finemap', title: 'FINEMAP' }, { name: 'susie', title: 'SuSiE' }]"
+                    :change="fineMappingMethodChange" v-show="isHaveSusie"/>
+          <BaseBr/>
           <el-row :gutter="24">
-            <el-col :span="6"></el-col>
-            <el-col :span="12" class="method_select">
+            <el-col :span="3"></el-col>
+            <el-col :span="8" class="method_select">
+              <BaseSelect class="metadata_style" title="Metadata: " :select-data="metadataData" width="65%" :change-event="metadataEvent" is-line ref="metadata" v-show="metadataData.length > 1"/>
+              <div v-show="metadataData.length === 1" class="metadata">Metadata: Cell type</div>
+            </el-col>
+            <el-col :span="8" class="method_select">
               <BaseSelect title="Method: " :select-data="methodData" width="65%" :change-event="methodEvent" is-line ref="method"/>
             </el-col>
-            <el-col :span="6"></el-col>
+            <el-col :span="3"></el-col>
           </el-row>
           <el-divider></el-divider>
           <LeftRight>
@@ -48,13 +56,15 @@
               <el-button class="title_trait"><a :href="sampleIdUrl" target="_blank"> Sample ID: {{ sampleId }} </a></el-button>
             </el-col>
           </el-row>
-          <ClusterAnnotation :sample-id="sampleId" :trait-id="traitId" :cell-count="cellCountValue" :method="methodValue"/>
+          <ClusterAnnotation :sample-id="sampleId" :trait-id="traitId" :cell-count="cellCountValue" :metadata="metadataValue" :method="methodValue" :fine-mapping-method="fineMappingMethodValue"/>
         </template>
       </SingleCard>
       <BaseBr/>
-      <GeneInfoAnnotation :sample-id="sampleId" :trait-id="traitId" ref="geneInfoAnno"/>
+      <GeneInfoAnnotation :sample-id="sampleId" :trait-id="traitId" :metadata="metadataValue" ref="geneInfoAnno" v-show="fineMappingMethodValue === 'finemap'"/>
       <BaseBr/>
-      <TfInfoAnnotation :sample-id="sampleId" :trait-id="traitId" ref="tfInfoAnno"/>
+      <TfInfoAnnotation :sample-id="sampleId" :trait-id="traitId" ref="tfInfoAnno" v-show="metadataValue === 'cell_type' && fineMappingMethodValue === 'finemap'"/>
+      <BaseBr/>
+      <ComprehensiveNetworkAnnotation :sample-id="sampleId" :trait-id="traitId" v-show="metadataValue === 'cell_type' && fineMappingMethodValue === 'finemap'"/>
     </div>
     <div class="title_alone" v-show="!isOverlap">
       <div>
@@ -75,7 +85,8 @@ import {
   DETAIL_METHOD_DATA,
   linkSampleDetail,
   getCellCountValue,
-  DATA_DETAIL_SAMPLE_TABLE_DESCRIPTION, STATIC_DOWNLOAD_PATH
+  DATA_DETAIL_SAMPLE_TABLE_DESCRIPTION,
+  STATIC_DOWNLOAD_PATH
 } from '@/assets/ts';
 import { InputSelect } from '@/service/model/components/input';
 import BaseSelect from '@/components/input/BaseSelect.vue';
@@ -90,10 +101,14 @@ import { ElNotification } from 'element-plus';
 import LeftRight from '@/components/layout/LeftRight.vue';
 import BaseTable from '@/components/table/BaseTable.vue';
 import Base from '@/service/util/base/base';
+import ComprehensiveNetworkAnnotation from '@/views/detail/common/ComprehensiveNetworkAnnotation.vue';
+import BaseTabs from '@/components/tabs/BaseTabs.vue';
 
 export default defineComponent({
   name: 'TraitClusterAnnotation',
   components: {
+    BaseTabs,
+    ComprehensiveNetworkAnnotation,
     BaseTable,
     LeftRight,
     TfInfoAnnotation,
@@ -115,6 +130,7 @@ export default defineComponent({
     const loading = ref();
     const singleCard = ref();
     const cellCount = ref();
+    const metadata = ref();
     const method = ref();
     const sample = ref();
     const echarts = ref();
@@ -127,7 +143,13 @@ export default defineComponent({
       clusterId: StringUtil.randomString(10),
       traitClusterId: StringUtil.randomString(10),
       isOverlap: true,
+      isHaveSusie: true,
       countPieData: [] as Array<InputSelect>,
+      metadataData: [{
+        label: 'Cell type',
+        value: 'cell_type',
+        default: true
+      }] as Array<InputSelect>,
       sampleIsSelectChange: true as boolean,
       sampleTableData: [] as Array<any>,
       boxData: {} as any,
@@ -137,7 +159,10 @@ export default defineComponent({
       genome: '',
       tissueType: '',
       methodValue: '',
+      metadataValue: 'cell_type',
       traitLabel: '',
+      klScore: '-1',
+      fineMappingMethodValue: 'finemap',
       cellCountValue: 0 as number,
       sampleCellCount: 1,
       sampleIdUrl: linkSampleDetail('')
@@ -149,7 +174,7 @@ export default defineComponent({
       tfInfoAnno.value.startLoading();
       echarts.value.startLoading();
       sampleTable.value.startLoading();
-      return DetailApi.listSampleInfoByTraitId(props.traitId, method.value.select).then((res: any) => {
+      return DetailApi.listSampleInfoByTraitId(props.traitId, method.value.select, data.fineMappingMethodValue).then((res: any) => {
         geneInfoAnno.value.endLoading();
         tfInfoAnno.value.endLoading();
         echarts.value.endLoading();
@@ -179,26 +204,25 @@ export default defineComponent({
       data.sampleCellCount = res.cellCount;
       data.sampleLabel = res.label;
       data.genome = res.genome;
+
+      data.metadataData = [{
+        label: 'Cell type',
+        value: 'cell_type',
+        default: true
+      }] as Array<InputSelect>;
+
+      if (res.timeExist === 1) {
+        data.metadataData.push({ label: 'Age/day/time', value: 'time' });
+      }
+      if (res.sexExist === 1) {
+        data.metadataData.push({ label: 'Sex', value: 'sex' });
+      }
+      if (res.drugExist === 1) {
+        data.metadataData.push({ label: 'Drug resistance', value: 'drug' });
+      }
     });
 
-    const setSampleId = async () => {
-      await listSample();
-      if (data.isOverlap) {
-        Time.delay(async () => {
-          sampleTable.value.selectionToggleChange([data.sampleTableData[0]]);
-          await getSampleInfo();
-          cellCount.value.select = getCellCountValue(data.sampleCellCount);
-          data.cellCountValue = cellCount.value.select;
-        }, 300);
-      }
-    };
-
-    const methodEvent = () => {
-      data.methodValue = method.value.select;
-      setSampleId();
-    };
-
-    const getTraitInfo = () => DetailApi.getVariantTrait(props.traitId).then((res: any) => {
+    const getTraitInfo = () => DetailApi.getVariantTrait(props.traitId, data.fineMappingMethodValue).then((res: any) => {
       data.traitLabel = res.traitCode;
     });
 
@@ -209,6 +233,45 @@ export default defineComponent({
           sampleTable.value.selectionToggleChange(sampleShowData);
         }, 300);
       }
+    };
+
+    const traitKlScoreInfo = () => {
+      DetailApi.getKlScoreData(data.sampleId, props.traitId).then((res: any) => {
+        data.klScore = (res as number).toFixed(5);
+      });
+    };
+
+    const setSampleId = async () => {
+      await listSample();
+      if (data.isOverlap) {
+        Time.delay(async () => {
+          const sampleIdList: Array<String> = data.sampleTableData.map((item: any) => item.sampleId);
+
+          if (Number(props.traitId.split('_')[2]) > 79 || sampleIdList.indexOf(data.sampleId) < 0) {
+            sampleTable.value.selectionToggleChange([data.sampleTableData[0]]);
+          } else {
+            samplePageEvent();
+          }
+
+          await getSampleInfo();
+          cellCount.value.select = getCellCountValue(data.sampleCellCount);
+          data.cellCountValue = cellCount.value.select;
+        }, 300);
+      }
+    };
+
+    const fineMappingMethodChange = (tag: any) => {
+      data.fineMappingMethodValue = tag.paneName;
+      setSampleId();
+    };
+
+    const metadataEvent = async () => {
+      data.metadataValue = metadata.value.select;
+    };
+
+    const methodEvent = () => {
+      data.methodValue = method.value.select;
+      setSampleId();
     };
 
     const sampleSelectionChange = async (val: any) => {
@@ -225,13 +288,22 @@ export default defineComponent({
         data.tissueType = val[0].tissueType;
         data.sampleIdUrl = linkSampleDetail(data.sampleId);
       }
+
+      if (Number(props.traitId.split('_')[2]) <= 79) {
+        traitKlScoreInfo();
+      }
     };
 
-    const trsDownload = () => `${STATIC_DOWNLOAD_PATH}/trs/${data.sampleLabel}/${data.sampleLabel}__${data.genome}__${data.traitLabel}.bed__mat_info.rda`;
+    const trsDownload = () => {
+      const suffix = data.fineMappingMethodValue === 'finemap' ? '' : '_susie';
+      return `${STATIC_DOWNLOAD_PATH}/trs${suffix}/${data.sampleLabel}/${data.sampleLabel}__${data.genome}__${data.traitLabel}.bed__mat_info.rda`;
+    };
 
     onMounted(() => {
       method.value.select = DETAIL_METHOD_DATA[0].value;
       data.methodValue = method.value.select;
+      data.metadataValue = data.metadataData[0].value as string;
+      data.isHaveSusie = Number(props.traitId.split('_')[2]) <= 79;
       getTraitInfo();
       setSampleId();
     });
@@ -240,6 +312,7 @@ export default defineComponent({
       loading,
       singleCard,
       cellCount,
+      metadata,
       method,
       sample,
       sampleTable,
@@ -249,8 +322,10 @@ export default defineComponent({
       geneInfoAnno,
       tfInfoAnno,
       cellCountEvent,
+      metadataEvent,
       methodEvent,
       samplePageEvent,
+      fineMappingMethodChange,
       sampleSelectionChange,
       trsDownload,
       cellCountData: DETAIL_CELL_COUNT_DATA,

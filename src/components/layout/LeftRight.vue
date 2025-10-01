@@ -12,6 +12,7 @@
 <script lang="ts">
 import { defineComponent, nextTick, onMounted, reactive, ref, toRefs, watch } from 'vue';
 import '@/assets/less/components/layout/LeftRight.less';
+import Base from '@/service/util/base/base';
 
 export default defineComponent({
   name: 'LeftRight',
@@ -63,6 +64,17 @@ export default defineComponent({
         right.value.style.height = `${props.height}px`;
         left.value.style.height = `${props.height}px`;
       }
+    });
+
+    // 监控
+    watch(() => ({ value1: props.leftWidth }), async () => {
+      if (Base.noNull(props.leftWidth) && left.value && right.value) {
+        left.value.style.width = props.isLeftRight ? `${String(props.leftWidth - props.padding)}%` : `${String(100 - props.padding)}%`;
+        right.value.style.width = props.isLeftRight ? `${String(100 - props.padding - props.leftWidth)}%` : `${String(100 - props.padding)}%`;
+      }
+    }, {
+      immediate: true,
+      deep: true
     });
 
     return {

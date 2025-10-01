@@ -40,7 +40,7 @@ export default defineComponent({
     const router = useRouter();
     const snp = ref();
     const buttonClick = (id: String) => {
-      // 点击开始搜索
+      // Click the search button to start the search
       if (id === 'start') {
         if (Base.isNull(snp.value.input)) {
           snp.value.input = 'rs57142672';
@@ -50,7 +50,7 @@ export default defineComponent({
           variant: snp.value.input
         });
       }
-      // 点击例子和重设
+      // Click the example or reset button to set the SNP value
       snp.value.input = id === 'reset' ? '' : id === 'example' ? 'rs57142672' : '';
     };
     return {

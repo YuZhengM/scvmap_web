@@ -48,6 +48,10 @@ export default class AnalysisApi {
     return RequestApi.requestPost(`${this.PATH_PREFIX}/tf/regulation/graph?id=${NumberUtil.random10()}`, params).then((res: any) => res.data);
   }
 
+  public static async getTfGeneGraphData(params: {}): Promise<Result> {
+    return RequestApi.requestPost(`${this.PATH_PREFIX}/tf_gene/regulation/graph?id=${NumberUtil.random10()}`, params).then((res: any) => res.data);
+  }
+
   public static async listMagmaVariantInfoDataByTraitIdAndGene(traitId: string, genome: string, gene: string): Promise<Result> {
     return RequestApi.requestGetNoParams(`${this.PATH_PREFIX}/magma/gene/${traitId}/${genome}/${gene}?id=${NumberUtil.random10()}`).then((res: any) => res.data);
   }

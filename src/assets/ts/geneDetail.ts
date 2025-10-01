@@ -43,15 +43,15 @@ export const GENE_DETAIL_COMMON_SNP_TABLE_DESCRIPTION: Array<TableHead> = [
 ];
 
 export const GENE_DETAIL_EQTL_TABLE_DESCRIPTION: Array<TableHead> = [
-  { column: 'chr', title: 'Chr' },
-  { column: 'position', title: 'Position' },
-  { column: 'ref', title: 'Ref' },
-  { column: 'alt', title: 'Alt' },
-  { column: 'geneName', title: 'Gene' },
-  { column: 'tssDistance', title: 'TSS distance' },
-  { column: 'af', title: 'AF' },
-  { column: 'pvalueNominal', title: 'P value (nominal)' },
-  { column: 'tissueType', title: 'Tissue type' }
+  { column: 'chr', title: 'Chr', database: 'f_chr', type: 1 },
+  { column: 'position', title: 'Position', database: 'f_position', type: 1 },
+  { column: 'ref', title: 'Ref', database: 'f_ref', type: 1 },
+  { column: 'alt', title: 'Alt', database: 'f_alt', type: 1 },
+  { column: 'geneName', title: 'Gene', database: 'f_gene_name', type: 1 },
+  { column: 'tssDistance', title: 'TSS distance', database: 'f_tss_distance', type: 1 },
+  { column: 'af', title: 'AF', database: 'f_af', type: 1 },
+  { column: 'pvalueNominal', title: 'P value (nominal)', database: 'f_p_value_nominal', type: 1 },
+  { column: 'tissueType', title: 'Tissue type', database: 'f_tissue_type', type: 1 }
 ];
 
 export const GENE_DETAIL_RISK_SNP_TABLE_DESCRIPTION: Array<TableHead> = [
@@ -102,7 +102,7 @@ export const GENE_DETAIL_SUPER_ENHANCER_SEDB_TABLE_DESCRIPTION = [
   ...GENE_DETAIL_ENHANCER_SEDB_TABLE_DESCRIPTION
 ];
 
-export const geneGraphOption: any = (data: any) => ({
+export const geneGraphOption: any = (data: any, layout = 'none') => ({
   title: {
     top: 'bottom',
     left: 'right'
@@ -126,7 +126,7 @@ export const geneGraphOption: any = (data: any) => ({
     {
       name: 'Name',
       type: 'graph',
-      // layout: 'force',
+      layout,
       data: data.nodes,
       links: data.links,
       categories: data.categories,
@@ -145,10 +145,13 @@ export const geneGraphOption: any = (data: any) => ({
       },
       force: {
         initLayout: 'circular',
-        // edgeLength: 10,
-        repulsion: 200,
-        gravity: 0.5
-      }
+        edgeLength: 80,
+        repulsion: 600,
+        gravity: 0.5,
+        layoutAnimation: true
+        // iterations: 100
+      },
+      draggable: true
     }
   ]
 });
@@ -196,10 +199,11 @@ export const overlapGeneGraphOption: any = (data: any) => ({
         formatter: (name: any) => name.name
       },
       force: {
-        edgeLength: 10,
-        repulsion: 40,
-        gravity: 0.5
-      }
+        // edgeLength: 10,
+        // repulsion: 50,
+        gravity: 0.2
+      },
+      draggable: true
     }
   ]
 });
@@ -319,7 +323,8 @@ export const geneSnpGraphOption: any = (data: Array<any>, gene: string) => {
         },
         force: {
           repulsion: 400
-        }
+        },
+        draggable: true
       }
     ]
   };

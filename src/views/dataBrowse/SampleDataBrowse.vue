@@ -6,6 +6,7 @@
           <br/>
           <ListCard title="Tissue type" :list-card="tissueType1List" :list-card-click="tissueTypeClick" ref="tissueType1" v-show="isShow"/>
           <ListCard title="Health type" :list-card="healthTypeList" :list-card-click="healthTypeClick" ref="healthType" v-show="isShow"/>
+          <ListCard title="Metadata (include)" :list-card="metadataList" :list-card-click="metadataClick" ref="metadata" v-show="isShow"/>
           <ListCard title="Tissue type" :list-card="tissueType2List" :list-card-click="tissueTypeClick" ref="tissueType2" v-show="!isShow"/>
           <ListCard title="Cell type" :list-card="cellTypeList" :list-card-click="cellTypeClick" ref="cellType" v-show="!isShow"/>
         </template>
@@ -50,16 +51,19 @@ export default defineComponent({
     const tissueType1 = ref();
     const tissueType2 = ref();
     const healthType = ref();
+    const metadata = ref();
     const cellType = ref();
-    // 设置响应数据
+    // Set reactive data
     const data = reactive({
       isShow: true,
       tissueType1List: [] as Array<CardList>,
       tissueType2List: [] as Array<CardList>,
       healthTypeList: [] as Array<CardList>,
+      metadataList: [] as Array<CardList>,
       cellTypeList: [] as Array<CardList>,
       tissueTypeValue: '',
       healthTypeValue: '',
+      metadataValue: '',
       cellTypeValue: '',
       tableData1: [],
       tableData2: [],
@@ -68,26 +72,27 @@ export default defineComponent({
       annotationTabs: [
         {
           name: 'sampleId',
-          title: 'Metadata: Sample ID'
+          title: 'Granularity: Sample ID'
         },
         {
           name: 'cellType',
-          title: 'Metadata: Cell type'
+          title: 'Granularity: Cell type'
         }
       ] as Array<TabsBase>
     });
     const params = () => (data.isShow ? {
       tissueType: data.tissueTypeValue,
-      healthType: data.healthTypeValue
+      healthType: data.healthTypeValue,
+      metadata: data.metadataValue
     } : {
       tissueType: data.tissueTypeValue,
       cellType: data.cellTypeValue
     });
 
-    // 添加字段数量
+    // Add field numbers to the list
     const addFieldNumber = (nowData: Array<CardList>, newData: Array<any>, name?: CardList) => {
       // const oldData = ArrayUtil.deepCopy(nowData) as Array<CardList>;
-      // 清空
+      // Clear the list
       ArrayUtil.clear(nowData);
       newData.forEach((item: any) => {
         nowData.push({
@@ -97,15 +102,16 @@ export default defineComponent({
         });
       });
     };
-    // 处理结果值
+    // Handle the result data
     const handlerResultData = (res: any, label?: string, name?: CardList) => {
-      // 获得数据内容
-      const { healthTypeList, tissueTypeList, cellTypeList, dataBrowseDataList } = res;
-      // 重构数据
+      // Get the data content
+      const { healthTypeList, tissueTypeList, cellTypeList, metadataList, dataBrowseDataList } = res;
+      // Reconstruct the data
       if (data.isShow) {
         data.tableData1 = dataBrowseDataList;
         addFieldNumber(data.tissueType1List, tissueTypeList as Array<any>, label === 'tissueType' ? name : undefined);
         addFieldNumber(data.healthTypeList, healthTypeList as Array<any>, label === 'healthType' ? name : undefined);
+        addFieldNumber(data.metadataList, metadataList as Array<any>, label === 'metadata' ? name : undefined);
       } else {
         data.tableData2 = dataBrowseDataList;
         addFieldNumber(data.tissueType2List, tissueTypeList as Array<any>, label === 'tissueType' ? name : undefined);
@@ -113,14 +119,14 @@ export default defineComponent({
       }
     };
 
-    // 向后台请求数据
+    // Request data from the backend
     const getDataAndCount = (dataBrowseInfo: any, label?: string, name?: CardList) => {
-      // 加载动画
+      // Loading animation
       loading.value.loading = true;
-      // 获取数据
+      // Get data
       return (data.isShow ? DataBrowseApi.getSampleBrowseData(dataBrowseInfo) : DataBrowseApi.getSampleCellTypeBrowseData(dataBrowseInfo)).then((res: any) => {
         loading.value.loading = false;
-        // 获得数据内容
+        // Get the data content
         handlerResultData(res, label, name);
       });
     };
@@ -130,6 +136,7 @@ export default defineComponent({
       if (data.isShow) {
         tissueType1.value.dataUpdate();
         healthType.value.dataUpdate();
+        metadata.value.dataUpdate();
       } else {
         tissueType2.value.dataUpdate();
         cellType.value.dataUpdate();
@@ -144,6 +151,11 @@ export default defineComponent({
     const healthTypeClick = (name: CardList) => {
       data.healthTypeValue = name.show ? name.label : '';
       return getDataAndCount(params(), 'healthType', name).then(updateTypeNumber);
+    };
+
+    const metadataClick = (name: CardList) => {
+      data.metadataValue = name.show ? name.label : '';
+      return getDataAndCount(params(), 'metadata', name).then(updateTypeNumber);
     };
 
     const cellTypeClick = (name: CardList) => {
@@ -163,7 +175,6 @@ export default defineComponent({
     const overviewDownload = (filename: string) => `${STATIC_DOWNLOAD_PATH}/overview/${filename}`;
 
     onMounted(() => {
-      // 更新类型和数量
       getDataAndCount(params()).then(updateTypeNumber);
     });
     return {
@@ -171,11 +182,13 @@ export default defineComponent({
       loading,
       tissueType1,
       tissueType2,
+      metadata,
       healthType,
       cellType,
       annotationChange,
       tissueTypeClick,
       healthTypeClick,
+      metadataClick,
       cellTypeClick,
       overviewDownload
     };

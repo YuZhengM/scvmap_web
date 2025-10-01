@@ -1,13 +1,13 @@
 <template>
   <div class="position_button_template">
     <el-affix :offset="offset">
-      <BaseButton :content="buttonContent" :button-click="buttonClick"/>
+      <BaseButton :content="infoContent" :button-click="buttonClick"/>
     </el-affix>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue';
+import { defineComponent, reactive, toRefs, watch } from 'vue';
 import '@/assets/less/components/button/PositionButton.less';
 import { ButtonBase } from '@/service/model/components/button';
 import BaseButton from '@/components/button/BaseButton.vue';
@@ -31,7 +31,8 @@ export default defineComponent({
   },
   setup(props) {
     const data = reactive({
-      info: [] as Array<ButtonBase>
+      infoContent: [] as Array<ButtonBase>,
+      topValue: props.top
     });
 
     const buttonClick = (id: string) => {
@@ -39,13 +40,27 @@ export default defineComponent({
       const element = document.getElementById(id);
       if (element) {
         const elementPosition = element.offsetTop;
-        const targetPosition = elementPosition - props.top;
+        const targetPosition = elementPosition - data.topValue;
         window.scrollTo({
           top: targetPosition,
           behavior: 'smooth'
         });
       }
     };
+
+    watch(() => props.buttonContent, (newValue: any) => {
+      data.infoContent = newValue;
+    }, {
+      immediate: true,
+      deep: true
+    });
+
+    watch(() => props.top, (newValue: any) => {
+      data.topValue = newValue;
+    }, {
+      immediate: true,
+      deep: true
+    });
 
     return {
       ...toRefs(data),

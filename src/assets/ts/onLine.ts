@@ -14,7 +14,7 @@ export const ON_LINE_USER_SAMPLE_TABLE_DESCRIPTION: Array<TableHead> = [
 export const ON_LINE_SAMPLE_TABLE_DESCRIPTION: Array<TableHead> = [
   { column: 'sampleId', title: 'Sample ID', database: 'f_sample_id', type: 1, href: (row: any) => linkJobDetail(row.sampleId) },
   { column: 'tissueType', title: 'Tissue type', database: 'f_tissue_type', type: 1 },
-  { column: 'healthTypeDescription', title: 'Health type description', database: 'f_health_type_description', type: 1 },
+  { column: 'healthTypeDescription', title: 'Disease type description', database: 'f_health_type_description', type: 1 },
   { column: 'cellTypeCount', title: 'Cell type count', database: 'f_cell_type_count', type: 2 },
   { column: 'cellCount', title: 'Cell count', database: 'f_cell_count', type: 2 }
 ];
