@@ -15,7 +15,7 @@ export * from '@/assets/ts/detail';
 export * from '@/assets/ts/geneDetail';
 export * from '@/assets/ts/variantDetail';
 
-// 导航栏
+// Header menus
 export const HEADER_MENUS: Array<NavBase> = [
   {
     title: 'Home',

@@ -15,11 +15,21 @@
           <BaseTabs active="sampleId" :tabs-data="annotationTabs" :change="annotationChange">
             <template #sampleId>
               <BaseBr/>
-              <BaseTable :table-data="tableData1" :is-service-paging="false" :download-url="overviewDownload('sample_info.txt')" :table-description="tableDescription1"/>
+              <BaseTable :table-data="tableData1" :is-service-paging="false"
+                         :download-urls="[{
+                           title: 'sample_overview.txt',
+                           url: overviewDownload('sample_info_with_age_sex_drug.txt')
+                         }]"
+                         :table-description="tableDescription1"/>
             </template>
             <template #cellType>
               <BaseBr/>
-              <BaseTable :table-data="tableData2" :is-service-paging="false" :download-url="overviewDownload('cell_type_anno.txt')" :table-description="tableDescription2"/>
+              <BaseTable :table-data="tableData2" :is-service-paging="false"
+                         :download-urls="[{
+                           title: 'cell_type_overview.txt',
+                           url: overviewDownload('cell_type_anno.txt')
+                         }]"
+                         :table-description="tableDescription2"/>
             </template>
           </BaseTabs>
         </template>
@@ -40,7 +50,6 @@ import LeftRight from '@/components/layout/LeftRight.vue';
 import ListCard from '@/components/card/ListCard.vue';
 import { CardList } from '@/service/model/components/card';
 import ArrayUtil from '@/service/util/base/array';
-import { TabsPaneContext } from 'element-plus/es';
 import BaseBr from '@/components/divider/BaseBr.vue';
 
 export default defineComponent({
@@ -163,7 +172,7 @@ export default defineComponent({
       return getDataAndCount(params(), 'cellType', name).then(updateTypeNumber);
     };
 
-    const annotationChange = (tag: TabsPaneContext) => {
+    const annotationChange = (tag: any) => {
       data.isShow = (tag.paneName === 'sampleId');
       if (data.tableData1.length === 0 || data.tableData2.length === 0) {
         getDataAndCount(params()).then(updateTypeNumber);

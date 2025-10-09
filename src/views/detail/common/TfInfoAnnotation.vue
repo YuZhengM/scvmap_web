@@ -15,7 +15,7 @@
                 <BaseSelect title="Cell type:" is-line width="20%" :change-event="cellTypeChange" :select-data="cellTypeData" ref="cellType"/>
                 <BaseTable :table-data="differenceTfTableData"
                            :is-service-paging="false"
-                           :download-url="differenceTfDownload()"
+                           :download-urls="[{'url': differenceTfDownload(), 'title': 'Download'}]"
                            layout="total, prev, pager, next"
                            :table-description="differenceTfTableDescription"
                            ref="differenceTfTable"/>
@@ -30,7 +30,7 @@
             <BaseSelect title="Cell type:" is-line width="20%" :change-event="cellTypeChromvarChange" :select-data="cellTypeData" ref="cellTypeChromvar"/>
             <BaseTable :table-data="chromvarDifferenceTfTableData"
                        :is-service-paging="false"
-                       :download-url="differenceTfDownload()"
+                       :download-urls="[{'url': differenceTfDownload(), 'title': 'Download'}]"
                        layout="total, prev, pager, next"
                        :table-description="chromvarDifferenceTfTableDescription"
                        ref="chromvarDifferenceTfTable"/>
@@ -69,7 +69,7 @@
             <BaseTable :table-data="traitTfTableData"
                        :is-service-paging="false"
                        :before-column-number="2"
-                       :download-url="homerTfDownloadUrl"
+                       :download-urls="[{'url': homerTfDownloadUrl, 'title': 'Download'}]"
                        :table-description="traitTfTableDescription"
                        ref="traitTfTable">
               <template #default>

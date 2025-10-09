@@ -2,24 +2,24 @@ import { LocationQueryRaw, RouteLocationNormalizedLoaded, Router } from 'vue-rou
 import Time from '@/service/util/base/time';
 
 /**
- * 跳转的公共类
- * 其中 path 例子 /a/b/c
+ * Jump utility class
+ * An example of path is /a/b/c
  */
 class Jump {
   /**
-   * 在本页面跳转到 url
-   * @param router 路由
-   * @param path 跳转的 url
+   * In this page jump to url
+   * @param router Router instance
+   * @param path URL path
    */
   public static routerDefault(router: Router, path: string): void {
     router.push({ path }).then(() => true).catch(() => false);
   }
 
   /**
-   * 在本页面跳转到 url
-   * @param router 路由
-   * @param path 跳转的 url
-   * @param query 参数
+   * In this page jump to url
+   * @param router Router instance
+   * @param path URL path
+   * @param query Query parameters
    */
   public static routerQuery(router: Router, path: string, query: LocationQueryRaw): void {
     router.push({
@@ -29,10 +29,10 @@ class Jump {
   }
 
   /**
-   * 在新窗口跳转到 url
-   * @param router 路由
-   * @param path 跳转的 url
-   * @param query 参数
+   * In a new window jump to url
+   * @param router Router instance
+   * @param path URL path
+   * @param query Query parameters
    */
   public static routerBlank(router: Router, path: string, query: LocationQueryRaw): void {
     const { href } = router.resolve({ path, query });
@@ -40,9 +40,9 @@ class Jump {
   }
 
   /**
-   * 跳转首页
-   * @param route
-   * @param router
+   * Jump to the index page
+   * @param route Route location
+   * @param router Router instance
    */
   public static index(route: RouteLocationNormalizedLoaded, router: Router) {
     if (route.path !== '/index' && route.path !== '/') {

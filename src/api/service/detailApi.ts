@@ -4,7 +4,7 @@ import NumberUtil from '@/service/util/base/number';
 
 export default class DetailApi {
   /**
-   * detail 接口路径前缀
+   * detail interface path prefix
    * @private
    */
   private static PATH_PREFIX = '/detail';

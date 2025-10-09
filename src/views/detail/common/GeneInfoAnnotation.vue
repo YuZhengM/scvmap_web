@@ -3,7 +3,7 @@
     <SingleCard :title="{ content: `Differential genes of cell types` }" id="position_difference_gene" ref="singleCard">
       <template #head>
         <el-link :href="differenceGeneH5adDownload()">
-          <el-button size="small" type="primary"> Differential genes (Complete) &nbsp; <i class="fas fa-file-download"></i></el-button>
+          <el-button size="small" type="primary"> Differential genes (Complete-{{ metadata }}) &nbsp; <i class="fas fa-file-download"></i></el-button>
         </el-link>
       </template>
       <template #default>
@@ -21,13 +21,13 @@
                            :before-column-number="1"
                            search-title=""
                            :width="98"
-                           :content-width="26"
-                           :field-width="26"
+                           :content-width="21"
+                           :field-width="21"
                            :service-search-width="90"
-                           :button-size="[60, 30]"
+                           :button-size="[50, 30]"
                            :removeSelectContent="['Sample ID']"
                            layout="total, prev, pager, next"
-                           :download-url="differenceGeneDownload()"
+                           :download-urls="[{'url': differenceGeneDownload(filename), 'title': `Download (${metadata})`}]"
                            :table-description="differenceGeneTableDescription"
                            ref="differenceGeneTable">
                   <template #default>
@@ -63,7 +63,7 @@
                 <BaseTable :table-data="traitGeneTableData"
                            :is-service-paging="false"
                            layout="total, prev, pager, next"
-                           :download-url="magmaGeneDownloadUrl"
+                           :download-urls="[{'url': magmaGeneDownloadUrl, 'title': 'Download'}]"
                            :before-column-number="0"
                            :table-description="traitGeneTableDescription"
                            ref="traitGeneTable">
@@ -77,6 +77,7 @@
                 </BaseTable>
               </template>
               <template #right>
+                <BaseBr/>
                 <TraitGeneEnrichment :trait-id="traitId" :genome="sample.genome"/>
               </template>
             </LeftRight>
@@ -84,7 +85,7 @@
           <template #cicero>
             <BaseTable :table-data="traitGeneCiceroTableData"
                        :is-service-paging="false"
-                       :download-url="ciceroGeneDownloadUrl"
+                       :download-urls="[{'url': ciceroGeneDownloadUrl, 'title': 'Download'}]"
                        :table-description="traitGeneCiceroTableDescription"
                        ref="traitGeneCiceroTable"/>
           </template>
@@ -205,7 +206,7 @@
       <SingleCard :title='{ content: `Information mapping of gene and variants in "${traitName}"` }'>
         <BaseTable :table-data="magmaVariantInfoTableData"
                    :is-service-paging="false"
-                   :download-url="magmaGeneAnnoDownloadUrl"
+                   :download-urls="[{'url': magmaGeneAnnoDownloadUrl, 'title': 'Download'}]"
                    :table-description="magmaVariantInfoTableDescription"
                    ref="magmaVariantTable"/>
       </SingleCard>
@@ -261,7 +262,9 @@ import {
   ANALYSIS_GENE_SCORE_DATA,
   ANALYSIS_RELEVANT_GENE_TYPE_DATA,
   GENE_DETAIL_EQTL_TABLE_DESCRIPTION,
-  DETAIL_MPRA_TABLE_DESCRIPTION, ANALYSIS_V2G_ANNOTATION_TABS, ANALYSIS_INTERACTION_TABLE_DESCRIPTION
+  DETAIL_MPRA_TABLE_DESCRIPTION,
+  ANALYSIS_V2G_ANNOTATION_TABS,
+  ANALYSIS_INTERACTION_TABLE_DESCRIPTION
 } from '@/assets/ts';
 import StringUtil from '@/service/util/base/string';
 import Base from '@/service/util/base/base';
@@ -456,8 +459,14 @@ export default defineComponent({
     const mpraInformation = (page: Page) => DetailApi.listMpraByTraitId(props.traitId, data.sample.genome, page);
     const interactionInformation = (page: Page) => DetailApi.listInteractionByTraitId(props.traitId, data.sample.genome, page);
 
-    const differenceGeneDownload = () => `${STATIC_DOWNLOAD_PATH}/difference/difference_gene/${props.sampleId}_difference_gene_data.txt`;
-    const differenceGeneH5adDownload = () => `${STATIC_DOWNLOAD_PATH}/difference/difference_gene_h5ad/${data.sampleLabel}_difference_gene.h5ad`;
+    const differenceGeneDownload = () => {
+      const suffix = props.metadata !== 'cell_type' ? `_${props.metadata}` : '';
+      return `${STATIC_DOWNLOAD_PATH}/difference/difference_gene/${props.sampleId}${suffix}_difference_gene_data.txt`;
+    };
+    const differenceGeneH5adDownload = () => {
+      const suffix = props.metadata !== 'cell_type' ? `_${props.metadata}` : '';
+      return `${STATIC_DOWNLOAD_PATH}/difference/difference_gene_h5ad/${data.sampleLabel}${suffix}_difference_gene.h5ad`;
+    };
 
     const magmaGeneDownload = () => {
       const fileUrl = `${STATIC_MAGMA_PATH}/magma_output/${data.sample.genome}_gene/${data.traitLabel}.genes.out`;

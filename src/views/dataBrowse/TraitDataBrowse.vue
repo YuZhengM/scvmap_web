@@ -10,12 +10,16 @@
           <ListCard title="Source cohort" :list-card="cohortList" :list-card-click="cohortClick" ref="cohort" v-show="method === 'finemap'"/>
         </template>
         <template #right>
+          <BaseBr/>
           <BaseTabs active="finemap" :tabs-data="[{ name: 'finemap', title: 'FINEMAP' }, { name: 'susie', title: 'SuSiE' }]" :change="methodChange"/>
-          <br/>
+          <BaseBr/>
           <BaseTable :update-new-data="tableInformation"
                      :callback-function="callBackFunction"
-                     :service-search-width="85"
-                     :download-url="overviewDownload('trait_info.xlsx')"
+                     :service-search-width="75"
+                     :download-urls="[{
+                       title: method === 'finemap' ? 'trait_finemap_info.xlsx' : 'trait_susie_info.xlsx',
+                       url: overviewDownload(method === 'finemap' ? 'trait_info.xlsx' : 'trait_info_susie.xlsx')
+                     }]"
                      :table-description="tableDescription"
                      ref="table"/>
         </template>
@@ -36,10 +40,11 @@ import { CardList } from '@/service/model/components/card';
 import ArrayUtil from '@/service/util/base/array';
 import { Page } from '@/service/model/reponse/request';
 import BaseTabs from '@/components/tabs/BaseTabs.vue';
+import BaseBr from '@/components/divider/BaseBr.vue';
 
 export default defineComponent({
   name: 'TraitDataBrowse',
-  components: { BaseTabs, ListCard, LeftRight, BaseLoading, BaseTable },
+  components: { BaseBr, BaseTabs, ListCard, LeftRight, BaseLoading, BaseTable },
   setup() {
     const loading = ref();
     const type = ref();

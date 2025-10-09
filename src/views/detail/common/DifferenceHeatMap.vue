@@ -6,24 +6,28 @@
           <BaseSelect title="Top count:" is-line width="41%" :change-event="topCountGraphChange" :select-data="topCountData" ref="topCountGraph" :description="topDescription"/>
         </template>
         <template #right>
-          <BaseSelect title="Log<sub>2</sub>(Fold change):" :is-line="true" width="55%" :change-event="cellTypeGraphChange" :select-data="Log2FoldChangeSelectData" ref="log2FoldChange"/>
+          <BaseSelect title="Log<sub>2</sub>(Fold change): " :is-line="true" width="57%" :change-event="cellTypeGraphChange" :select-data="Log2FoldChangeSelectData" ref="log2FoldChange"/>
         </template>
       </LeftRight>
       <div class="textarea">
         <div class="title">
-          <span>Add {{ element === 'gene' ? 'gene' : 'TF' }}s: </span>
-          <el-button @click="exampleClick" v-if="element === 'gene'"> Example</el-button>
-          <el-button @click="addGenesClick"> Plot</el-button>
-          <span class="heatmap_value" v-show="element === 'tf'">
-            Value: `-Log10(P-value)` score.
-          </span>
-          <BaseSelect title="Value: "
-                      is-line width="41%"
-                      :change-event="valueLabelChange"
-                      :select-data="[{ label: 'Score', value: 'score', default: true }, { label: 'Log2(Fold change)', value: 'log2_fold_change' }]"
-                      ref="valueLabel" v-show="element === 'gene'"/>
+          <LeftRight :padding="0">
+            <template #left>
+              <span>Add {{ element === 'gene' ? 'gene' : 'TF' }}s: </span>
+                  <el-button @click="exampleClick"> Example </el-button>
+                  <el-button @click="addGenesClick"> Plot </el-button>
+            </template>
+            <template #right>
+              <span class="heatmap_value" v-show="element === 'tf'"> Value: `-Log10(P-value)` score. </span>
+              <BaseSelect title="Value: "
+                          is-line width="80.5%"
+                          :change-event="valueLabelChange"
+                          :select-data="[{ label: 'Score', value: 'score', default: true }, { label: 'Log2(Fold change)', value: 'log2_fold_change' }]"
+                          ref="valueLabel" v-show="element === 'gene'"/>
+            </template>
+          </LeftRight>
         </div>
-        <BaseInput type="textarea" :rows="2" :placeholder="placeholder" ref="geneTextarea"/>
+        <BaseInput type="textarea" :rows="2" :placeholder="placeholder" ref="textarea"/>
       </div>
       <br/>
       <div ref="heatMap" v-show="isShow">
@@ -75,7 +79,7 @@ export default defineComponent({
     const topCountGraph = ref();
     const log2FoldChange = ref();
     const valueLabel = ref();
-    const geneTextarea = ref();
+    const textarea = ref();
     const data = reactive({
       heatMapId: StringUtil.randomString(10),
       placeholder: `Please input the ${props.element}s  e.g. RCC2,APOE,LPP`,
@@ -130,7 +134,7 @@ export default defineComponent({
           metadata: props.metadata,
           topCount: topCountGraph.value.select,
           log2FoldChange: log2FoldChange.value.select,
-          names: geneTextarea.value.input,
+          names: textarea.value.input,
           valueType: valueLabel.value.select
         }).then((res: any) => {
           loading.value.loading = false;
@@ -165,7 +169,9 @@ export default defineComponent({
 
     const exampleClick = () => {
       if (props.element === 'gene') {
-        geneTextarea.value.input = 'GLI1,GLI2,GLI3,GLI4,ASIP,SLC45A2,OCA2,PADI6,RCC2,CASC15,LINC00111,ZBTB10,LY6E,IL6,CALCA,FKBPL,HIF1A';
+        textarea.value.input = 'GLI1,GLI2,GLI3,GLI4,ASIP,SLC45A2,OCA2,PADI6,RCC2,CASC15,LINC00111,ZBTB10,LY6E,IL6,CALCA,FKBPL,HIF1A';
+      } else {
+        textarea.value.input = 'SPI1,GLI1,GLI2';
       }
     };
 
@@ -195,7 +201,7 @@ export default defineComponent({
       topCountGraph,
       log2FoldChange,
       valueLabel,
-      geneTextarea,
+      textarea,
       topCountGraphChange,
       cellTypeGraphChange,
       valueLabelChange,

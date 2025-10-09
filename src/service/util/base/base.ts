@@ -1,46 +1,47 @@
 import { ElNotification } from 'element-plus';
 
 /**
- * 公共类
+ * Common class
  */
 class Base {
   private static readonly RULE_TIMEOUT_MS: number = 500;
 
   /**
-   * 验证 value 是否为空
+   * Verify whether the value is not empty
    * @param value
-   * @returns {boolean} 不为空
+   * @returns {boolean} Not empty
    */
   public static noNull(value: object | string | null | undefined | Array<any> | number): boolean {
-    return value !== null && typeof value !== 'undefined' && value !== undefined && value !== 'undefined' && value !== '' && value !== {};
+    return value !== null && typeof value !== 'undefined' && value !== undefined && value !== 'undefined' && value !== '';
   }
 
   /**
-   * 验证 value 是否为空
+   * Verify whether the value is empty
    * @param value
-   * @returns {boolean} 为空
+   * @returns {boolean} Empty
    */
   public static isNull(value: object | string | null | undefined | Array<any> | number): boolean {
     return !this.noNull(value);
   }
 
   /**
-   * 判断是否为数组类型
+   * Verify whether the value is an array
    * @param obj
+   * @returns {boolean} Whether the value is an array
    */
   public static isArray(obj: any) {
     return Array.isArray ? Array.isArray(obj) : Object.prototype.toString.call(obj) === '[object Array]';
   }
 
   /**
-   * 确保 value 中的值不为空
+   * Ensure that the value in the value is not empty
    * @param value
-   * @param callback 回调函数
-   * @param errorCallback 回调函数
+   * @param callback Callback function
+   * @param errorCallback Callback function
    */
   public static valueNoNull(value: any, callback: Function, errorCallback: Function = () => null) {
     let judge = true;
-    // 判断类型
+    // Check if the value is an array
     if (this.isNull(value)) {
       judge = false;
     }

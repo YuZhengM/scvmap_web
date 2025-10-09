@@ -134,7 +134,7 @@ export default defineComponent({
       p.value.select = ANALYSIS_GENE_ENRICHMENT_P_VALUE_SELECT_DATA[1].value;
       execRequest();
     });
-    // 监控
+    // Monitor the sampleId change
     watch(() => props.sampleId, () => {
       if (Base.noNull(props.sampleId)) {
         execRequest();

@@ -183,7 +183,6 @@ export default defineComponent({
     });
 
     const listTrait = async () => {
-      // 清空
       clusterAnno.value.startLoading();
       geneInfoAnno.value.startLoading();
       tfInfoAnno.value.startLoading();

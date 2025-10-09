@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import qs from 'qs';
 import { ErrorResult } from '@/service/model/reponse/result';
 import { ElNotification } from 'element-plus';
@@ -53,7 +53,7 @@ const pending = new Map();
  * 添加请求
  * @param {Object} config
  */
-const addPending = (config: AxiosRequestConfig) => {
+const addPending = (config: any) => {
   const url = [
     config.method,
     config.url,
@@ -72,7 +72,7 @@ const addPending = (config: AxiosRequestConfig) => {
  * 移除请求
  * @param {Object} config
  */
-const removePending = (config: AxiosRequestConfig) => {
+const removePending = (config: any) => {
   const url = [
     config.method,
     config.url,
@@ -123,7 +123,7 @@ const service = axios.create({
 });
 
 // 请求拦截器
-service.interceptors.request.use((config: AxiosRequestConfig) => {
+service.interceptors.request.use((config: any) => {
   // 在请求开始前, 对之前的请求做检查取消操作
   removePending(config);
   // 将当前请求添加到 pending 中

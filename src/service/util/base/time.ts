@@ -8,16 +8,17 @@ interface DateElement {
 }
 
 /**
- * 关于时间的公共方法
+ * Time utility class
+ * A common class for time operations
  */
 class Time {
   /**
-   * 获取当前的时间戳
+   * Get the current timestamp
    */
   public static timeStamp = () => (new Date()).getTime();
 
   /**
-   * 返回带有时间的 JSON
+   * Return a JSON object with a timestamp
    * @param query
    */
   public static timeQuery(query?: {} | null): {} {
@@ -29,14 +30,14 @@ class Time {
   }
 
   /**
-   * 获取日期
+   * Get the date element from a date string or Date object
    * 2021-3-16 08:06:34
    * @param date
    */
   public static getDateElement(date?: string | Date): DateElement {
     const nowDate = new Date();
     const newDate = typeof date === 'string' ? new Date(date) : Base.noNull(date) ? date : nowDate;
-    // 这步骤可以去掉, 没有必要, 只是为了没有警告
+    // This step can be removed. It's unnecessary and only used to avoid warnings.
     if (newDate === undefined) {
       return {
         year: nowDate.getFullYear(),
@@ -57,9 +58,9 @@ class Time {
   }
 
   /**
-   * 延迟监听数据
-   * @param callback 回调函数
-   * @param delay 延迟的时间默认为 ms 单位
+   * Debounce function execution
+   * @param callback Callback function
+   * @param delay Delay time in milliseconds (default: 500ms)
    */
   public static debounce(callback: Function, delay = 500) {
     let timer: any;
@@ -74,9 +75,9 @@ class Time {
   }
 
   /**
-   * 等待执行
-   * @param callback 回调函数
-   * @param delay 延迟的时间默认为 ms 单位
+   * Wait for a specified delay before executing a function
+   * @param callback Callback function
+   * @param delay Delay time in milliseconds (default: 1000ms)
    */
   public static delay(callback: Function, delay = 1000): void {
     setTimeout(() => {
@@ -85,20 +86,20 @@ class Time {
   }
 
   /**
-   * 等待执行
-   * @param delay 延迟的时间默认为 ms 单位
+   * Wait for a specified delay before resolving a Promise
+   * @param delay Delay time in milliseconds (default: 1000ms)
    */
   public static sleep(delay = 1000): Promise<void> {
     return new Promise((resolve) => setTimeout(resolve, delay));
   }
 
   /**
-   * 延迟迭代获取数据
-   * @param callback 回调函数
-   * @param data 判断的数据
-   * @param delay 延迟的时间默认为 ms 单位
-   * @param totalTime 等待总时间 ms 单位
-   * @param judge 判断的条件结果
+   * Wait for a specified delay before iterating over data
+   * @param callback Callback function
+   * @param data Data to iterate over
+   * @param delay Delay time in milliseconds (default: 1000ms)
+   * @param totalTime Total wait time in milliseconds (default: 10000ms)
+   * @param judge Judgment function to check if the data is valid (default: always true)
    */
   public static awaitData(callback: Function, data: any, delay = 1000, totalTime = 10000, judge: Function = () => true): any {
     let computingTime = 0;
@@ -122,11 +123,11 @@ class Time {
   }
 
   /**
-   * 延迟迭代获取数据
-   * @param data 判断的数据
-   * @param delay 延迟的时间默认为 ms 单位
-   * @param totalTime 等待总时间 ms 单位
-   * @param judge 判断的条件结果
+   * Wait for a specified delay before iterating over data until a condition is met
+   * @param data Data to iterate over
+   * @param delay Delay time in milliseconds (default: 1000ms)
+   * @param totalTime Total wait time in milliseconds (default: 10000ms)
+   * @param judge Judgment function to check if the data is valid (default: always true)
    */
   public static awaitPromise(data: any, delay = 1000, totalTime = 10000, judge: Function = () => true): Promise<void> {
     return new Promise((resolve) => {

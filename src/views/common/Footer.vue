@@ -26,12 +26,12 @@ export default defineComponent({
   name: 'Footer',
   components: { CookieNotification, VerticalDivider },
   setup() {
-    // 获取路由
+    // Get the router instance
     const router = useRouter();
     const data = reactive({
       links: HEADER_MENUS
     });
-    // 设置响应数据
+    // Set the response data
     const menuClick = (menu: any) => {
       menu.isShow = true;
       Jump.routerDefault(router, menu.click);

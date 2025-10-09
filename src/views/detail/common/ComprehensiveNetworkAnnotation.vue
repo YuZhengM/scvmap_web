@@ -257,7 +257,7 @@ export default defineComponent({
       graphECharts.value.drawEcharts(geneGraphOption(graphResultCopy, data.isLayoutCoordinates ? 'none' : 'force'));
     };
 
-    // 画聚类每个细胞类型数量配图
+    // Draw the clustering graph for each cell type
     const getGraphData = () => {
       graphECharts.value.startLoading();
       AnalysisApi.getTfGeneGraphData({
@@ -350,7 +350,7 @@ export default defineComponent({
       }
     });
 
-    // 监控
+    // Monitor props changes
     watch(() => ({ value1: props.sampleId, value2: props.traitId }), async () => {
       if (Base.noNull(props.sampleId) && Base.noNull(props.traitId)) {
         await getSampleInfo();

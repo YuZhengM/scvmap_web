@@ -1,5 +1,6 @@
 import { KeyValue } from '@/service/model/data';
 import { echartsTitle, TOOLBOX, toolboxSimple } from '@/service/util/echarts';
+
 // Statistics of chromatin accessibility data
 export const CHROMATIN_ACCESSIBILITY: Array<KeyValue> = [
   {

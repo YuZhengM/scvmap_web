@@ -1,4 +1,4 @@
-// tabs 数据样式
+// tabs data style
 export interface TabsBase {
   name: string;
   title: string;

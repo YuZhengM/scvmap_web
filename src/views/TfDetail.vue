@@ -150,8 +150,8 @@ export default defineComponent({
           data.isShowEcharts = false;
         } else {
           data.isShowEcharts = true;
-          echarts1.value.drawEcharts(geneTraitCountOption(res));
-          echarts2.value.drawEcharts(geneTraitCountOption(res));
+          echarts1.value.drawEcharts(geneTraitCountOption(res, 'HOMER'));
+          echarts2.value.drawEcharts(geneTraitCountOption(res, 'HOMER'));
         }
       });
     };

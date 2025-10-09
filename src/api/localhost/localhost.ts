@@ -2,7 +2,7 @@ import RequestApi from '@/api/localhost/index';
 
 export default class LocalhostApi {
   /**
-   * 获取文件内容
+   * Read file content
    * @param url
    */
   public static async readFile(url: string): Promise<Array<any>> {
@@ -11,7 +11,7 @@ export default class LocalhostApi {
   }
 
   /**
-   * 下载文件
+   * Download file
    * @param url
    * @param fileName
    */
@@ -22,7 +22,7 @@ export default class LocalhostApi {
     link.href = process.env.BASE_URL + url;
     document.body.appendChild(link);
     link.click();
-    // 释放 URL 对象
+    // Release the URL object
     URL.revokeObjectURL(link.href);
     document.body.removeChild(link);
   }
@@ -32,7 +32,7 @@ export default class LocalhostApi {
       .then((res: any) => {
         // const blob = new Blob([res]);
         const fileName = `${name}.csv`;
-        // 非 IE 下载
+        // Non-IE download
         if ('download' in document.createElement('a')) {
           const link = document.createElement('a');
           link.download = fileName;
@@ -40,11 +40,11 @@ export default class LocalhostApi {
           link.href = URL.createObjectURL(res);
           document.body.appendChild(link);
           link.click();
-          // 释放 URL 对象
+          // Release the URL object
           URL.revokeObjectURL(link.href);
           document.body.removeChild(link);
         } else {
-          // IE10+ 下载
+          // IE10+ download
           navigator.msSaveBlob(res, fileName);
         }
       });

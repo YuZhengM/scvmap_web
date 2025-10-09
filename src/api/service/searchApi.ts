@@ -7,7 +7,7 @@ import NumberUtil from '@/service/util/base/number';
  */
 export default class SearchApi {
   /**
-   * search 接口路径前缀
+   * search interface path prefix
    * @private
    */
   private static PATH_PREFIX = '/search';
@@ -21,7 +21,8 @@ export default class SearchApi {
   }
 
   public static async listSubcategoryByCategory(category: string): Promise<Result<Array<any>>> {
-    return RequestApi.requestGetNoParams(`${this.PATH_PREFIX}/trait/subcategory/list/${category}?id=${NumberUtil.random10()}`).then((res: any) => res.data);
+    const newCategory = category.replaceAll('/', '-----');
+    return RequestApi.requestGetNoParams(`${this.PATH_PREFIX}/trait/subcategory/list/${newCategory}?id=${NumberUtil.random10()}`).then((res: any) => res.data);
   }
 
   public static async listTissueType(): Promise<Result<Array<any>>> {

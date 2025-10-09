@@ -134,11 +134,11 @@ export default defineComponent({
     });
 
     const listSample = async () => {
-      // 清空
+      // Clear
       ArrayUtil.clear(data.sampleData);
       return DataBrowseApi.getSampleBrowseData().then((res: any) => {
         (res.dataBrowseDataList as Array<any>).forEach((item: any) => {
-          // 添加 SelectInput 数据
+          // Add SelectInput data
           data.sampleData.push({ label: item.label, value: item.sampleId, description: `${item.sampleId} (${item.tissueType})`, id: item.sampleId });
         });
         sample.value.select = 'sample_id_1';
@@ -146,17 +146,17 @@ export default defineComponent({
     };
 
     const listTrait = async () => {
-      // 清空
+      // Clear
       ArrayUtil.clear(data.traitData);
       return AnalysisApi.listTrait().then((res: any) => {
         (res as Array<any>).forEach((item: any) => {
-          // 添加 SelectInput 数据
+          // Add SelectInput data
           data.traitData.push({ label: item.traitAbbr, value: item.traitAbbr, description: `${item.trait} (${item.traitId})`, id: item.traitId });
         });
       });
     };
 
-    // 加载设置信息
+    // Load the comparison settings
     const mountSet = () => {
       compareSwitch.value.value = true;
       data.isScSample = true;
@@ -168,7 +168,7 @@ export default defineComponent({
       listTrait();
     });
 
-    // 内容是输入还是上传
+    // Content is input or upload
     const compareChange = (value: boolean) => {
       data.isScSample = value;
     };
@@ -183,9 +183,9 @@ export default defineComponent({
     };
 
     const buttonClick = (id: string) => {
-      // 点击开始搜索, 重设, 例子
+      // Click to start the search, reset, or example
       if (id === 'start') {
-        // 输入信息
+        // Input information
         if (data.isScSample) {
           if (Base.isNull(trait.value.input)) {
             data.traitId = 'trait_id_14527';
@@ -207,7 +207,7 @@ export default defineComponent({
             data.traitId2 = 'trait_id_1495';
           }
         }
-        // 判断是否为输出内容
+        // Check if the output content is valid
         if (data.isScSample) {
           Jump.routerQuery(router, '/analysis_compare_sc', {
             traitId: data.traitId,
@@ -236,6 +236,7 @@ export default defineComponent({
         sample2.value.select = 'sample_id_38';
         trait1.value.input = 'trait_id_894';
         trait2.value.input = 'trait_id_1495';
+        data.traitId = 'trait_id_14527';
         data.traitId1 = 'trait_id_894';
         data.traitId2 = 'trait_id_894';
       }

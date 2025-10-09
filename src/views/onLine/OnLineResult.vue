@@ -59,7 +59,7 @@
     <SingleCard :title="{ icon: 'fas fa-list', content: 'TRS result' }" v-if="jobStatus !== 'none' && jobStatus === 'Finish'">
       <BaseTable :table-data="trsTableData"
                  :is-service-paging="false"
-                 :download-url="resultDownload('_result.txt')"
+                 :download-urls="[{'url': resultDownload('_result.txt'), 'title': 'Download'}]"
                  :table-description="trsTableDescription"
                  ref="table"/>
     </SingleCard>

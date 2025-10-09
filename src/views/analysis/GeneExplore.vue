@@ -130,7 +130,7 @@ export default defineComponent({
       fileId: '',
       fileTip: `txt files with a size less than 20MB, ${getExampleUrlHtml('data/genes.txt', 'Example of Upload File')}`
     });
-    // 得到例子内容
+    // Get example content
     const getExampleData = () => {
       content.emit('startLoading');
       LocalhostApi.readFile('data/genes.txt').then((res: any) => {
@@ -138,7 +138,7 @@ export default defineComponent({
         fileContent.value.input = res;
       });
     };
-    // 加载设置信息
+    // Load settings information
     const mountSet = () => {
       fileSwitch.value.value = false;
       data.isUpload = false;
@@ -147,22 +147,22 @@ export default defineComponent({
     onMounted(() => {
       mountSet();
     });
-    // 内容是输入还是上传
+    // Content is input or upload
     const fileChange = (value: boolean) => {
       data.isUpload = value;
     };
-    // 文件上传成功后得到 fileId
+    // Get fileId after successful upload
     const uploadSuccess = (fileId: string) => {
       data.fileId = fileId;
     };
-    // 文件移除(删除远程 MongoDB 中 GridFS)
+    // Remove file (delete GridFS in remote MongoDB)
     const fileRemove = () => {
       if (Base.noNull(data.fileId)) {
         FileApi.deleteFile(data.fileId);
         data.fileId = '';
       }
     };
-    // 得到参数
+    // Get parameters
     const getParams = (isFile: number) => ({
       content: fileContent.value.input,
       fileId: data.fileId,
@@ -179,9 +179,9 @@ export default defineComponent({
       isFile
     });
     const buttonClick = (id: string) => {
-      // 点击开始搜索, 重设, 例子
+      // Click start search, reset, example
       if (id === 'start') {
-        // 输入信息
+        // Input information
         if (!fileSwitch.value.value && Base.isNull(fileContent.value.input)) {
           ElNotification({
             title: 'Please check',
@@ -190,7 +190,7 @@ export default defineComponent({
           });
           return;
         }
-        // 文件信息
+        // File information
         if (fileSwitch.value.value && Base.isNull(fileUpload.value.fileList)) {
           ElNotification({
             title: 'Please check',
@@ -217,12 +217,12 @@ export default defineComponent({
         if (Base.isNull(coScore.value.select)) {
           coScore.value.select = ANALYSIS_CICERO_CO_SCORE_DATA[1].value;
         }
-        // 判断是否为输出内容
+        // Judge whether the output content is file or not
         if (data.isUpload) {
           content.emit('startLoading');
           Time.awaitPromise(data.fileId, 1000, 5 * 60 * 1000).then(() => {
             content.emit('endLoading');
-            // 跳转
+            // Jump to the result page
             Jump.routerQuery(router, '/analysis_gene', getParams(1));
           });
         } else {

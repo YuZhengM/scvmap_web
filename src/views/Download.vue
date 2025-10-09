@@ -7,7 +7,7 @@
       <el-divider></el-divider>
       <SingleCard :title="{ icon: 'fas fa-circle-down', content: 'Download trait-relevant cell score (TRS) data for each sample' }" ref="singleCard1">
         <BaseTable :table-data="sampleTableData" :is-service-paging="false"
-                   :download-url="[{'url': overviewDownload('sample_info_with_age_sex_drug.txt'), 'title': 'scATAC-seq overview download'}]"
+                   :download-urls="[{'url': overviewDownload('sample_info_with_age_sex_drug.txt'), 'title': 'scATAC-seq overview download'}]"
                    :table-description="sampleDescription">
           <template #default>
             <el-table-column label="scATAC-seq" stripe align="center">
@@ -46,8 +46,8 @@
       <SingleCard :title="{ icon: 'fas fa-circle-down', content: `Download fine-mapping result data for each sample` }" ref="singleCard2">
         <BaseTable :update-new-data="listTraitInformation"
                    :download-urls="[
-                       {'url': overviewDownload('trait_info.xlsx'), 'title': 'FINEMAP overview download'},
-                       {'url': overviewDownload('trait_info_susie.xlsx'), 'title': 'SuSiE overview download'}
+                       {'url': overviewDownload('trait_info.xlsx'), 'title': 'FINEMAP download'},
+                       {'url': overviewDownload('trait_info_susie.xlsx'), 'title': 'SuSiE download'}
                    ]"
                    :table-description="traitDescription">
           <template #default>
@@ -95,27 +95,27 @@
         <table class="table table-hover table-striped">
           <tbody ref="tbody">
           <tr>
-            <th>Differential TFs data</th>
+            <th>Differential TFs data (Cell type)</th>
             <td>
               <el-link :href="differentialTfDownload()">
                 <el-button size="small" type="primary"> Download &nbsp; <i class="fas fa-file-download"></i></el-button>
               </el-link>
             </td>
-            <th>Differential Genes data</th>
+            <th>Differential Genes data (Cell type)</th>
             <td>
-              <el-link :href="differentialGeneDownload()">
+              <el-link :href="differentialGeneDownload('.tar.gz')">
                 <el-button size="small" type="primary"> Download &nbsp; <i class="fas fa-file-download"></i></el-button>
               </el-link>
             </td>
           </tr>
           <tr>
-            <th>MAGMA result data (Annotation) (hg19)</th>
+            <th>MAGMA result data (FINEMAP) (Annotation) (hg19)</th>
             <td>
               <el-link :href="magmaHomerDataDownload('magma_anno_hg19_data.tar.gz')">
                 <el-button size="small" type="primary"> Download &nbsp; <i class="fas fa-file-download"></i></el-button>
               </el-link>
             </td>
-            <th>MAGMA result data (Annotation) (hg38)</th>
+            <th>MAGMA result data (FINEMAP) (Annotation) (hg38)</th>
             <td>
               <el-link :href="magmaHomerDataDownload('magma_anno_hg38_data.tar.gz')">
                 <el-button size="small" type="primary"> Download &nbsp; <i class="fas fa-file-download"></i></el-button>
@@ -123,13 +123,13 @@
             </td>
           </tr>
           <tr>
-            <th>MAGMA result data (Analysis) (hg19)</th>
+            <th>MAGMA result data (FINEMAP) (Analysis) (hg19)</th>
             <td>
               <el-link :href="magmaHomerDataDownload('magma_hg38_data.tar.gz')">
                 <el-button size="small" type="primary"> Download &nbsp; <i class="fas fa-file-download"></i></el-button>
               </el-link>
             </td>
-            <th>MAGMA result data (Analysis) (hg38)</th>
+            <th>MAGMA result data (FINEMAP) (Analysis) (hg38)</th>
             <td>
               <el-link :href="magmaHomerDataDownload('magma_hg38_data.tar.gz')">
                 <el-button size="small" type="primary"> Download &nbsp; <i class="fas fa-file-download"></i></el-button>
@@ -137,13 +137,13 @@
             </td>
           </tr>
           <tr>
-            <th>HOMER result data (hg19)</th>
+            <th>HOMER result data (FINEMAP) (hg19)</th>
             <td>
               <el-link :href="magmaHomerDataDownload('trait_tf_hg19.txt')">
                 <el-button size="small" type="primary"> Download &nbsp; <i class="fas fa-file-download"></i></el-button>
               </el-link>
             </td>
-            <th>HOMER result data (hg38)</th>
+            <th>HOMER result data (FINEMAP) (hg38)</th>
             <td>
               <el-link :href="magmaHomerDataDownload('trait_tf_hg38.txt')">
                 <el-button size="small" type="primary"> Download &nbsp; <i class="fas fa-file-download"></i></el-button>
@@ -151,13 +151,13 @@
             </td>
           </tr>
           <tr>
-            <th>Gene enrichment results of traits (hg19)</th>
+            <th>Gene enrichment results of traits (FINEMAP) (hg19)</th>
             <td>
               <el-link :href="geneEnrichmentTrait('hg19')">
                 <el-button size="small" type="primary"> Download &nbsp; <i class="fas fa-file-download"></i></el-button>
               </el-link>
             </td>
-            <th>Gene enrichment results of traits (hg38)</th>
+            <th>Gene enrichment results of traits (FINEMAP) (hg38)</th>
             <td>
               <el-link :href="geneEnrichmentTrait('hg38')">
                 <el-button size="small" type="primary"> Download &nbsp; <i class="fas fa-file-download"></i></el-button>
@@ -165,13 +165,13 @@
             </td>
           </tr>
           <tr>
-            <th>Gene enrichment for differential genes</th>
+            <th>Gene enrichment for differential genes (Cell type)</th>
             <td>
               <el-link :href="geneEnrichmentDifferentialGenesDownload()">
                 <el-button size="small" type="primary"> Download &nbsp; <i class="fas fa-file-download"></i></el-button>
               </el-link>
             </td>
-            <th>Fine-mapping result data (source)</th>
+            <th>Fine-mapping result data (FINEMAP) (source)</th>
             <td>
               <el-link :href="fineMappingResultDownload('trait')">
                 <el-button size="small" type="primary"> Download &nbsp; <i class="fas fa-file-download"></i></el-button>
@@ -179,15 +179,43 @@
             </td>
           </tr>
           <tr>
-            <th>Fine-mapping result data (hg19)</th>
+            <th>Fine-mapping result data (FINEMAP) (hg19)</th>
             <td>
               <el-link :href="fineMappingResultDownload('hg19')">
                 <el-button size="small" type="primary"> Download &nbsp; <i class="fas fa-file-download"></i></el-button>
               </el-link>
             </td>
-            <th>Fine-mapping result data (hg38)</th>
+            <th>Fine-mapping result data (FINEMAP) (hg38)</th>
             <td>
               <el-link :href="fineMappingResultDownload('hg38')">
+                <el-button size="small" type="primary"> Download &nbsp; <i class="fas fa-file-download"></i></el-button>
+              </el-link>
+            </td>
+          </tr>
+          <tr>
+            <th>Differential Genes data (Age/Sex/Drug resistance)</th>
+            <td>
+              <el-link :href="differentialGeneDownload('_age_sex_drug.txt')">
+                <el-button size="small" type="primary"> Download &nbsp; <i class="fas fa-file-download"></i></el-button>
+              </el-link>
+            </td>
+            <th>Fine-mapping result data (SuSiE) (source)</th>
+            <td>
+              <el-link :href="fineMappingResultDownload('trait_susie')">
+                <el-button size="small" type="primary"> Download &nbsp; <i class="fas fa-file-download"></i></el-button>
+              </el-link>
+            </td>
+          </tr>
+          <tr>
+            <th>Fine-mapping result data (SuSiE) (hg19)</th>
+            <td>
+              <el-link :href="fineMappingResultDownload('hg19_susie')">
+                <el-button size="small" type="primary"> Download &nbsp; <i class="fas fa-file-download"></i></el-button>
+              </el-link>
+            </td>
+            <th>Fine-mapping result data (SuSiE) (hg38)</th>
+            <td>
+              <el-link :href="fineMappingResultDownload('hg38_susie')">
                 <el-button size="small" type="primary"> Download &nbsp; <i class="fas fa-file-download"></i></el-button>
               </el-link>
             </td>
@@ -221,13 +249,13 @@
             </td>
           </tr>
           <tr>
-            <th>eQTL for gene annotation (hg19)</th>
+            <th>eQTL for gene/V2G annotation (hg19)</th>
             <td>
               <el-link :href="annotationDownload('gtex_v10_eqtl', 'hg19')">
                 <el-button size="small" type="primary"> Download &nbsp; <i class="fas fa-file-download"></i></el-button>
               </el-link>
             </td>
-            <th>eQTL for gene annotation (hg38)</th>
+            <th>eQTL for gene/V2G annotation (hg38)</th>
             <td>
               <el-link :href="annotationDownload('gtex_v10_eqtl', 'hg38')">
                 <el-button size="small" type="primary"> Download &nbsp; <i class="fas fa-file-download"></i></el-button>
@@ -304,10 +332,35 @@
               </el-link>
             </td>
           </tr>
+          <tr>
+            <th>3D chromatin interaction for V2G annotation (hg19)</th>
+            <td>
+              <el-link :href="v2gAnnotationDownload('3D_chromatin_interaction_hg19.tar.gz')">
+                <el-button size="small" type="primary"> Download &nbsp; <i class="fas fa-file-download"></i></el-button>
+              </el-link>
+            </td>
+            <th>3D chromatin interaction for V2G annotation (hg38)</th>
+            <td>
+              <el-link :href="v2gAnnotationDownload('3D_chromatin_interaction_hg38.tar.gz')">
+                <el-button size="small" type="primary"> Download &nbsp; <i class="fas fa-file-download"></i></el-button>
+              </el-link>
+            </td>
+          </tr>
+          <tr>
+            <th>MPRA for V2G annotation</th>
+            <td>
+              <el-link :href="v2gAnnotationDownload('All_MPRA_Data.csv')">
+                <el-button size="small" type="primary"> Download &nbsp; <i class="fas fa-file-download"></i></el-button>
+              </el-link>
+            </td>
+            <th></th>
+            <td>
+            </td>
+          </tr>
           </tbody>
         </table>
       </SingleCard>
-      <el-divider></el-divider>
+      <br/>
     </div>
   </div>
 </template>
@@ -352,11 +405,12 @@ export default defineComponent({
     const fineMappingHg19Download = (row: any, method: string) => `${STATIC_DOWNLOAD_PATH}/variant${method}/hg19/${row.traitCode}.bed`;
     const fineMappingHg38Download = (row: any, method: string) => `${STATIC_DOWNLOAD_PATH}/variant${method}/hg38/${row.traitCode}.bed`;
     const differentialTfDownload = () => `${STATIC_DOWNLOAD_PATH}/difference/difference_tf_data.txt`;
-    const differentialGeneDownload = () => `${STATIC_DOWNLOAD_PATH}/difference/difference_gene_data.txt`;
+    const differentialGeneDownload = (suffix: string) => `${STATIC_DOWNLOAD_PATH}/difference/difference_gene_data${suffix}`;
     const geneEnrichmentDifferentialGenesDownload = () => `${STATIC_DOWNLOAD_PATH}/enrichment/gene_enrichment_table_data.tar.gz`;
     const magmaHomerDataDownload = (filename: string) => `${STATIC_DOWNLOAD_PATH}/magma_homer/${filename}`;
-    const fineMappingResultDownload = (genome: string) => `${STATIC_DOWNLOAD_PATH}/trait/fine_mapping_${genome}.tar.gz`;
+    const fineMappingResultDownload = (suffix: string) => `${STATIC_DOWNLOAD_PATH}/trait/fine_mapping_${suffix}.tar.gz`;
     const annotationDownload = (name: string, genome: string) => `${STATIC_DOWNLOAD_PATH}/gene/${genome}/${name}_${genome}.tar.gz`;
+    const v2gAnnotationDownload = (filename: string) => `${STATIC_DOWNLOAD_PATH}/v2g/${filename}`;
     const geneEnrichmentTrait = (genome: string) => `${STATIC_DOWNLOAD_PATH}/enrichment/gene_enrichment_trait_${genome}.tar.gz`;
 
     onMounted(() => {
@@ -382,6 +436,7 @@ export default defineComponent({
       magmaHomerDataDownload,
       fineMappingResultDownload,
       annotationDownload,
+      v2gAnnotationDownload,
       geneEnrichmentTrait,
       sampleDescription: DOWNLOAD_SAMPLE_DESCRIPTION,
       traitDescription: DOWNLOAD_TRAIT_DESCRIPTION

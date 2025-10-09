@@ -43,24 +43,12 @@ export default defineComponent({
     });
 
     const setButtonContent = () => {
-      switch (data.metadata) {
-        case 'cell_type':
-          data.buttonContent = DETAIL_BUTTON_POSITION_DATA;
-          break;
-        default:
-          data.buttonContent = DETAIL_BUTTON_POSITION_TIME_SEX_DRUG_DATA;
-          break;
-      }
-    };
-
-    const setButtonContentByFineMappingMethod = () => {
-      switch (data.fineMappingMethodValue) {
-        case 'finemap':
-          data.buttonContent = DETAIL_BUTTON_POSITION_DATA;
-          break;
-        default:
-          data.buttonContent = DETAIL_BUTTON_POSITION_TRS_DATA;
-          break;
+      if (data.metadata === 'cell_type' && data.fineMappingMethodValue === 'finemap') {
+        data.buttonContent = DETAIL_BUTTON_POSITION_DATA;
+      } else if (data.metadata !== 'cell_type' && data.fineMappingMethodValue === 'finemap') {
+        data.buttonContent = DETAIL_BUTTON_POSITION_TIME_SEX_DRUG_DATA;
+      } else {
+        data.buttonContent = DETAIL_BUTTON_POSITION_TRS_DATA;
       }
     };
 
@@ -102,7 +90,7 @@ export default defineComponent({
     watch(() => sample.value?.fineMappingMethodValue, (newValue: any) => {
       if (sample.value && !Base.isNull(route.query.sampleId)) {
         data.fineMappingMethodValue = newValue;
-        setButtonContentByFineMappingMethod();
+        setButtonContent();
       }
     }, {
       immediate: true,
@@ -112,7 +100,7 @@ export default defineComponent({
     watch(() => trait.value?.fineMappingMethodValue, (newValue: any) => {
       if (trait.value && !Base.isNull(route.query.traitId)) {
         data.fineMappingMethodValue = newValue;
-        setButtonContentByFineMappingMethod();
+        setButtonContent();
       }
     }, {
       immediate: true,

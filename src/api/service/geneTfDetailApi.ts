@@ -4,13 +4,13 @@ import NumberUtil from '@/service/util/base/number';
 
 export default class GeneTfDetailApi {
   /**
-   * detail 接口路径前缀
+   * gene tf detail interface path prefix
    * @private
    */
   private static PATH_PREFIX = '/element/detail';
 
   /**
-   * Sample Overview 数据
+   * gene tf detail data
    */
   public static async getGeneInfo(gene: string, genome: string): Promise<Result<Array<any>>> {
     return RequestApi.requestGetNoParams(`${this.PATH_PREFIX}/gene/${gene}/${genome}?id=${NumberUtil.random10()}`).then((res: any) => res.data);

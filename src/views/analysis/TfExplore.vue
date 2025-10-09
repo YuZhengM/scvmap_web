@@ -156,7 +156,7 @@ export default defineComponent({
       traitTfStrategyValue: 'gimme',
       fileTip: `txt files with a size less than 20MB, ${getExampleUrlHtml('data/tfs.txt', 'Example of Upload File')}`
     });
-    // 得到例子内容
+    // Get the example content
     const getExampleData = () => {
       content.emit('startLoading');
       LocalhostApi.readFile('data/tfs.txt').then((res: any) => {
@@ -164,7 +164,7 @@ export default defineComponent({
         fileContent.value.input = res;
       });
     };
-    // 加载设置信息
+    // Load the comparison settings
     const mountSet = () => {
       fileSwitch.value.value = false;
       data.isUpload = false;
@@ -172,11 +172,11 @@ export default defineComponent({
     onMounted(() => {
       mountSet();
     });
-    // 内容是输入还是上传
+    // Content is input or upload
     const fileChange = (value: boolean) => {
       data.isUpload = value;
     };
-    // 文件上传成功后得到 fileId
+    // Get the fileId after upload
     const uploadSuccess = (fileId: string) => {
       data.fileId = fileId;
     };
@@ -189,7 +189,7 @@ export default defineComponent({
       data.traitTfStrategyValue = tag.paneName;
     };
 
-    // 文件移除(删除远程 MongoDB 中 GridFS)
+    // Remove the uploaded file (delete the file in GridFS)
     const fileRemove = () => {
       if (Base.noNull(data.fileId)) {
         FileApi.deleteFile(data.fileId);
@@ -214,9 +214,9 @@ export default defineComponent({
       isFile
     });
     const buttonClick = (id: string) => {
-      // 点击开始搜索, 重设, 例子
+      // Click to start the search, reset, or example
       if (id === 'start') {
-        // 输入信息
+        // Input information
         if (!fileSwitch.value.value && Base.isNull(fileContent.value.input)) {
           ElNotification({
             title: 'Please check',
@@ -225,7 +225,7 @@ export default defineComponent({
           });
           return;
         }
-        // 文件信息
+        // File information
         if (fileSwitch.value.value && Base.isNull(fileUpload.value.fileList)) {
           ElNotification({
             title: 'Please check',
@@ -264,12 +264,12 @@ export default defineComponent({
         if (Base.isNull(qValueTrait.value.select)) {
           qValueTrait.value.select = HOMER_TF_Q_VALUE_DATA[2].value;
         }
-        // 判断是否为输出内容
+        // Whether to output the content
         if (data.isUpload) {
           content.emit('startLoading');
           Time.awaitPromise(data.fileId, 1000, 5 * 60 * 1000).then(() => {
             content.emit('endLoading');
-            // 跳转
+            // Jump to the result page
             Jump.routerQuery(router, '/analysis_tf', getParams(1));
           });
         } else {

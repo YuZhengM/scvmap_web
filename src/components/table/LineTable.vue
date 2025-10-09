@@ -16,12 +16,12 @@ export default defineComponent({
   name: 'LineTable',
   components: { ColumnTable },
   props: {
-    // 传递的数据
+    // Passed data
     tableData: {
       type: Array,
       default: () => ([])
     },
-    // 传递的数据
+    // Passed data
     tableDescription: {
       type: Array,
       default: () => ([] as Array<TableHead>)

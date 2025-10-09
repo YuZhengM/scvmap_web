@@ -6,6 +6,7 @@
 @search_width: 500px;
 
 .composite_select_input_template {
+  .div_flex();
 
   .front {
     display: inline-block;
@@ -45,9 +46,25 @@
       width: @search_width;
     }
 
-    input {
-      font-size: @input_font_size;
+    .el-input {
+      .div_flex() !important;
       height: @input_height;
+
+      .el-input__wrapper {
+        display: inline-block;
+        width: 444px;
+        height: @input_height;
+      }
+
+      .el-input-group__append {
+        width: 55px;
+      }
+
+      input {
+        font-size: @input_font_size;
+        height: @input_height;
+      }
+
     }
 
     button {

@@ -7,7 +7,7 @@ import NumberUtil from '@/service/util/base/number';
  */
 export default class OnLineApi {
   /**
-   * On-line 接口路径前缀
+   * on-line interface path prefix
    * @private
    */
   private static PATH_PREFIX = '/on_line';

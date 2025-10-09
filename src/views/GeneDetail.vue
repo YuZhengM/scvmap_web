@@ -121,7 +121,7 @@
       <SingleCard :title="{ content: `Detailed variant mapping of the ${gene} associated with ${traitId}` }">
         <BaseTable :table-data="magmaVariantInfoTableData"
                    :is-service-paging="false"
-                   :download-url="magmaGeneAnnoDownload()"
+                   :download-urls="[{'url': magmaGeneAnnoDownload(filename), 'title': 'Download'}]"
                    :table-description="magmaVariantInfoTableDescription"
                    ref="magmaVariantInfoTable"/>
       </SingleCard>
@@ -310,7 +310,7 @@ export default defineComponent({
       GeneTfDetailApi.getGeneTraitCount(data.gene).then((res: any) => {
         echarts1.value.endLoading();
         // echarts
-        echarts1.value.drawEcharts(geneTraitCountOption(res));
+        echarts1.value.drawEcharts(geneTraitCountOption(res, 'MAGMA'));
       });
     };
 

@@ -123,7 +123,7 @@ export default defineComponent({
       traitIsSelectChange: true as boolean
     });
 
-    // 得到参数
+    // Get the parameters from the URL
     const getParams = () => ({
       content: route.query.content,
       fileId: route.query.fileId,

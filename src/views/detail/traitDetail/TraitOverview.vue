@@ -3,7 +3,7 @@
     <SingleCard :title="{ icon: 'fas fa-th-large', content: 'Fine-mapping result overview' }" id="position_overview">
       <template #head>
         <el-link :href="traitFileDownload()">
-          <el-button size="small" type="primary"> Fine-mapping data &nbsp; <i class="fas fa-file-download"></i></el-button>
+          <el-button size="small" type="primary"> Fine-mapping data ({{ fineMappingMethodValue }}) &nbsp; <i class="fas fa-file-download"></i></el-button>
         </el-link>
       </template>
       <template #default>
@@ -40,11 +40,11 @@
                            :is-mounted="variantInfoIsMounted"
                            search-title=""
                            :width="98"
-                           :content-width="24"
-                           :field-width="24"
+                           :content-width="20"
+                           :field-width="20"
                            :service-search-width="90"
-                           :button-size="[60, 30]"
-                           :download-url="traitVariantInfoDownload()"
+                           :button-size="[52, 30]"
+                           :download-urls="[{'url': traitVariantInfoDownload(), 'title': `Download (${fineMappingMethodValue}-${genomeValue})`}]"
                            layout="total, prev, pager, next"
                            :page-sizes="[5, 10]"
                            :table-description="tableDescription"
@@ -136,7 +136,7 @@ export default defineComponent({
       ] as Array<TabsBase>,
       variantInfoIsMounted: false,
       isHaveSusie: false,
-      genome: '',
+      genomeValue: '',
       fineMappingMethodValue: '',
       traitLabel: ''
     });
@@ -149,7 +149,7 @@ export default defineComponent({
       ArrayUtil.clear(data.overviewTableData);
       const { source } = res;
       const { genome } = source;
-      data.genome = genome;
+      data.genomeValue = genome;
       const liftOverGenome = genome === 'hg38' ? 'hg19' : 'hg38';
       // Sample overview
       data.overviewTableData.push({ key: 'Trait ID', value: res.traitId });
@@ -196,26 +196,32 @@ export default defineComponent({
     };
 
     const genomeChange = () => {
-      data.genome = genome.value.select;
+      data.genomeValue = genome.value.select;
       variantInfoTable.value.dataUpdate();
       getChrResize();
     };
 
     const fineMappingMethodChange = (tag: any) => {
-      data.fineMappingMethodValue = tag.paneName;
+      data.fineMappingMethodValue = tag.paneName as string;
       variantInfoTable.value.dataUpdate();
       getOverview();
       getChrResize();
     };
 
-    const traitFileDownload = () => `${STATIC_DOWNLOAD_PATH}/variant/trait/${data.traitLabel}.txt`;
-    const traitVariantInfoDownload = () => `${STATIC_DOWNLOAD_PATH}/variant/${data.genome}/${data.traitLabel}.bed`;
+    const traitFileDownload = () => {
+      const suffix = data.fineMappingMethodValue === 'finemap' ? '' : '_susie';
+      return `${STATIC_DOWNLOAD_PATH}/variant_${suffix}/trait/${data.traitLabel}.txt`;
+    };
+    const traitVariantInfoDownload = () => {
+      const suffix = data.fineMappingMethodValue === 'finemap' ? '' : '_susie';
+      return `${STATIC_DOWNLOAD_PATH}/variant_${suffix}/${data.genomeValue}/${data.traitLabel}.bed`;
+    };
 
     onMounted(async () => {
       data.fineMappingMethodValue = ANALYSIS_FINE_MAPPING_METHOD_DATA[0].value as string;
       data.isHaveSusie = Number(props.traitId.split('_')[2]) <= 79;
       await getOverview();
-      genome.value.select = data.genome;
+      genome.value.select = ANALYSIS_GENOME_DATA[0].value;
       data.variantInfoIsMounted = true;
       getChrResize();
     });

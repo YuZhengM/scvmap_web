@@ -31,7 +31,7 @@
 <script lang="ts">
 import { defineComponent, reactive, ref, toRefs } from 'vue';
 import { UploadFilled } from '@element-plus/icons-vue';
-import { ElNotification, UploadFile, UploadInstance, UploadProps, UploadRawFile, genFileId } from 'element-plus';
+import { ElNotification, UploadFile, UploadProps, UploadRawFile, genFileId } from 'element-plus';
 import '@/assets/less/components/upload/FileUpload.less';
 
 export default defineComponent({
@@ -76,7 +76,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const upload = ref<UploadInstance>();
+    const upload = ref<any>();
     const data = reactive({
       fileList: []
     });

@@ -1,9 +1,9 @@
 /**
- * 公共类
+ * Number utility class
  */
 class NumberUtil {
   /**
-   * 转换
+   * Convert the value to a number
    * @param value
    */
   public static toNumber(value: object): number {
@@ -11,7 +11,7 @@ class NumberUtil {
   }
 
   /**
-   * 生成随机数
+   * Generate a random number between 0 and 10E10
    */
   public static random10(): number {
     return Math.round(Math.random() * 10E10);

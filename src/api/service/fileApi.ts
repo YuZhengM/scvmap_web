@@ -4,15 +4,15 @@ import type { UploadFile } from 'element-plus';
 
 export default class FileApi {
   /**
-   * 文件处理接口路径前缀
+   * file interface path prefix
    * @private
    */
   private static PATH_PREFIX = '/file';
 
   /**
-   * 文件上传接口
+   * file upload interface
    *
-   * @param file 文件信息
+   * @param file file information
    */
   public static async uploadFile(file: UploadFile): Promise<Result<String>> {
     return RequestApi.requestPost(`${this.PATH_PREFIX}/upload`, { file })
@@ -20,7 +20,7 @@ export default class FileApi {
   }
 
   /**
-   * 文件删除接口
+   * file delete interface
    *
    * @param gfsId gfsId
    */
@@ -30,16 +30,21 @@ export default class FileApi {
   }
 
   /**
-   * 通过文件内容形成文件接口
+   * file format interface
    *
-   * @param content 文件内容
-   * @param filename
+   * @param content file content
+   * @param filename file name
    */
   public static async formatFile(content: String, filename?: string): Promise<String> {
     return RequestApi.requestPost(`${this.PATH_PREFIX}/format`, { content, filename })
       .then((res: any) => res.data);
   }
 
+  /**
+   * file exist interface
+   *
+   * @param filepath filepath
+   */
   public static async isExist(filepath: string): Promise<boolean> {
     return RequestApi.requestGet(`${this.PATH_PREFIX}/exist`, { filepath })
       .then((res: any) => res.data);

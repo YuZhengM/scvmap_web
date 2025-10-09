@@ -35,7 +35,7 @@ import StringUtil from '@/service/util/base/string';
 import config from '@/service/util/plotly';
 import TraitBoxPlot from '@/views/detail/common/TraitBoxPlot.vue';
 
-// 导入 plotly
+// Import plotly
 import Plotly from 'plotly.js-dist-min';
 import Base from '@/service/util/base/base';
 

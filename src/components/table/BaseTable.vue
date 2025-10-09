@@ -22,10 +22,12 @@
         </div>
       </div>
       <div class="download" v-show="fileDownloadUrls !== undefined && fileDownloadUrls.length > 0">
-        <el-link :href="item.url" v-for="(item, i) in fileDownloadUrls" :key="i">
-          <el-button size="small" type="primary"> {{ item.title }} &nbsp; <i class="fas fa-file-download"></i></el-button>
-        </el-link>
-        &nbsp;
+        <span v-for="(item, i) in fileDownloadUrls" :key="i">
+          <el-link :href="item.url" v-if="item.title !== undefined && item.title !== null && item.title !== ''">
+            <el-button size="small" type="primary"> {{ item.title }} &nbsp; <i class="fas fa-file-download"></i></el-button>
+          </el-link>
+          <span v-if="i !== fileDownloadUrls.length - 1">&nbsp;</span>
+        </span>
       </div>
     </div>
     <!-- Table data display -->
@@ -123,7 +125,7 @@ export default defineComponent({
     // Width of the selected field box in backend pagination
     width: {
       type: Number,
-      default: () => 70
+      default: () => 65
     },
     // Width of the input content box in backend pagination
     contentWidth: {

@@ -24,7 +24,7 @@ export default defineComponent({
     }
   },
   setup() {
-    // 设置响应数据
+    // Set the reactive data
     const data = reactive({});
     return {
       ...toRefs(data)

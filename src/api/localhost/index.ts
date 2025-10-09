@@ -2,7 +2,7 @@ import Axios from 'axios';
 
 class RequestApi {
   /**
-   * 请求 url
+   * Request url
    * @param url
    */
   public static request(url: string) {
@@ -10,7 +10,7 @@ class RequestApi {
   }
 
   /**
-   * 请求 url
+   * Download url
    * @param url
    */
   public static download(url: string) {

@@ -1,22 +1,22 @@
 import { InputSelect } from '@/service/model/components/input';
 
-// table 数据样式
+// table data style
 export interface TableHead {
-  // 列的名字
+  // The name of the column
   column?: string;
-  // 页面显示的内容
+  // The content displayed on the page
   title: string;
-  // 该列链接
+  // The link of the column
   href?: Function;
-  // 该列的宽度
+  // The width of the column
   width?: number;
-  // 该列的提示内容
+  // The tooltip content of the column
   content?: string;
-  // 后端分页排序的时候数据库中的字段
+  // The database field used for pagination and sorting
   database?: string;
-  // 自定义显示内容信息
+  // Custom display content information
   information?: Function;
-  // 数据库中的字段类型
+  // The data type of the database field
   type?: number;
 }
 

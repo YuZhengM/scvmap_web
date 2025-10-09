@@ -1,11 +1,11 @@
 /**
- * 关于 Boolean 的处理方法
+ * Boolean utility class
  */
 class BooleanUtil {
   /**
-   * 判断多个 boolean 值
+   * Judge multiple boolean values
    * @param booleans
-   * @return 全为 true 则返回 true
+   * @return If all are true, return true
    */
   public static judgeMore(...booleans: boolean[]): boolean {
     let judge = true;

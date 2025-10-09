@@ -14,18 +14,6 @@ export const DETAIL_BUTTON_POSITION_TRS_DATA: Array<ButtonBase> = [
   {
     id: 'position_cell',
     title: 'TRS'
-  },
-  {
-    id: 'position_difference_gene',
-    title: 'Differential genes'
-  },
-  {
-    id: 'position_magma_gene',
-    title: 'Trait-relevant genes'
-  },
-  {
-    id: 'position_gene_network',
-    title: 'Gene hub network'
   }
 ];
 

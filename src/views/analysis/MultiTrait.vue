@@ -80,14 +80,14 @@ export default defineComponent({
     });
 
     const listSample = async () => {
-      // 清空
+      // Clear
       ArrayUtil.clear(data.sampleData);
       sampleLoading.value.loading = true;
       traitLoading.value.loading = true;
       return DataBrowseApi.getSampleBrowseData().then((res: any) => {
         sampleLoading.value.loading = false;
         (res.dataBrowseDataList as Array<any>).forEach((item: any) => {
-          // 添加 SelectInput 数据
+          // Add SelectInput data
           data.sampleData.push({ label: item.label, value: item.sampleId, description: `${item.sampleId} (${item.tissueType})`, id: item.sampleId });
         });
         sample.value.select = 'sample_id_1';
@@ -95,12 +95,12 @@ export default defineComponent({
     };
 
     const listTrait = () => {
-      // 清空
+      // Clear
       ArrayUtil.clear(data.traitData);
       AnalysisApi.listTraitBySampleId(sample.value.select).then((res: any) => {
         traitLoading.value.loading = false;
         (res as Array<any>).forEach((item: any) => {
-          // 添加 SelectInput 数据
+          // Add SelectInput data
           data.traitData.push({ label: item.traitCode, value: item.traitId, description: `${item.trait}-(${item.traitId}) (${item.sourceName})`, id: item.traitId });
         });
         trait.value.setShowData(data.traitData);
@@ -112,7 +112,7 @@ export default defineComponent({
     };
 
     const buttonClick = (id: string) => {
-      // 点击开始搜索, 重设, 例子
+      // Click the start button to start the analysis, reset the input, and use the example traits
       if (id === 'start') {
         if (Base.isNull(sample.value.select)) {
           sample.value.select = 'sample_id_1';
@@ -133,7 +133,7 @@ export default defineComponent({
         sample.value.select = '';
         trait.value.input = [];
       } else if (id === 'example') {
-        // 定义 sample ID 默认值
+        // Define the default sample ID value
         sample.value.select = 'sample_id_1';
         trait.value.input = data.traitData.filter((item: any) => data.exampleIdList.indexOf(item.value) > -1).map((item: any) => item.label);
       }

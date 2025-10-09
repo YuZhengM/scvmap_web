@@ -4,9 +4,9 @@ import { Result } from '@/service/model/reponse/result';
 
 export default class RequestApi {
   /**
-   * 请求 url
-   * @param url
-   * @param params
+   * request url options
+   * @param url request url
+   * @param params request params
    */
   public static requestOptions<T>(url: string, params: object = {}) {
     return new Promise<Result<T>>((resolve, reject) => {
@@ -24,10 +24,10 @@ export default class RequestApi {
   }
 
   /**
-   * 请求 url
-   * @param url
-   * @param method
-   * @param params
+   * request url options
+   * @param url request url
+   * @param method request method
+   * @param params request params
    */
   public static request<T>(url: string, method: Method, params: object) {
     return new Promise<Result<T>>((resolve, reject) => {
@@ -45,9 +45,9 @@ export default class RequestApi {
   }
 
   /**
-   * Get 请求 url
-   * @param url
-   * @param params
+   * request url options
+   * @param url request url
+   * @param params request params
    */
   public static requestGet<T>(url: string, params: object) {
     return new Promise<Result<T>>((resolve, reject) => {
@@ -65,35 +65,35 @@ export default class RequestApi {
   }
 
   /**
-   * Get 请求 url
-   * @param url
+   * request url options
+   * @param url request url
    */
   public static requestGetNoParams<T>(url: string) {
     return this.requestGet<T>(url, {});
   }
 
   /**
-   * Post 请求 url
-   * @param url
-   * @param params
+   * request url options
+   * @param url request url
+   * @param params request params
    */
   public static requestPost<T>(url: string, params: object) {
     return this.request<T>(url, Method.POST, params);
   }
 
   /**
-   * Put 请求 url
-   * @param url
-   * @param params
+   * request url options
+   * @param url request url
+   * @param params request params
    */
   public static requestPut<T>(url: string, params: object) {
     return this.request<T>(url, Method.PUT, params);
   }
 
   /**
-   * DELETE 请求 url
-   * @param url
-   * @param params
+   * request url options
+   * @param url request url
+   * @param params request params
    */
   public static requestDelete<T>(url: string, params: object) {
     return new Promise<Result<T>>((resolve, reject) => {

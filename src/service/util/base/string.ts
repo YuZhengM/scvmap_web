@@ -1,12 +1,13 @@
 /**
- * 公共类
+ * String utility class
+ * A common class for string operations
  */
 class StringUtil {
   /**
-   * 替换指定字符
+   * Replace specified characters in a string
    * @param value
-   * @param pattern 原字符
-   * @param flags 替换的字符
+   * @param pattern Original character
+   * @param flags Replacement character
    */
   public static replace(value: string, pattern: string, flags: string): string {
     const reg = new RegExp(pattern, flags);
@@ -14,9 +15,9 @@ class StringUtil {
   }
 
   /**
-   * 去除指定字符
+   * Remove specified characters from a string
    * @param value
-   * @param pattern 去除的字符
+   * @param pattern Character to remove
    */
   public static remove(value: string, pattern: string): string {
     const reg = new RegExp(pattern, '');
@@ -24,8 +25,8 @@ class StringUtil {
   }
 
   /**
-   * 随机产生出指定长度的字符串
-   * @param length
+   * Generate a random string of specified length
+   * @param length Length of the random string
    */
   public static randomString(length: number) {
     const str = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -37,8 +38,8 @@ class StringUtil {
   }
 
   /**
-   * 将一个字符串以数组形式出现
-   * @param elem
+   * Convert a string to an array of characters
+   * @param elem String or array of characters
    */
   public static stringToOneList(elem: string | Array<String>) {
     if (typeof elem === 'string') {

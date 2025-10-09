@@ -4,10 +4,9 @@
     <el-switch v-model="value"
                size="large"
                :inline-prompt="isInline"
-               :active-color="activeColor"
-               :inactive-color="inactiveColor"
                :active-text="activeText"
                :inactive-text="inactiveText"
+               :style="`--el-switch-on-color: ${activeColor}; --el-switch-off-color: ${inactiveColor}`"
                @change="change">
     </el-switch>
   </div>

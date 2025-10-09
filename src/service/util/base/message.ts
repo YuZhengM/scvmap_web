@@ -1,11 +1,12 @@
 import { ElMessage } from 'element-plus';
 
 /**
- * 消息提示公共类
+ * Message utility class
+ * A common class for message prompts
  */
 class Message {
   /**
-   * 成功提示
+   * Success message prompt
    * @param content
    */
   public static success(content: string) {
@@ -13,7 +14,7 @@ class Message {
   }
 
   /**
-   * 警告提示
+   * Warning message prompt
    * @param content
    */
   public static warning(content: string) {
@@ -21,7 +22,7 @@ class Message {
   }
 
   /**
-   * 正常消息提示
+   * Info message prompt
    * @param content
    */
   public static info(content: string) {
@@ -29,7 +30,7 @@ class Message {
   }
 
   /**
-   * 错误消息提示
+   * Error message prompt
    * @param content
    */
   public static error(content: string) {

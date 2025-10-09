@@ -3,11 +3,13 @@ import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 
-const elementIcon: any = Object.entries(ElementPlusIconsVue);
+const elementIcons = Object.entries(ElementPlusIconsVue);
 
 export default function use(app: App): void {
-  app.use(ElementPlus);
-  elementIcon.forEach((item: any) => {
-    app.component(item.key, item.component);
+  app.use(ElementPlus as any);
+
+  // 注册图标组件
+  elementIcons.forEach(([iconName, iconComponent]) => {
+    app.component(iconName, iconComponent);
   });
 }

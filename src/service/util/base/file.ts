@@ -1,5 +1,5 @@
 /**
- * 文件处理公共类
+ * Common class for file processing
  */
 class File {
   public static isExistByLink(filepath: string): boolean {

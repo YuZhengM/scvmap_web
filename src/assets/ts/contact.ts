@@ -1,6 +1,6 @@
 import { CardBase } from '@/service/model/components/card';
 
-// 联系内容
+// Contact content
 export const CONTACTS = [
   {
     title: 'Principal Investigator:',
@@ -16,7 +16,7 @@ export const CONTACTS = [
   }
 ];
 
-// 联系内容
+// Contact self link
 export const CONTACT_SELF_LINK = [
   {
     title: 'scVMAP reproducibility: ',
@@ -36,7 +36,7 @@ export const CONTACT_SELF_LINK = [
   }
 ];
 
-// 团队其他项目
+// Team other projects
 export const SISTER_PROJECTS: Array<CardBase> = [{
   title: 'scATAC-Ref',
   url: 'https://bio.liclab.net/scATAC-Ref/',

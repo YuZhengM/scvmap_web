@@ -1,19 +1,19 @@
 /**
- * 消息数字公共类
+ * Array utility class
  */
 export default class ArrayUtil {
   /**
-   * 根据数组中某个属性值进行排序
-   * @param array 数组
-   * @param key 属性
-   * @param direction 排序方向 1: 升序, 0: 默认, -1 降序
+   * Sort the array by the value of the specified property
+   * @param array The array to be sorted
+   * @param key The property to be sorted by
+   * @param direction The sort direction, 1 for ascending order, 0 for default order, -1 for descending order
    */
   public static sort(array: { [key: string]: any; }, key: any, direction: number) {
-    // 等于 0 为默认排序方法
+    // Equal to 0 means using the default sorting method
     if (direction === 0) {
       return array;
     }
-    // 返回排序信息
+    // Return the sorted array
     return array.sort((a: any, b: any) => {
       const x = a[key];
       const y = b[key];
@@ -28,8 +28,8 @@ export default class ArrayUtil {
   }
 
   /**
-   * 深拷贝: json 赋值给 newJson
-   * @param array
+   * Deep copy: assign the value of json to newJson
+   * @param array The array to be deep copied
    */
   public static deepCopy(array: { [key: string]: any; }): { [key: string]: any; } {
     const newArray: { [key: string]: any; } = [];
@@ -40,8 +40,8 @@ export default class ArrayUtil {
   }
 
   /**
-   * 清空数据
-   * @param array
+   * Clear the array
+   * @param array The array to be cleared
    */
   public static clear(array: { [key: string]: any; }): void {
     if (array.length > 0) {

@@ -161,7 +161,7 @@ export default defineComponent({
     };
 
     const listTrait = () => {
-      // 清空
+      // Clear the trait data
       ArrayUtil.clear(data.traitData);
       clusterAnno.value.startLoading();
       geneInfoAnno.value.startLoading();
@@ -170,7 +170,7 @@ export default defineComponent({
         loading.value.loading = false;
         data.desTraitData = res;
         data.desTraitData.forEach((item: any) => {
-          // 添加 SelectInput 数据
+          // Add SelectInput data
           data.traitData.push({ label: item.traitAbbr, value: item.traitId, description: `${item.trait}-(${item.traitId}) (${item.sourceName})`, id: item.traitId });
         });
         trait.value.setShowData(data.traitData);

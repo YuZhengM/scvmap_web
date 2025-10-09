@@ -59,9 +59,7 @@ import { useRoute, useRouter } from 'vue-router';
 import Base from '@/service/util/base/base';
 import Jump from '@/service/util/base/jump';
 import '@/assets/less/views/analysisResult/AnalysisResult.less';
-import {
-  DETAIL_BUTTON_POSITION_DATA
-} from '@/assets/ts';
+import { DETAIL_BUTTON_POSITION_DATA } from '@/assets/ts';
 import BaseBr from '@/components/divider/BaseBr.vue';
 import { ElNotification } from 'element-plus';
 import GeneInfoAnnotation from '@/views/detail/common/GeneInfoAnnotation.vue';

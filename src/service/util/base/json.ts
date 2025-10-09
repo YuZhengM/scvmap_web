@@ -1,9 +1,9 @@
 /**
- * 关于 JSON 的处理方法
+ * JSON utility class
  */
 class Json {
   /**
-   * 添加元素
+   * Add an element
    * @param json
    * @param key
    * @param value
@@ -15,7 +15,7 @@ class Json {
   }
 
   /**
-   * 深拷贝: json 赋值给 newJson
+   * Deep copy: assign json to newJson
    * @param json
    */
   public static deepCopy(json: {}): {} {
@@ -25,7 +25,7 @@ class Json {
   }
 
   /**
-   * 添加元素
+   * Add multiple elements
    * @param json
    * @param items
    */
@@ -34,7 +34,7 @@ class Json {
   }
 
   /**
-   * 更新元素
+   * Update multiple elements
    * @param json
    * @param items
    */
@@ -43,7 +43,7 @@ class Json {
   }
 
   /**
-   * 遍历元素
+   * Traverse elements
    * @param callback
    * @param json
    */
@@ -55,7 +55,7 @@ class Json {
   }
 
   /**
-   * 获取 key
+   * Get keys
    * @param json
    */
   public static getKeys(json: {}): string[] {
@@ -64,7 +64,7 @@ class Json {
   }
 
   /**
-   * 获取 value
+   * Get value by key
    * @param json
    * @param key
    */

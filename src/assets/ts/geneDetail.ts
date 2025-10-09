@@ -215,7 +215,7 @@ export const overlapSnpCountBarOption: any = (data: any) => ({
       type: 'shadow'
     }
   },
-  toolbox: toolboxSimple('top', 10),
+  toolbox: toolboxSimple('top'),
   grid: {
     left: '3%',
     right: '4%',
@@ -331,8 +331,8 @@ export const geneSnpGraphOption: any = (data: Array<any>, gene: string) => {
 };
 
 // noinspection JSUnusedGlobalSymbols
-export const geneTraitCountOption = (data: any) => ({
-  title: echartsTitle('Trait count (MAGMA)'),
+export const geneTraitCountOption = (data: any, title: string) => ({
+  title: echartsTitle(`Trait count (${title})`),
   tooltip: {
     trigger: 'item',
     formatter: (value: any) => `${value.name} <br/> ${value.seriesName}: ${value.value} <br/> percent: ${value.percent}%`

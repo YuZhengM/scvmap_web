@@ -3,7 +3,7 @@
     <div>
       <span class="title">Search By `{{ label }}`: {{ content }}</span>
       <BaseTable :update-new-data="listSampleInformation"
-                 :download-url="overviewDownload(filename)"
+                 :download-urls="[{'url': overviewDownload(filename), 'title': 'Download'}]"
                  :table-description="tableDescription" ref="table"/>
     </div>
   </div>
@@ -60,7 +60,7 @@ export default defineComponent({
           case 'sampleList':
             data.label = 'Single cell sample';
             data.tableDescription = SEARCH_SAMPLE_TABLE_DESCRIPTION;
-            data.filename = 'sample_info.txt';
+            data.filename = 'sample_info_with_age_sex_drug.txt';
             return dataList;
           default:
             Jump.routerDefault(router, '/');

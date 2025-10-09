@@ -27,7 +27,7 @@ export default defineComponent({
       type: String,
       default: () => undefined
     },
-    // 这个数据的 value 属性是显示在页面上的
+    // The value property of this data is displayed on the page
     selectData: {
       type: Array,
       default: () => [] as Array<any>

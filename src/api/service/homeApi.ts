@@ -8,7 +8,7 @@ import NumberUtil from '@/service/util/base/number';
  */
 export default class HomeApi {
   /**
-   * search 接口路径前缀
+   * home interface path prefix
    * @private
    */
   private static PATH_PREFIX = '/home';

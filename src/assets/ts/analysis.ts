@@ -1,4 +1,3 @@
-// 分析页折叠信息
 import { ButtonBase } from '@/service/model/components/button';
 import { InputSelect } from '@/service/model/components/input';
 import { toolboxSimple } from '@/service/util/echarts';

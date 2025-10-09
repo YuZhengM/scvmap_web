@@ -18,7 +18,7 @@
       </BaseTable>
     </SingleCard>
     <br/>
-    <SingleCard :title="{ icon: 'fas fa-list', content: `${variant}-relevant regulatory network` }" ref="singleCard2">
+    <SingleCard :title="{ icon: 'fas fa-list', content: `${variant}-relevant regulatory network (MAGMA)` }" ref="singleCard2">
       <Echarts :resize-value="graphResize" ref="echarts" v-show="isShowPlot"/>
       <div v-show="!isShowPlot">No relevant data for visualization.</div>
     </SingleCard>

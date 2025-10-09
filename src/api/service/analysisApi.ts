@@ -4,7 +4,7 @@ import NumberUtil from '@/service/util/base/number';
 
 export default class AnalysisApi {
   /**
-   * analysis 接口路径前缀
+   * analysis interface path prefix
    * @private
    */
   private static PATH_PREFIX = '/analysis';

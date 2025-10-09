@@ -1,34 +1,34 @@
 /**
- * 存储的公共类 <br/>
- * 以 key 为名称存储一个值 value
+ * Storage utility class
+ * A common class for storing and retrieving information
  * <pre>
  *   localStorage.setItem(key, value);
  * </pre>
- * 获取名称为 key 的值
+ * Get the value of the item with the specified key from localStorage
  * <pre>
  *   localStorage.getItem(key);
  * </pre>
- * 删除名称为 key 的信息
+ * Remove the item with the specified key from localStorage
  * <pre>
  *   localStorage.removeItem(key);
  * </pre>
- * 清空 localStorage 中所有信息
+ * Clear all items from localStorage
  * <pre>
  *   localStorage.clear();
  * </pre>
- * 以 key 为名称存储一个值 value
+ * Store the value of the item with the specified key in sessionStorage
  * <pre>
  *   sessionStorage.setItem(key, value);
  * </pre>
- * 获取名称为 key 的值
+ * Get the value of the item with the specified key from sessionStorage
  * <pre>
  *   sessionStorage.getItem(key);
  * </pre>
- * 删除名称为 key 的信息
+ * Remove the item with the specified key from sessionStorage
  * <pre>
  *   sessionStorage.removeItem(key);
  * </pre>
- * 清空 sessionStorage 中所有信息
+ * Clear all items from sessionStorage
  * <pre>
  *   sessionStorage.clear();
  * </pre>
@@ -38,7 +38,7 @@ import Base from '@/service/util/base/base';
 
 class Storage {
   /**
-   * 存储信息
+   * Store the value of the item with the specified key in localStorage
    * @param key
    * @param value
    */
@@ -47,7 +47,7 @@ class Storage {
   }
 
   /**
-   * 批量存储信息
+   * Batch store multiple items in localStorage
    * @param array
    */
   public static saves(array: { [key: string]: any; }): void {
@@ -57,7 +57,7 @@ class Storage {
   }
 
   /**
-   * 获取信息
+   * Get the value of the item with the specified key from localStorage
    * @param key
    */
   public static get<T>(key: string): string | T | undefined {
@@ -72,7 +72,7 @@ class Storage {
   }
 
   /**
-   * 获取信息
+   * Get the value of the item with the specified key from sessionStorage
    * @param key
    */
   public static getItem(key: string): string | null {
@@ -80,15 +80,15 @@ class Storage {
   }
 
   /**
-   * 批量获取信息
+   * Batch get multiple items from localStorage
    * @param array
    */
   public static array(array: string | Array<string>): any | Array<any> {
-    // 判断类型
+    // Check the type of array
     if (typeof array === 'string') {
       return this.get(array);
     }
-    // 不是字符串类型进行循环获取
+    // If it is not a string type, loop through each key in the array to get the value
     const container: Array<{} | undefined> = [];
     array.forEach((key: string) => {
       container.push(this.get(key));
@@ -97,7 +97,7 @@ class Storage {
   }
 
   /**
-   * 移除信息
+   * Remove the item with the specified key from localStorage
    * @param key
    */
   public static remove(key: string): void {
@@ -105,7 +105,7 @@ class Storage {
   }
 
   /**
-   * 批量移除信息
+   * Batch remove multiple items from localStorage
    * @param array
    */
   public static removes(array: string | Array<string>): void {
@@ -119,28 +119,28 @@ class Storage {
   }
 
   /**
-   * 清空信息
+   * Clear all items from localStorage
    */
   public static clear(): void {
     localStorage.clear();
   }
 
   /**
-   * vuex 进行统一存储管理
-   * @param value 数据值
-   * @param requestApi 请求 API 的函数
-   * @param callback 回调函数
-   * @param storageValue 存储 key 值
+   * Unified storage management with vuex
+   * @param value Data value
+   * @param requestApi Function to request API
+   * @param callback Callback function
+   * @param storageValue Storage key value
    */
   public static async handlerStore(value: any, requestApi: Function, callback: Function, storageValue: string): Promise<void> {
     if (Base.isNull(value)) {
-      // 得到存储信息, 浏览器没有存储查询数据库
+      // Get the stored data from localStorage
       const storageData = Storage.get<any>(storageValue);
       if (storageData && Base.noNull(storageData)) {
         callback();
       } else {
         await requestApi().then((res: any) => {
-          // 存储数据信息
+          // Store data
           Storage.save(storageValue, res);
           callback();
         });

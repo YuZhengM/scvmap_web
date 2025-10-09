@@ -46,9 +46,9 @@ export default defineComponent({
     });
 
     const plotHeatMap = (dataInfo: any) => {
-      // 需要先重新添加
+      // It needs to be added again first
       heatMap.value.innerHTML = `<canvas id="${data.heatMapId}" width="550" height="700"></canvas>`;
-      // @ts-ignore CanvasXpress 这个在 ts 中报错, 忽略下一行一切错误
+      // @ts-ignore CanvasXpress is not defined in ts, ignore the next line error
       // eslint-disable-next-line no-undef,no-new
       new CanvasXpress(data.heatMapId, {
         x: {

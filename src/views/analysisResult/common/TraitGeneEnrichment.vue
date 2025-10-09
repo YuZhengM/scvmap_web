@@ -136,7 +136,7 @@ export default defineComponent({
       p.value.select = ANALYSIS_GENE_ENRICHMENT_P_VALUE_SELECT_DATA[1].value;
       execRequest();
     });
-    // 监控
+    // Monitor the traitId and genome change
     watch(() => ({ value1: props.traitId, value2: props.genome }), () => {
       if (Base.noNull(props.traitId) && Base.noNull(props.genome)) {
         execRequest();
