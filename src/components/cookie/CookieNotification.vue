@@ -7,7 +7,6 @@
       <div class="info">We use necessary cookies to ensure that the website functions properly.</div>
       <div class="info">We will not intentionally, directly, or indirectly collect any of your personal information.</div>
       <div class="info">If you unintentionally disclose any personal information during the search process, we will not transmit it to any third party in any way.</div>
-      <div class="info">In fact, we do not collect or store any of your personal information.</div>
       <div class="accept">
         <button class="button" @click="acceptCookie">Accept all cookies</button>
       </div>

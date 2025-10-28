@@ -1,22 +1,27 @@
 <template>
   <div id="header">
-    <LeftRight :leftWidth="80" is-equal-height>
+    <LeftRight :leftWidth="90" :padding="0" is-equal-height>
       <template #left>
         <div class="title_menus row">
-          <div class="col-4 title slideInLeft-enter">
+          <div class="col-3 title slideInLeft-enter">
             <el-image :preview-src-list="[logUrl]" :src="logUrl" :initial-index="0" fit="cover"/>
-            <span class="title_font">
-              <span class="title_prefix">scV</span>
-              <span class="title_suffix">MAP</span>
-            </span>
+            <a class="github" href="https://doi.org/10.1093/nar/gkaf1112" target="_blank">
+              <span class="title_font">
+                <span class="title_prefix">scV</span>
+                <span class="title_suffix">MAP</span>
+              </span>
+            </a>
           </div>
-          <div class="col-8 slideInRight-enter">
+          <div class="col-9 slideInRight-enter">
             <BaseNav :active="active" :menus="menus"/>
           </div>
         </div>
       </template>
       <template #right>
         <div class="tools">
+          <a class="github" href="https://doi.org/10.1093/nar/gkaf1112" target="_blank">
+            <el-image class="nar_logo" :src="narLogo" :initial-index="0" fit="cover"/>
+          </a>
           <a class="github" href="https://github.com/YuZhengM/scvmap_reproducibility" target="_blank">
             <i class="fab fa-github-square"></i>
           </a>
@@ -43,6 +48,7 @@ import { HEADER_MENUS, PROJECT_NAME } from '@/assets/ts';
 import LeftRight from '@/components/layout/LeftRight.vue';
 
 const logo = require('@/assets/img/home/logo.png');
+const narLogo = require('@/assets/img/home/nar_logo.png');
 
 export default defineComponent({
   name: 'Header',
@@ -63,7 +69,8 @@ export default defineComponent({
     const reload = () => onRefresh && onRefresh();
 
     const data = reactive({
-      logUrl: logo
+      logUrl: logo,
+      narLogo
     });
     // Get URL
     watch(() => route.fullPath, () => {

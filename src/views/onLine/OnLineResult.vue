@@ -185,9 +185,13 @@ export default defineComponent({
     };
 
     const getTrsTableData = () => {
-      OnLineApi.jobResultAnalysis(data.jobId).then((res: any) => {
-        data.trsTableData = res;
-      });
+      if (data.jobStatus === 'Finish') {
+        table.value.startLoading();
+        OnLineApi.jobResultAnalysis(data.jobId).then((res: any) => {
+          table.value.endLoading();
+          data.trsTableData = res;
+        });
+      }
     };
 
     // Get the cluster coordinate data from the backend

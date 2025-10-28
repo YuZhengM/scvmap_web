@@ -12,7 +12,7 @@
         :on-success="handlerSuccess"
         :on-error="uploadError"
         :on-remove="handlerRemove"
-        :file-list="fileList"
+        v-model:file-list="fileList"
         ref="upload"
     >
       <el-icon class="el-icon--upload">

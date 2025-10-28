@@ -85,7 +85,6 @@
           <template #cicero>
             <BaseTable :table-data="traitGeneCiceroTableData"
                        :is-service-paging="false"
-                       :download-urls="[{'url': ciceroGeneDownloadUrl, 'title': 'Download'}]"
                        :table-description="traitGeneCiceroTableDescription"
                        ref="traitGeneCiceroTable"/>
           </template>
@@ -387,7 +386,6 @@ export default defineComponent({
       traitGeneCiceroTableData: [] as Array<any>,
       magmaVariantInfoTableData: [] as Array<any>,
       magmaGeneDownloadUrl: '' as string | undefined,
-      ciceroGeneDownloadUrl: '' as string | undefined,
       magmaGeneAnnoDownloadUrl: '' as string | undefined,
       graphSize: { width: 1100, height: 800 }
     });

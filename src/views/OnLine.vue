@@ -51,6 +51,14 @@
     <div class="div_analysis">
       <el-button class="analysis_button button-3d" @click="buttonClick"> Analysis</el-button>
     </div>
+    <el-divider></el-divider>
+    <div class="note">
+      If an error occurs at any point while your task is running, an administrator will investigate. Please be aware of the following:
+      <ul>
+        <li>If the error is on our end, we will re-run the task, and you will receive another email notification that it has started.</li>
+        <li>If the error is caused by an issue with the file you submitted, you can download the LOG file to view the details.</li>
+      </ul>
+    </div>
   </div>
 </template>
 
