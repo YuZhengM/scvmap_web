@@ -202,7 +202,7 @@ export default defineComponent({
       elementECharts.value.drawEcharts(echartsPieOption({
         title: 'Gene/TF count',
         data: [
-          { value: 125456, name: 'Gene' },
+          { value: 63452, name: 'Gene' },
           { value: 1176, name: 'TF' }
         ],
         color: ['#0d916e', '#092e8a'],
