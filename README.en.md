@@ -35,20 +35,6 @@ scVMAP is a user-centric database that offers intuitive workflows, customizable 
 
 > Vue: 3.2.4
 
-> Axios: 0.21.4
-
-> Bootstrap: v5.1.3
-
-> Element-UI: (element-plus 2.2.0)
-
-> Font Awesome: 6.1.1
-
-> Echarts: 5.3.1
-
-> Plotly: 2.23.0
-
-> CanvasXpress: 38.4.1
-
 ## Deploy
 
 [README.md](deploy/README.md)
