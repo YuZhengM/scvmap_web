@@ -1,7 +1,7 @@
 <template>
   <div id="footer">
     <div class="content">
-      Copyright 2025 © USC <img class="PB" src="@/assets/img/common/PB.png" alt="PB.log"/> 黑ICP备16009434号-1 Li C Lab
+      Copyright 2025 © USC Li C Lab
     </div>
     <div class="link">
           <span v-for="(link, i) in links" :key="i">

@@ -1,7 +1,7 @@
 // 公共标题大小
 @common_title_font_size: 20px;
 // 页面最小宽度和最大宽度
-@page_min_width: 1200px;
+@page_min_width: 1250px;
 @page_max_width: 2500px;
 // 变量
 @body_padding_left_right: 15px;
@@ -11,7 +11,7 @@
 @footer_height: 60px;
 // 公共百分比
 @common_container_width: 80%;
-@container_width: 1250px;
+@container_width: 1230px;
 // 公共背景颜色
 @common_background_color: #FCFCFC;
 @common_one_background_color: #EEEEEE;
@@ -151,8 +151,8 @@ div, button {
 
 .container_width() {
   width: @container_width;
-  min-width: @container_width;
-  max-width: @container_width;
+  min-width: @page_min_width;
+  max-width: @page_max_width;
 }
 
 .auto_width() {

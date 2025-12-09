@@ -17,6 +17,7 @@ export default defineComponent({
       type: String,
       default: () => ''
     },
+    // fill, contain, cover, none, scale-down
     fit: {
       type: String,
       default: () => 'cover'
