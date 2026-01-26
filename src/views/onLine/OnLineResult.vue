@@ -64,7 +64,7 @@
                  ref="table"/>
     </SingleCard>
     <br/>
-    <SingleCard :title="{ icon: 'fas fa-list', content: 'trait-relevant cell score' }" v-if="jobStatus !== 'none' && jobStatus === 'Finish'">
+    <SingleCard :title="{ icon: 'fas fa-list', content: 'Trait-relevant cell score' }" v-if="jobStatus !== 'none' && jobStatus === 'Finish'">
       <div>
         <LeftRight>
           <template #left>

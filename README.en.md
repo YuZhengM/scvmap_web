@@ -41,4 +41,4 @@ scVMAP is a user-centric database that offers intuitive workflows, customizable 
 
 ## Cite
 
-Yu ZM, Qian FC, Fang QL, Meng XY, Li YY, Feng CC, Li LD, Li BL, Feng YR, Jiang H, Wang QY, Fan X, Guo JC, Li CQ. scVMAP: a comprehensive platform for integrating single-cell chromatin accessibility regions with causal variants. _Nucleic Acids Res_. 2025 Oct 31:gkaf1112. doi: [10.1093/nar/gkaf1112](http://doi.org/10.1093/nar/gkaf1112). Epub ahead of print. PMID: [41171141](https://pubmed.ncbi.nlm.nih.gov/41171141/).
+Yu ZM, Qian FC, Fang QL, Meng XY, Li YY, Feng CC, Li LD, Li BL, Feng YR, Jiang H, Wang QY, Fan X, Guo JC, Li CQ. scVMAP: a comprehensive platform for integrating single-cell chromatin accessibility regions with causal variants. _Nucleic Acids Res_. 2026 Jan 6;54(D1):D1270-D1280. doi: [10.1093/nar/gkaf1112](http://doi.org/10.1093/nar/gkaf1112). PMID: [41171141](https://pubmed.ncbi.nlm.nih.gov/41171141/); PMCID: [PMC12807677](https://pmc.ncbi.nlm.nih.gov/articles/PMC12807677/).

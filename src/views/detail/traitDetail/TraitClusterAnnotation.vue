@@ -1,7 +1,7 @@
 <template>
   <BaseLoading id="trait_cluster_annotation" ref="loading">
     <div v-show="isOverlap">
-      <SingleCard :title="{ content: 'trait-relevant cell score' }" id="position_cell" ref="singleCard">
+      <SingleCard :title="{ content: 'Trait-relevant cell score' }" id="position_cell" ref="singleCard">
         <template #head>
           <el-link :href="trsDownload()">
             <el-button size="small" type="primary"> Download TRS &nbsp; <i class="fas fa-file-download"></i></el-button>

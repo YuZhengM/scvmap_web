@@ -395,7 +395,7 @@ export const chrCountOption = (data: any) => ({
 
 // noinspection JSUnusedGlobalSymbols
 export const traitBoxOption = (data: any, xName = 'Cell types', yName = 'TRS') => ({
-  title: echartsTitle('trait-relevant cell score'),
+  title: echartsTitle('Trait-relevant cell score'),
   tooltip: {
     trigger: 'axis',
     axisPointer: {

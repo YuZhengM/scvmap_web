@@ -14,10 +14,10 @@
       Yu ZM, Qian FC, Fang QL, Meng XY, Li YY, Feng CC, Li LD, Li BL, Feng YR, Jiang H, Wang QY, Fan X, Guo JC, Li CQ.
       <strong>scVMAP: a comprehensive platform for integrating single-cell chromatin accessibility regions with causal variants. </strong>
       <i>Nucleic Acids Res</i>.
-      2025 Oct 31:gkaf1112.
+      2026 Jan 6;54(D1):D1270-D1280.
       doi: <a href="http://doi.org/10.1093/nar/gkaf1112" target="_blank">10.1093/nar/gkaf1112</a>.
-      Epub ahead of print.
       PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/41171141/" target="_blank">41171141</a>.
+      PMCID: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12807677/" target="_blank">PMC12807677</a>.
     </BaseCard>
     <div class="line"></div>
   </div>
