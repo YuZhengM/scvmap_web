@@ -56,26 +56,26 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 location /scvmap {
     proxy_pass http://localhost:${web_port}/scvmap;
     index  index.html index.htm index.jsp;
-    proxy_set_header X-Real-IP $remote_addr;    # 获取客户端真实IP
-    proxy_set_header REMOTE-HOST $remote_addr;  # 获取客户端浏览器的主机名
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; # 获取代理者的真实ip
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header REMOTE-HOST $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Host $host:$server_port;
 }
 
 location /scvmap_static {
     proxy_pass http://localhost:${web_port}/data;
-    proxy_set_header X-Real-IP $remote_addr;    # 获取客户端真实IP
-    proxy_set_header REMOTE-HOST $remote_addr;  # 获取客户端浏览器的主机名
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; # 获取代理者的真实ip
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header REMOTE-HOST $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Host $host:$server_port;
 }
 
 location /scvmap_service/ {
     proxy_pass http://localhost:${service_port}/scvmap_service/;
     index  index.html index.htm index.jsp;
-    proxy_set_header X-Real-IP $remote_addr;    # 获取客户端真实IP
-    proxy_set_header REMOTE-HOST $remote_addr;  # 获取客户端浏览器的主机名
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; # 获取代理者的真实ip
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header REMOTE-HOST $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Host $host:$server_port;
 }
 
