@@ -60,6 +60,16 @@
           </div>
         </div>
       </BaseCard>
+      <BaseBr/>
+      <BaseCard icon="fas fa-list" title="Statistics of gene types">
+        <ArrayTable :table-data="geneTypeCount" :column-pair="2" :is_striped="false" v-show="!isVisualization"/>
+        <div v-show="isVisualization">
+          <br/>
+          <div class="plot">
+            <Echarts :resize-value="{ width: 1100, height: 600 }" v-show="isVisualization" ref="geneTypeCountECharts"/>
+          </div>
+        </div>
+      </BaseCard>
     </div>
   </div>
 </template>
@@ -77,7 +87,7 @@ import {
   echartsPopulationPieOption,
   echartsPairPieOption,
   annotationOption,
-  STATISTICS_TRS
+  STATISTICS_TRS, GENE_TYPE_COUNT
 } from '@/assets/ts';
 import BaseBr from '@/components/divider/BaseBr.vue';
 import BaseCard from '@/components/card/BaseCard.vue';
@@ -96,13 +106,15 @@ export default defineComponent({
     const genomePieECharts = ref();
     const annotationECharts = ref();
     const elementECharts = ref();
+    const geneTypeCountECharts = ref();
 
     const data = reactive({
       isVisualization: true,
       chromatinAccessibility: CHROMATIN_ACCESSIBILITY,
       fineMappingResults: FINE_MAPPING_RESULTS,
       trsCount: STATISTICS_TRS,
-      annotation: ANNOTATION
+      annotation: ANNOTATION,
+      geneTypeCount: GENE_TYPE_COUNT
     });
 
     const displayEvent = () => {
@@ -210,10 +222,30 @@ export default defineComponent({
       }, 'center'));
     };
 
+    const geneTypeCountShow = () => {
+      geneTypeCountECharts.value.drawEcharts(echartsPieOption({
+        title: 'The number of gene types',
+        data: data.geneTypeCount.map(({ key, value }) => ({ name: key, value })),
+        color: [
+          '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7',
+          '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9',
+          '#F8B500', '#FF6F61', '#6B5B95', '#88B04B', '#F7CAC9',
+          '#92A8D1', '#955251', '#B565A7', '#009B77', '#DD4124',
+          '#D65076', '#45B8AC', '#EFC050', '#5B5EA6', '#9B2335',
+          '#DFCFBE', '#55B4B0', '#E15D44', '#7FCDCD', '#BC243C',
+          '#C3447A', '#98B4D4', '#FFBF00', '#00A86B', '#E6A8D7',
+          '#8B8B00', '#008080', '#E2725B', '#A0C4E8', '#FF8C69',
+          '#00CED1', '#FF69B4', '#8B4513'
+        ],
+        show: true
+      }, 'center'));
+    };
+
     onMounted(() => {
       sampleShow();
       traitShow();
       annotationShow();
+      geneTypeCountShow();
     });
 
     return {
@@ -226,6 +258,7 @@ export default defineComponent({
       genomePieECharts,
       annotationECharts,
       elementECharts,
+      geneTypeCountECharts,
       displayEvent,
       visualizationEvent
     };

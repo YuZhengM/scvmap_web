@@ -113,6 +113,53 @@ export const ANNOTATION: Array<KeyValue> = [
   { key: 'Super-enhancer number (SEdb v2) (hg38)', value: '1,168,518' }
 ];
 
+// Statistics of annotation
+export const GENE_TYPE_COUNT: Array<KeyValue> = [
+  { key: 'antisense', value: '55' },
+  { key: 'artifact', value: '27' },
+  { key: 'IG_C_gene', value: '14' },
+  { key: 'IG_C_pseudogene', value: '9' },
+  { key: 'IG_D_gene', value: '37' },
+  { key: 'IG_J_gene', value: '18' },
+  { key: 'IG_J_pseudogene', value: '3' },
+  { key: 'IG_pseudogene', value: '1' },
+  { key: 'IG_V_gene', value: '147' },
+  { key: 'IG_V_pseudogene', value: '190' },
+  { key: 'lincRNA', value: '149' },
+  { key: 'lncRNA', value: '18013' },
+  { key: 'miRNA', value: '3630' },
+  { key: 'misc_RNA', value: '1492' },
+  { key: 'processed_pseudogene', value: '10142' },
+  { key: 'processed_transcript', value: '9' },
+  { key: 'protein_coding', value: '20153' },
+  { key: 'pseudogene', value: '398' },
+  { key: 'ribozyme', value: '8' },
+  { key: 'rRNA', value: '62' },
+  { key: 'rRNA_pseudogene', value: '491' },
+  { key: 'scaRNA', value: '48' },
+  { key: 'scRNA', value: '1' },
+  { key: 'sense_intronic', value: '16' },
+  { key: 'sense_overlapping', value: '5' },
+  { key: 'snoRNA', value: '867' },
+  { key: 'snRNA', value: '1950' },
+  { key: 'sRNA', value: '5' },
+  { key: 'TEC', value: '1054' },
+  { key: 'TR_C_gene', value: '6' },
+  { key: 'TR_D_gene', value: '4' },
+  { key: 'TR_J_gene', value: '79' },
+  { key: 'TR_J_pseudogene', value: '5' },
+  { key: 'TR_V_gene', value: '109' },
+  { key: 'TR_V_pseudogene', value: '33' },
+  { key: 'transcribed_processed_pseudogene', value: '511' },
+  { key: 'transcribed_unitary_pseudogene', value: '152' },
+  { key: 'transcribed_unprocessed_pseudogene', value: '960' },
+  { key: 'translated_processed_pseudogene', value: '2' },
+  { key: 'translated_unprocessed_pseudogene', value: '3' },
+  { key: 'unitary_pseudogene', value: '98' },
+  { key: 'unprocessed_pseudogene', value: '2607' },
+  { key: 'vault_RNA', value: '1' }
+];
+
 export const echartsPairPieOption = (content: any) => ({
   title: content.map((data: any, idx: number) => {
     const left = idx * 33.3;
@@ -184,6 +231,7 @@ export const echartsPieOption = (data: any, legendLeft: any = '10%') => ({
     bottom: '2%'
   },
   legend: {
+    type: 'scroll',
     orient: 'horizontal',
     top: '15%',
     left: legendLeft,
@@ -199,15 +247,15 @@ export const echartsPieOption = (data: any, legendLeft: any = '10%') => ({
       itemStyle: {
         borderRadius: 10,
         borderColor: '#fff',
-        borderWidth: 2
+        borderWidth: 1
       },
       label: {
         show: data.show,
         alignTo: 'edge',
-        formatter: '{name|{b}}\n{time|{c}}',
+        formatter: '{name|{b}}-{time|{c}}',
         minMargin: 2,
-        edgeDistance: 50,
-        lineHeight: 15,
+        edgeDistance: 25,
+        lineHeight: 5,
         rich: {
           time: {
             fontSize: 10,
@@ -216,7 +264,7 @@ export const echartsPieOption = (data: any, legendLeft: any = '10%') => ({
         }
       },
       labelLine: {
-        length: 30,
+        length: 15,
         length2: 0,
         maxSurfaceAngle: 80
       },
