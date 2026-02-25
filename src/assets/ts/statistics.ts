@@ -93,7 +93,7 @@ export const STATISTICS_TRS: Array<KeyValue> = [
 
 // Statistics of annotation
 export const ANNOTATION: Array<KeyValue> = [
-  { key: 'Gene number', value: '125,456' },
+  { key: 'Gene number', value: '63,452' },
   { key: 'TF number', value: '1,176' },
   { key: 'Common SNP number (hg19)', value: '37,906,832' },
   { key: 'Common SNP number (hg38)', value: '37,302,978' },
